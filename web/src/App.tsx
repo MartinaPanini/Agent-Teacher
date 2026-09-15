@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getProfile } from "./api/client";
 import Onboarding from "./pages/Onboarding";
+import Daily from "./pages/Daily";
 
 type Stato = { fase: "caricamento" } | { fase: "errore"; messaggio: string } | { fase: "onboarding" } | { fase: "pronto" };
 
@@ -27,10 +28,5 @@ export default function App() {
     return <Onboarding onComplete={() => setStato({ fase: "pronto" })} />;
   }
 
-  return (
-    <main className="scaffold-placeholder">
-      <h1>Agent Teacher</h1>
-      <p>Calibrazione fatta. Daily, Curriculum e Knowledge Map arrivano nei prossimi step.</p>
-    </main>
-  );
+  return <Daily />;
 }

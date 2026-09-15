@@ -3,6 +3,7 @@ import { z } from "zod";
 import {
   calcolaSessione,
   cosaIgnorareOggi,
+  motivazionePrincipale,
   type PriorityInput,
   type SessionRuolo,
 } from "../priority.js";
@@ -45,7 +46,11 @@ sessionsRouter.get("/session/next", (_req, res) => {
   }
 
   const modulesById = new Map(input.modules.map((m) => [m.id, m]));
-  const itemsEspansi = draft.items.map((it) => ({ ...it, modulo: modulesById.get(it.module_id) ?? null }));
+  const itemsEspansi = draft.items.map((it) => {
+    const modulo = modulesById.get(it.module_id) ?? null;
+    const motivazione = it.ruolo === "principale" && modulo ? motivazionePrincipale(modulo, input) : null;
+    return { ...it, modulo, motivazione };
+  });
   const inboxById = new Map(input.inbox.map((e) => [e.id, e]));
 
   res.json({

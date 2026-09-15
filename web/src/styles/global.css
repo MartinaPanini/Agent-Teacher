@@ -71,3 +71,189 @@ body {
 .errore {
   color: #b3261e;
 }
+
+/* ------------------------- Daily ------------------------- */
+
+.daily {
+  padding: 1.5rem 1.25rem 3rem;
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.daily h2 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #6b675f;
+}
+
+.empty-state-messaggio {
+  font-size: 1.1rem;
+}
+
+.empty-state-nota {
+  color: #6b675f;
+}
+
+.daily-ripasso,
+.daily-qualifica,
+.daily-ignora {
+  border: 1px solid #e2ddd4;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.qualifica-voce {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.5rem 0;
+  border-top: 1px solid #eee8dd;
+}
+
+.qualifica-voce:first-of-type {
+  border-top: none;
+}
+
+.qualifica-voce a {
+  overflow-wrap: anywhere;
+  font-size: 0.9rem;
+}
+
+.qualifica-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.qualifica-form input {
+  flex: 1;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #d8d2c6;
+  border-radius: 6px;
+}
+
+.qualifica-ok {
+  color: #2e7d32;
+  font-size: 0.9rem;
+}
+
+.module-card {
+  border: 1px solid #e2ddd4;
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.module-card--scoperta {
+  background: #faf6ec;
+  padding: 1rem;
+}
+
+.module-card--compatta h2 {
+  font-size: 1.1rem;
+}
+
+.module-card-ruolo {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #8a8578;
+  margin: 0 0 0.35rem;
+}
+
+.module-card h2 {
+  margin: 0 0 0.5rem;
+}
+
+.module-card-motivazione {
+  font-style: italic;
+  color: #55524d;
+  margin: 0 0 0.75rem;
+}
+
+.module-card-obiettivo {
+  margin: 0 0 0.35rem;
+}
+
+.module-card-durata {
+  color: #8a8578;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+}
+
+.module-card-prereq {
+  margin-bottom: 0.75rem;
+}
+
+.module-card-sintesi {
+  white-space: pre-wrap;
+  margin-bottom: 0.75rem;
+}
+
+.module-card-fonte {
+  font-size: 0.9rem;
+  color: #6b675f;
+}
+
+.module-card-azioni {
+  margin-top: 1rem;
+}
+
+button {
+  padding: 0.55rem 1.1rem;
+  border: none;
+  border-radius: 6px;
+  background: #1c1b1a;
+  color: #faf9f7;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+button.secondario {
+  background: transparent;
+  color: #1c1b1a;
+  border: 1px solid #c9c3b6;
+  margin-left: 0.5rem;
+}
+
+.domande {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.domanda {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.domanda textarea {
+  font: inherit;
+  font-weight: normal;
+  padding: 0.5rem;
+  border: 1px solid #d8d2c6;
+  border-radius: 6px;
+  min-height: 4rem;
+  resize: vertical;
+}
+
+.fatto-conferma {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.sessione-chiusa {
+  text-align: center;
+  color: #6b675f;
+}
+
+.daily-ignora ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: #55524d;
+}

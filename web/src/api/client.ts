@@ -64,6 +64,7 @@ export interface SessionItemEspanso {
   module_id: string;
   ruolo: "principale" | "scoperta" | "ripasso";
   modulo: Module | null;
+  motivazione: string | null;
 }
 
 export type SessionNextRisposta =

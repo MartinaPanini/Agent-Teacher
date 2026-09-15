@@ -280,6 +280,24 @@ export function calcolaSessione(input: PriorityInput, opts: { ora: Date; random:
 }
 
 // ---------------------------------------------------------------------------
+// Motivazione della scelta (§3.2 Daily: "perché proprio questo")
+// ---------------------------------------------------------------------------
+
+export function motivazionePrincipale(module: Module, input: PriorityInput): string {
+  const byId = skillsMap(input.skills);
+  const skill = moduleSkill(module, byId);
+  if (!skill) return "";
+  const dipendenti = dependentsCount(skill.id, input.skills, byId);
+  const parti: string[] = [];
+  if (dipendenti > 0) {
+    parti.push(`è il prerequisito di ${dipendenti} altra${dipendenti === 1 ? "" : "e"} skill`);
+  }
+  parti.push(`sei a livello ${skill.livello} su "${skill.nome}"`);
+  const testo = parti.join(" e ") + ".";
+  return testo.charAt(0).toUpperCase() + testo.slice(1);
+}
+
+// ---------------------------------------------------------------------------
 // "Cosa ignorare oggi" (§3.2): metà del valore della Daily, non riempitivo.
 // ---------------------------------------------------------------------------
 

@@ -142,6 +142,52 @@ describe("API Express (in-process)", () => {
     expect(res2.status).toBe(409);
   });
 
+  it("flusso completo di una sessione: next -> apri -> completa -> chiudi (quello che fa Daily.tsx)", async () => {
+    fs.writeFileSync(
+      path.join(tmpDir, "modules.json"),
+      JSON.stringify(schema.ModulesFileSchema.parse(modulesConUnoPronto), null, 2),
+    );
+    fs.writeFileSync(path.join(tmpDir, "sessions.json"), JSON.stringify([]));
+
+    const nextRes = await fetch(`${baseUrl}/session/next`);
+    expect(nextRes.status).toBe(200);
+    const next = (await nextRes.json()) as {
+      vuoto: false;
+      numero: number;
+      items: Array<{ module_id: string; ruolo: string; motivazione: string | null }>;
+    };
+    expect(next.vuoto).toBe(false);
+    const principale = next.items.find((i) => i.ruolo === "principale")!;
+    expect(principale.module_id).toBe("mod-llm-01");
+    expect(typeof principale.motivazione).toBe("string"); // la Daily mostra "perché proprio questo"
+
+    const apriRes = await fetch(`${baseUrl}/session/apri`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ items: next.items, qualifica_inbox: [] }),
+    });
+    expect(apriRes.status).toBe(200);
+    const sessione = (await apriRes.json()) as { id: string };
+
+    const completaRes = await fetch(`${baseUrl}/modules/${principale.module_id}/completa`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ session_id: sessione.id, risposte: [] }),
+    });
+    expect(completaRes.status).toBe(200);
+
+    const chiudiRes = await fetch(`${baseUrl}/session/${sessione.id}/chiudi`, { method: "POST" });
+    expect(chiudiRes.status).toBe(200);
+    const chiusa = (await chiudiRes.json()) as { stato: string; chiusa_il: string | null };
+    expect(chiusa.stato).toBe("chiusa");
+    expect(chiusa.chiusa_il).not.toBeNull();
+
+    // il modulo appena completato non compare più come candidato in una nuova sessione
+    const nextRes2 = await fetch(`${baseUrl}/session/next`);
+    const next2 = (await nextRes2.json()) as { vuoto: boolean };
+    expect(next2.vuoto).toBe(true);
+  });
+
   it("POST /api/inbox scrive in coda senza errori e senza fare rete", async () => {
     const res = await fetch(`${baseUrl}/inbox`, {
       method: "POST",
