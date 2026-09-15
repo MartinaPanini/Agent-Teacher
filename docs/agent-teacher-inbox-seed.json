@@ -1,0 +1,874 @@
+{
+  "generato": "2026-09-15",
+  "fonte": "salvataggi Instagram di Martina",
+  "metodo": "og:title estratto via browser; date decodificate dallo shortcode",
+  "totale": 54,
+  "voci": [
+    {
+      "id": "Cs39PwgMpM6",
+      "url": "https://www.instagram.com/p/Cs39PwgMpM6/",
+      "formato": "post",
+      "data": "2023-05-30",
+      "autore": "WILL",
+      "sintesi": "Panoramica di 6 categorie di tool AI per la produttività; avverte che i contenuti vanno sempre rivisti da un umano.",
+      "tema": "ai-tools-generici",
+      "tool_nominati": [],
+      "verdetto": "ignora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "C1mpexKAH2d",
+      "url": "https://www.instagram.com/p/C1mpexKAH2d/",
+      "formato": "post",
+      "data": "2024-01-02",
+      "autore": "Volta Institute",
+      "sintesi": "Pubblicità di un corso a pagamento 'Python e Intelligenza Artificiale' con certificazione.",
+      "tema": "promo",
+      "tool_nominati": [],
+      "verdetto": "ignora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DBbFk8LKwvG",
+      "url": "https://www.instagram.com/p/DBbFk8LKwvG/",
+      "formato": "post",
+      "data": "2024-10-22",
+      "autore": "Datapizza",
+      "sintesi": "5 corsi gratuiti del MIT su Data Science, Statistica, CS e Machine Learning.",
+      "tema": "risorse-formative",
+      "tool_nominati": [
+        "MIT OCW"
+      ],
+      "verdetto": "monitora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DCuG5ktNg_a",
+      "url": "https://www.instagram.com/reel/DCuG5ktNg_a/",
+      "formato": "reel",
+      "data": "2024-11-23",
+      "autore": "Isha Salania",
+      "sintesi": "Set di ~25 prompt per analizzare un paper scientifico caricato in ChatGPT (obiettivo, metodo, risultati, critica).",
+      "tema": "prompting-ricerca",
+      "tool_nominati": [
+        "ChatGPT"
+      ],
+      "verdetto": "prova",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DSFSPxFDMe1",
+      "url": "https://www.instagram.com/reel/DSFSPxFDMe1/",
+      "formato": "reel",
+      "data": "2025-12-10",
+      "autore": "Matteo AI",
+      "sintesi": "Lista generica di 5 tool AI per dimezzare il carico di lavoro. Nessun dettaglio.",
+      "tema": "ai-tools-generici",
+      "tool_nominati": [],
+      "verdetto": "ignora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DTyajOoAhRm",
+      "url": "https://www.instagram.com/reel/DTyajOoAhRm/",
+      "formato": "reel",
+      "data": "2026-01-21",
+      "autore": "Vidhi (PhD mentor)",
+      "sintesi": "Metodo in 5 step per usare NotebookLM come memoria di ricerca: un notebook per progetto, prompt per estrarre domanda/metodo/limiti, confronto tra paper, ricerca di gap, outline della review.",
+      "tema": "notebooklm",
+      "tool_nominati": [
+        "NotebookLM"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DTx62oCj1X1",
+      "url": "https://www.instagram.com/reel/DTx62oCj1X1/",
+      "formato": "reel",
+      "data": "2026-01-21",
+      "autore": "Simone Rizzo AI",
+      "sintesi": "Come usare Claude Code 'gratis senza limiti di token'. Claim forte, nessuna verifica nel post.",
+      "tema": "claude-code-costi",
+      "tool_nominati": [
+        "Claude Code"
+      ],
+      "verdetto": "verifica",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DV6eCZyiKqD",
+      "url": "https://www.instagram.com/reel/DV6eCZyiKqD/",
+      "formato": "reel",
+      "data": "2026-03-15",
+      "autore": "Dario Fontanel",
+      "sintesi": "Come collegare NotebookLM a Claude Code per generare presentazioni, audio e infografiche in linguaggio naturale.",
+      "tema": "integrazioni",
+      "tool_nominati": [
+        "Claude Code",
+        "NotebookLM"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DV81RE_iN4Z",
+      "url": "https://www.instagram.com/p/DV81RE_iN4Z/",
+      "formato": "post",
+      "data": "2026-03-16",
+      "autore": "Evolving AI",
+      "sintesi": "Prompt per far fare a Claude una literature review: estrarre claim, raggruppare studi, trovare contraddizioni e sintetizzare consensi e dibattiti aperti.",
+      "tema": "prompting-ricerca",
+      "tool_nominati": [
+        "Claude"
+      ],
+      "verdetto": "prova",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DWqlXKjDJHm",
+      "url": "https://www.instagram.com/p/DWqlXKjDJHm/",
+      "formato": "post",
+      "data": "2026-04-03",
+      "autore": "La casa della AI",
+      "sintesi": "Guida rapida a Claude Code: cosa fa (scrive codice, modifica file, gestisce git, analizza progetti, risolve bug) e da dove si usa (terminale, VS Code, desktop, telefono).",
+      "tema": "claude-code-basi",
+      "tool_nominati": [
+        "Claude Code"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DWw2ydzjJw5",
+      "url": "https://www.instagram.com/p/DWw2ydzjJw5/",
+      "formato": "post",
+      "data": "2026-04-05",
+      "autore": "La casa della AI",
+      "sintesi": "'Caveman prompting': imporre a Claude frasi di 3-6 parole e niente preamboli riduce i token del ~75% (180 -> 45 per una ricerca web). Fonte: thread Reddit r/ClaudeAI.",
+      "tema": "context-economy",
+      "tool_nominati": [
+        "Claude"
+      ],
+      "verdetto": "prova",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DXHll6LCKiR",
+      "url": "https://www.instagram.com/p/DXHll6LCKiR/",
+      "formato": "post",
+      "data": "2026-04-14",
+      "autore": "ProfessionAI",
+      "sintesi": "Guida ufficiale Google al prompting di Nano Banana: 5 comandi base e 5 avanzati per la generazione di immagini.",
+      "tema": "image-gen",
+      "tool_nominati": [
+        "Nano Banana"
+      ],
+      "verdetto": "ignora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DXq2b5-DLfi",
+      "url": "https://www.instagram.com/p/DXq2b5-DLfi/",
+      "formato": "post",
+      "data": "2026-04-28",
+      "autore": "La casa della AI",
+      "sintesi": "Proxy open source che fa girare Claude Code su backend alternativi (NVIDIA NIM e altri) invece dell'API Anthropic, con streaming di risposte e tool call.",
+      "tema": "claude-code-costi",
+      "tool_nominati": [
+        "Claude Code",
+        "NVIDIA NIM"
+      ],
+      "verdetto": "monitora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DYCQLkptDla",
+      "url": "https://www.instagram.com/reel/DYCQLkptDla/",
+      "formato": "reel",
+      "data": "2026-05-07",
+      "autore": "Guglielmo Vaccaro",
+      "sintesi": "Video gratuito di Andrej Karpathy (3h30 su YouTube): come funzionano davvero gli LLM, come vengono addestrati, perche' allucinano, quando usare modelli di reasoning.",
+      "tema": "fondamenta-llm",
+      "tool_nominati": [
+        "Karpathy"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DYy9cowis3l",
+      "url": "https://www.instagram.com/reel/DYy9cowis3l/",
+      "formato": "reel",
+      "data": "2026-05-26",
+      "autore": "Gabriele Aprile",
+      "sintesi": "Tool open source che indicizza il progetto con un parser AST (tree-sitter, 31 linguaggi) e costruisce un grafo, per evitare che Claude Code ricarichi l'intero codebase a ogni sessione.",
+      "tema": "context-economy",
+      "tool_nominati": [
+        "Claude Code",
+        "tree-sitter"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DY2GRVfN4bZ",
+      "url": "https://www.instagram.com/reel/DY2GRVfN4bZ/",
+      "formato": "reel",
+      "data": "2026-05-27",
+      "autore": "100xEngineers",
+      "sintesi": "Lead magnet: 'commenta Md' per ricevere repo GitHub e PDF. Contenuto non desumibile.",
+      "tema": "sconosciuto",
+      "tool_nominati": [],
+      "verdetto": "ignora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DY4m74jCfgp",
+      "url": "https://www.instagram.com/p/DY4m74jCfgp/",
+      "formato": "post",
+      "data": "2026-05-28",
+      "autore": "Roadside Coder",
+      "sintesi": "5 file markdown che danno memoria persistente a un agente: AGENTS.md (regole), SKILLS.md (competenze), MEMORY.md (decisioni ed errori passati), CONTEXT.md (stato sessione), CLAUDE.md (istruzioni persistenti).",
+      "tema": "context-engineering",
+      "tool_nominati": [
+        "Claude Code",
+        "AGENTS.md",
+        "CLAUDE.md"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZDbfeNoXSZ",
+      "url": "https://www.instagram.com/reel/DZDbfeNoXSZ/",
+      "formato": "reel",
+      "data": "2026-06-01",
+      "autore": "Dario Fontanel",
+      "sintesi": "LLM-Wiki, framework di Karpathy per costruire un second brain dentro Claude Code.",
+      "tema": "second-brain",
+      "tool_nominati": [
+        "Claude Code",
+        "LLM-Wiki"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZFqJzvjNYM",
+      "url": "https://www.instagram.com/p/DZFqJzvjNYM/",
+      "formato": "post",
+      "data": "2026-06-02",
+      "autore": "Evolving AI",
+      "sintesi": "Odysseus di PewDiePie: workspace AI open source self-hosted, con agenti, memoria, gestione documenti, email e calendario, deep research. Richiede Python e setup tecnico.",
+      "tema": "agenti-locali",
+      "tool_nominati": [
+        "Odysseus",
+        "Ollama",
+        "OpenRouter"
+      ],
+      "verdetto": "monitora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZHF0_NlKlE",
+      "url": "https://www.instagram.com/p/DZHF0_NlKlE/",
+      "formato": "post",
+      "data": "2026-06-03",
+      "autore": "Emiliano",
+      "sintesi": "8 tool gratuiti per ingegneria elettrica, design meccanico e robotica.",
+      "tema": "off-topic",
+      "tool_nominati": [],
+      "verdetto": "ignora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZVTkBhES1K",
+      "url": "https://www.instagram.com/p/DZVTkBhES1K/",
+      "formato": "post",
+      "data": "2026-06-08",
+      "autore": "Simplifying AI",
+      "sintesi": "Pipeline di ricerca accademica in Claude Code: 13 agenti per la deep research (PRISMA), 12 per scrivere il paper, 5 per la peer review, 1 agente integrità per citazioni inventate. Si installa in .claude/skills/ e gira in Claude Code, Cowork e come Project.",
+      "tema": "orchestrazione-multiagent",
+      "tool_nominati": [
+        "Claude Code",
+        "Claude Skills",
+        "Cowork"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZXhnS1BIlM",
+      "url": "https://www.instagram.com/reel/DZXhnS1BIlM/",
+      "formato": "reel",
+      "data": "2026-06-09",
+      "autore": "Jacob Rising",
+      "sintesi": "Dichiaratamente satira. Nessun contenuto tecnico.",
+      "tema": "satira",
+      "tool_nominati": [],
+      "verdetto": "ignora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZdCb6wIV_d",
+      "url": "https://www.instagram.com/reel/DZdCb6wIV_d/",
+      "formato": "reel",
+      "data": "2026-06-11",
+      "autore": "Dario Fontanel",
+      "sintesi": "Confronto Graphify vs Obsidian per costruire un second brain in Claude Code.",
+      "tema": "obsidian",
+      "tool_nominati": [
+        "Obsidian",
+        "Graphify",
+        "Claude Code"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZbfNqdIfZC",
+      "url": "https://www.instagram.com/reel/DZbfNqdIfZC/",
+      "formato": "reel",
+      "data": "2026-06-11",
+      "autore": "Julia",
+      "sintesi": "Composio per automatizzare collegamenti tra AI e servizi esterni.",
+      "tema": "integrazioni",
+      "tool_nominati": [
+        "Composio"
+      ],
+      "verdetto": "monitora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZcX3q6j6k8",
+      "url": "https://www.instagram.com/reel/DZcX3q6j6k8/",
+      "formato": "reel",
+      "data": "2026-06-11",
+      "autore": "Gabriele Aprile",
+      "sintesi": "OpenJarvis dello Scaling Intelligence Lab di Stanford: assistente open source che gira interamente in locale, impara dal modo in cui lavori.",
+      "tema": "agenti-locali",
+      "tool_nominati": [
+        "OpenJarvis"
+      ],
+      "verdetto": "monitora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZhW1tcsXOV",
+      "url": "https://www.instagram.com/reel/DZhW1tcsXOV/",
+      "formato": "reel",
+      "data": "2026-06-13",
+      "autore": "NeuralCoffe",
+      "sintesi": "Open Notebook: repo GitHub che replica NotebookLM ma self-hosted, con modelli a scelta.",
+      "tema": "notebooklm",
+      "tool_nominati": [
+        "Open Notebook"
+      ],
+      "verdetto": "monitora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZh4NI1uCpk",
+      "url": "https://www.instagram.com/reel/DZh4NI1uCpk/",
+      "formato": "reel",
+      "data": "2026-06-13",
+      "autore": "Jake",
+      "sintesi": "Nessun contenuto testuale utile ('this is so sick').",
+      "tema": "sconosciuto",
+      "tool_nominati": [],
+      "verdetto": "ignora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZkNjUnjEEi",
+      "url": "https://www.instagram.com/p/DZkNjUnjEEi/",
+      "formato": "post",
+      "data": "2026-06-14",
+      "autore": "Startup Geeks",
+      "sintesi": "7 YouTuber da seguire sull'AI (4 internazionali, 3 italiani: Varun Mayya, Dan Martell, Raffaele Gaito, Simone Rizzo).",
+      "tema": "fonti-da-seguire",
+      "tool_nominati": [],
+      "verdetto": "monitora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZozoNgiEbt",
+      "url": "https://www.instagram.com/p/DZozoNgiEbt/",
+      "formato": "post",
+      "data": "2026-06-16",
+      "autore": "Edoardo Barravecchia",
+      "sintesi": "10 repo GitHub come alternative open source a tool a pagamento: n8n al posto di Zapier, Cal.com al posto di Calendly, Fooocus al posto di Midjourney.",
+      "tema": "open-source-alternatives",
+      "tool_nominati": [
+        "n8n",
+        "Cal.com",
+        "Fooocus"
+      ],
+      "verdetto": "monitora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZrtCPZDBAG",
+      "url": "https://www.instagram.com/reel/DZrtCPZDBAG/",
+      "formato": "reel",
+      "data": "2026-06-17",
+      "autore": "Edoardo Barravecchia",
+      "sintesi": "La repo 'Awesome Claude Skills' su GitHub: skill già testate da scaricare e caricare nelle impostazioni di Claude invece di costruirle da zero.",
+      "tema": "claude-skills",
+      "tool_nominati": [
+        "Claude Skills"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZsho9oo2wI",
+      "url": "https://www.instagram.com/reel/DZsho9oo2wI/",
+      "formato": "reel",
+      "data": "2026-06-17",
+      "autore": "Dario Fontanel",
+      "sintesi": "Il comando /ponytail riduce i consumi di Claude Code forzando il modello a essere piu' conciso.",
+      "tema": "context-economy",
+      "tool_nominati": [
+        "Claude Code",
+        "Ponytail"
+      ],
+      "verdetto": "prova",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZw75iONmhx",
+      "url": "https://www.instagram.com/reel/DZw75iONmhx/",
+      "formato": "reel",
+      "data": "2026-06-19",
+      "autore": "Guglielmo Vaccaro",
+      "sintesi": "Ponytail: prima di scrivere codice l'agente cerca un motivo per non scriverlo. Claim: fino al 94% di codice in meno, 6x piu' veloce, meta' dei costi.",
+      "tema": "context-economy",
+      "tool_nominati": [
+        "Ponytail",
+        "Claude Code"
+      ],
+      "verdetto": "verifica",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZ12GswDMDY",
+      "url": "https://www.instagram.com/p/DZ12GswDMDY/",
+      "formato": "post",
+      "data": "2026-06-21",
+      "autore": "La casa della AI",
+      "sintesi": "7 prompt per usare Claude come personal trainer e nutrizionista. Il post stesso premette che non sostituisce un medico.",
+      "tema": "off-topic",
+      "tool_nominati": [
+        "Claude"
+      ],
+      "verdetto": "ignora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DZ4pU3KNWGq",
+      "url": "https://www.instagram.com/reel/DZ4pU3KNWGq/",
+      "formato": "reel",
+      "data": "2026-06-22",
+      "autore": "Guglielmo Vaccaro",
+      "sintesi": "Claude Blog, skill gratuita per Claude Code di Daniel Agrici: scrive articoli, genera immagini e grafici, fa fact-check e consegna solo sopra 90/100 di qualita'. Gemella di Claude SEO.",
+      "tema": "claude-skills",
+      "tool_nominati": [
+        "Claude Code",
+        "Claude Skills"
+      ],
+      "verdetto": "monitora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DaZt7eTKOFR",
+      "url": "https://www.instagram.com/reel/DaZt7eTKOFR/",
+      "formato": "reel",
+      "data": "2026-07-05",
+      "autore": "Julian Flieller",
+      "sintesi": "Strava, Garmin, Whoop e Apple Health che alimentano un solo coach AI: legge il sonno della notte e scrive l'allenamento del giorno dopo direttamente sull'orologio.",
+      "tema": "integrazioni-personali",
+      "tool_nominati": [
+        "Apple Health",
+        "Garmin",
+        "Strava",
+        "Whoop"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DafMFeND4OQ",
+      "url": "https://www.instagram.com/p/DafMFeND4OQ/",
+      "formato": "post",
+      "data": "2026-07-07",
+      "autore": "Aashish Pahwa",
+      "sintesi": "6 usi di Claude Fable 5, tra cui addestrare Skills riutilizzabili, ricostruire software da screenshot e trasformare ore di ricerca in un report da 10 minuti.",
+      "tema": "claude-skills",
+      "tool_nominati": [
+        "Claude Fable",
+        "Claude Skills"
+      ],
+      "verdetto": "monitora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DahvtKxjDXR",
+      "url": "https://www.instagram.com/p/DahvtKxjDXR/",
+      "formato": "post",
+      "data": "2026-07-08",
+      "autore": "La casa della AI",
+      "sintesi": "Usare Claude e NotebookLM in coppia: Claude ragiona ma inventa, NotebookLM resta fedele alle fonti. 4 step su cosa incollare dove e come verificare.",
+      "tema": "notebooklm",
+      "tool_nominati": [
+        "Claude",
+        "NotebookLM"
+      ],
+      "verdetto": "prova",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DauBrWamWTv",
+      "url": "https://www.instagram.com/p/DauBrWamWTv/",
+      "formato": "post",
+      "data": "2026-07-13",
+      "autore": "Deepak jangir",
+      "sintesi": "Afferma di aver costruito un intero team con Claude. Nessun dettaglio verificabile.",
+      "tema": "sconosciuto",
+      "tool_nominati": [
+        "Claude"
+      ],
+      "verdetto": "ignora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "Daxzh_UjHYn",
+      "url": "https://www.instagram.com/p/Daxzh_UjHYn/",
+      "formato": "post",
+      "data": "2026-07-14",
+      "autore": "Startup Geeks",
+      "sintesi": "10 alternative open source ai tool di una startup early stage (task management, automazioni, design, analytics, password).",
+      "tema": "open-source-alternatives",
+      "tool_nominati": [],
+      "verdetto": "monitora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DaxJeSvqDEL",
+      "url": "https://www.instagram.com/reel/DaxJeSvqDEL/",
+      "formato": "reel",
+      "data": "2026-07-14",
+      "autore": "Julian Flieller",
+      "sintesi": "Collegare Garmin a Claude perche' legga HRV, TSB e split reali prima di dare consigli di allenamento. ~3 minuti di setup.",
+      "tema": "integrazioni-personali",
+      "tool_nominati": [
+        "Claude",
+        "Garmin"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "Da-qoiNqALB",
+      "url": "https://www.instagram.com/reel/Da-qoiNqALB/",
+      "formato": "reel",
+      "data": "2026-07-19",
+      "autore": "Stavolo AI-Consulting",
+      "sintesi": "'Everything Claude Code', setup del vincitore dell'hackathon Anthropic: 251 skill, 63 agenti, 79 comandi. Gira anche su Cursor, Codex, Gemini, Open Code.",
+      "tema": "claude-code-setup",
+      "tool_nominati": [
+        "Claude Code",
+        "Claude Skills"
+      ],
+      "verdetto": "monitora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DbI6aiPDfB9",
+      "url": "https://www.instagram.com/p/DbI6aiPDfB9/",
+      "formato": "post",
+      "data": "2026-07-23",
+      "autore": "Christian",
+      "sintesi": "5 repo GitHub per AI/ML. Lead magnet, contenuto nei DM.",
+      "tema": "repo-discovery",
+      "tool_nominati": [],
+      "verdetto": "ignora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "Db79HgVm2B2",
+      "url": "https://www.instagram.com/p/Db79HgVm2B2/",
+      "formato": "post",
+      "data": "2026-08-12",
+      "autore": "Datapizza",
+      "sintesi": "5 libri consigliati per passare dall'usare l'AI a caso a usarla con metodo.",
+      "tema": "risorse-formative",
+      "tool_nominati": [],
+      "verdetto": "monitora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DcQy9GPiBFA",
+      "url": "https://www.instagram.com/p/DcQy9GPiBFA/",
+      "formato": "post",
+      "data": "2026-08-20",
+      "autore": "Dario Fontanel",
+      "sintesi": "AIOS, specializzazione di Claude Code per integrare l'AI in ogni attivita'.",
+      "tema": "claude-code-setup",
+      "tool_nominati": [
+        "Claude Code"
+      ],
+      "verdetto": "monitora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DcRaXiojL1S",
+      "url": "https://www.instagram.com/p/DcRaXiojL1S/",
+      "formato": "post",
+      "data": "2026-08-20",
+      "autore": "La casa della AI",
+      "sintesi": "8 prompt per usare Claude nella strategia di un canale YouTube (nicchia, idee, titoli, copertine, script).",
+      "tema": "off-topic",
+      "tool_nominati": [
+        "Claude"
+      ],
+      "verdetto": "ignora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DceUtBLNxzk",
+      "url": "https://www.instagram.com/reel/DceUtBLNxzk/",
+      "formato": "reel",
+      "data": "2026-08-25",
+      "autore": "Gabi & Carlos",
+      "sintesi": "(in portoghese) Modellare un prodotto per la stampa 3D da zero con AI integrata in Blender, solo via prompt: misure, incastri, filettature.",
+      "tema": "stampa-3d-ai",
+      "tool_nominati": [
+        "Blender"
+      ],
+      "verdetto": "prova",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "Dcjs54VslV0",
+      "url": "https://www.instagram.com/reel/Dcjs54VslV0/",
+      "formato": "reel",
+      "data": "2026-08-27",
+      "autore": "Beatrice Mazzanti",
+      "sintesi": "Dal 2 agosto 2026 i nuovi modelli Claude marcano l'output: invisibile nel testo, dato di provenienza C2PA nei file. Il marchio dice solo che il testo e' passato da Claude, non chi l'ha pensato.",
+      "tema": "provenienza-sicurezza",
+      "tool_nominati": [
+        "Claude",
+        "C2PA"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DcwB81VAMdh",
+      "url": "https://www.instagram.com/p/DcwB81VAMdh/",
+      "formato": "post",
+      "data": "2026-09-01",
+      "autore": "Datapizza",
+      "sintesi": "8 repo GitHub con link espliciti: i-have-adhd (risposte dirette dal coding assistant), book-to-skill (documentazione -> skill per agenti), open-notebook, no-ai-slop (rimuove cliche' dagli LLM), ai-job-search.",
+      "tema": "repo-discovery",
+      "tool_nominati": [
+        "book-to-skill",
+        "open-notebook",
+        "no-ai-slop"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DcyUOBtgiwo",
+      "url": "https://www.instagram.com/reel/DcyUOBtgiwo/",
+      "formato": "reel",
+      "data": "2026-09-02",
+      "autore": "Gianmarco Pompizii",
+      "sintesi": "Lead magnet su plugin Google per l'AI. Contenuto nei DM.",
+      "tema": "sconosciuto",
+      "tool_nominati": [],
+      "verdetto": "ignora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "Dc3mnUViCgW",
+      "url": "https://www.instagram.com/p/Dc3mnUViCgW/",
+      "formato": "post",
+      "data": "2026-09-04",
+      "autore": "Dario Fontanel",
+      "sintesi": "/wayfinder: layer di orchestrazione che pianifica sessioni troppo grandi per una sola finestra di contesto, creando una mappa di ticket lavorabili da agenti con contesto pulito.",
+      "tema": "orchestrazione",
+      "tool_nominati": [
+        "Claude Code",
+        "Wayfinder"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "Dc6FDlUISic",
+      "url": "https://www.instagram.com/reel/Dc6FDlUISic/",
+      "formato": "reel",
+      "data": "2026-09-05",
+      "autore": "Dario Fontanel",
+      "sintesi": "Le modalita' Orchestrator e Advisor in Claude Code per sfruttare i modelli disponibili risparmiando costi e token.",
+      "tema": "orchestrazione",
+      "tool_nominati": [
+        "Claude Code"
+      ],
+      "verdetto": "studia",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DdOapbgoyT9",
+      "url": "https://www.instagram.com/reel/DdOapbgoyT9/",
+      "formato": "reel",
+      "data": "2026-09-13",
+      "autore": "Dario Fontanel",
+      "sintesi": "Codex e l'aggiornamento Sites: creare siti web in pochi click.",
+      "tema": "altri-tool",
+      "tool_nominati": [
+        "Codex"
+      ],
+      "verdetto": "monitora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DdOnVLyAmJF",
+      "url": "https://www.instagram.com/reel/DdOnVLyAmJF/",
+      "formato": "reel",
+      "data": "2026-09-13",
+      "autore": "Gianmarco Pompizii",
+      "sintesi": "Promo di un webinar gratuito sull'implementare l'AI nei processi lavorativi.",
+      "tema": "promo",
+      "tool_nominati": [],
+      "verdetto": "ignora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    },
+    {
+      "id": "DdQQZf7gh2_",
+      "url": "https://www.instagram.com/reel/DdQQZf7gh2_/",
+      "formato": "reel",
+      "data": "2026-09-14",
+      "autore": "Steven Anderson",
+      "sintesi": "'Printing with openart'. Nessun contenuto utile nella didascalia.",
+      "tema": "sconosciuto",
+      "tool_nominati": [
+        "OpenArt"
+      ],
+      "verdetto": "ignora",
+      "fonte": "instagram",
+      "affidabilita": "segnale-da-verificare",
+      "stato": "qualificato"
+    }
+  ]
+}

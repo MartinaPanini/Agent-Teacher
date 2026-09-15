@@ -1,0 +1,25 @@
+npm-debug.log*
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Claude Code — impostazioni locali
+.claude/settings.local.json
+
+# File temporanei della routine
+tmp/
+*.mp4
+*.webm
+*.m4a
+
+# ATTENZIONE: data/ NON va ignorata.
+# È lo storico del tuo apprendimento: livelli, review, sessioni, inbox.
+# Perderla significa perdere la calibrazione e ripartire da zero.
+#
+# Solo se un giorno rendi la repo PUBBLICA, decommenta:
+# data/
+# !data/seed/
