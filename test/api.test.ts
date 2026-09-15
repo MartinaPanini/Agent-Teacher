@@ -111,6 +111,37 @@ describe("API Express (in-process)", () => {
     expect(res2.status).toBe(409);
   });
 
+  it("POST /api/onboarding scrive i livelli e la calibrazione, una seconda chiamata dà 409", async () => {
+    const risposte = [
+      { domanda_id: "q-fondamenta-llm", opzione_id: "so-farlo" },
+      { domanda_id: "q-tool-calling", opzione_id: "non-lo-so" },
+    ];
+
+    const res1 = await fetch(`${baseUrl}/onboarding`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ risposte }),
+    });
+    expect(res1.status).toBe(200);
+
+    const profiloRes = await fetch(`${baseUrl}/profile`);
+    const profilo = (await profiloRes.json()) as { calibrazione: { fatta_il: string | null } };
+    expect(profilo.calibrazione.fatta_il).not.toBeNull();
+
+    const skillsRes = await fetch(`${baseUrl}/skills`);
+    const skills = (await skillsRes.json()) as Array<{ id: string; livello: number; livello_fonte: string }>;
+    const fondamenta = skills.find((s) => s.id === "fondamenta-llm")!;
+    expect(fondamenta.livello).toBe(3); // "so-farlo"
+    expect(fondamenta.livello_fonte).toBe("calibrazione");
+
+    const res2 = await fetch(`${baseUrl}/onboarding`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ risposte }),
+    });
+    expect(res2.status).toBe(409);
+  });
+
   it("POST /api/inbox scrive in coda senza errori e senza fare rete", async () => {
     const res = await fetch(`${baseUrl}/inbox`, {
       method: "POST",

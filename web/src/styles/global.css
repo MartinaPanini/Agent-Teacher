@@ -20,3 +20,54 @@ body {
   max-width: 640px;
   margin: 0 auto;
 }
+
+.onboarding {
+  padding: 2rem 1.25rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.onboarding-intro {
+  color: #55524d;
+  margin-bottom: 1.5rem;
+}
+
+.onboarding-domanda {
+  border: 1px solid #e2ddd4;
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.onboarding-domanda legend {
+  font-weight: 600;
+  padding: 0 0.25rem;
+}
+
+.onboarding-opzione {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  cursor: pointer;
+}
+
+.onboarding button[type="submit"] {
+  margin-top: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  background: #1c1b1a;
+  color: #faf9f7;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.onboarding button[type="submit"]:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.errore {
+  color: #b3261e;
+}
