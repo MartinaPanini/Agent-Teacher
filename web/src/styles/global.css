@@ -457,3 +457,44 @@ button.secondario {
   border-radius: 999px;
   padding: 0.1rem 0.5rem;
 }
+
+/* ------------------------- Cattura link ------------------------- */
+
+.cattura-link {
+  position: fixed;
+  right: 1rem;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  z-index: 2;
+}
+
+.cattura-link-toggle {
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cattura-link--aperto {
+  background: #fff;
+  border: 1px solid #e2ddd4;
+  border-radius: 10px;
+  padding: 0.9rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  width: min(320px, calc(100vw - 2rem));
+}
+
+.cattura-link-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cattura-link-form input {
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #d8d2c6;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.cattura-link-azioni {
+  display: flex;
+  justify-content: flex-end;
+}

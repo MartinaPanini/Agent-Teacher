@@ -1,1 +1,1314 @@
-[]
+[
+  {
+    "id": "Cs39PwgMpM6",
+    "url": "https://www.instagram.com/p/Cs39PwgMpM6/",
+    "aggiunto_il": "2023-05-30",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "WILL",
+      "titolo": null,
+      "didascalia": "Panoramica di 6 categorie di tool AI per la produttività; avverte che i contenuti vanno sempre rivisti da un umano.",
+      "data_pubblicazione": "2023-05-30"
+    },
+    "tool_nominati": [],
+    "fonte_primaria": null,
+    "verdetto": "ignora",
+    "motivo": "Panoramica di 6 categorie di tool AI per la produttività; avverte che i contenuti vanno sempre rivisti da un umano.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "C1mpexKAH2d",
+    "url": "https://www.instagram.com/p/C1mpexKAH2d/",
+    "aggiunto_il": "2024-01-02",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Volta Institute",
+      "titolo": null,
+      "didascalia": "Pubblicità di un corso a pagamento 'Python e Intelligenza Artificiale' con certificazione.",
+      "data_pubblicazione": "2024-01-02"
+    },
+    "tool_nominati": [],
+    "fonte_primaria": null,
+    "verdetto": "ignora",
+    "motivo": "Pubblicità di un corso a pagamento 'Python e Intelligenza Artificiale' con certificazione.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DBbFk8LKwvG",
+    "url": "https://www.instagram.com/p/DBbFk8LKwvG/",
+    "aggiunto_il": "2024-10-22",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Datapizza",
+      "titolo": null,
+      "didascalia": "5 corsi gratuiti del MIT su Data Science, Statistica, CS e Machine Learning.",
+      "data_pubblicazione": "2024-10-22"
+    },
+    "tool_nominati": [
+      "MIT OCW"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "monitora",
+    "motivo": "5 corsi gratuiti del MIT su Data Science, Statistica, CS e Machine Learning.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DCuG5ktNg_a",
+    "url": "https://www.instagram.com/reel/DCuG5ktNg_a/",
+    "aggiunto_il": "2024-11-23",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Isha Salania",
+      "titolo": null,
+      "didascalia": "Set di ~25 prompt per analizzare un paper scientifico caricato in ChatGPT (obiettivo, metodo, risultati, critica).",
+      "data_pubblicazione": "2024-11-23"
+    },
+    "tool_nominati": [
+      "ChatGPT"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "prova",
+    "motivo": "Set di ~25 prompt per analizzare un paper scientifico caricato in ChatGPT (obiettivo, metodo, risultati, critica).",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DSFSPxFDMe1",
+    "url": "https://www.instagram.com/reel/DSFSPxFDMe1/",
+    "aggiunto_il": "2025-12-10",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Matteo AI",
+      "titolo": null,
+      "didascalia": "Lista generica di 5 tool AI per dimezzare il carico di lavoro. Nessun dettaglio.",
+      "data_pubblicazione": "2025-12-10"
+    },
+    "tool_nominati": [],
+    "fonte_primaria": null,
+    "verdetto": "ignora",
+    "motivo": "Lista generica di 5 tool AI per dimezzare il carico di lavoro. Nessun dettaglio.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DTyajOoAhRm",
+    "url": "https://www.instagram.com/reel/DTyajOoAhRm/",
+    "aggiunto_il": "2026-01-21",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Vidhi (PhD mentor)",
+      "titolo": null,
+      "didascalia": "Metodo in 5 step per usare NotebookLM come memoria di ricerca: un notebook per progetto, prompt per estrarre domanda/metodo/limiti, confronto tra paper, ricerca di gap, outline della review.",
+      "data_pubblicazione": "2026-01-21"
+    },
+    "tool_nominati": [
+      "NotebookLM"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "Metodo in 5 step per usare NotebookLM come memoria di ricerca: un notebook per progetto, prompt per estrarre domanda/metodo/limiti, confronto tra paper, ricerca di gap, outline della review.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DTx62oCj1X1",
+    "url": "https://www.instagram.com/reel/DTx62oCj1X1/",
+    "aggiunto_il": "2026-01-21",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Simone Rizzo AI",
+      "titolo": null,
+      "didascalia": "Come usare Claude Code 'gratis senza limiti di token'. Claim forte, nessuna verifica nel post.",
+      "data_pubblicazione": "2026-01-21"
+    },
+    "tool_nominati": [
+      "Claude Code"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "verifica",
+    "motivo": "Come usare Claude Code 'gratis senza limiti di token'. Claim forte, nessuna verifica nel post.",
+    "skill_toccate": [
+      "claude-code"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DV6eCZyiKqD",
+    "url": "https://www.instagram.com/reel/DV6eCZyiKqD/",
+    "aggiunto_il": "2026-03-15",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Dario Fontanel",
+      "titolo": null,
+      "didascalia": "Come collegare NotebookLM a Claude Code per generare presentazioni, audio e infografiche in linguaggio naturale.",
+      "data_pubblicazione": "2026-03-15"
+    },
+    "tool_nominati": [
+      "Claude Code",
+      "NotebookLM"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "Come collegare NotebookLM a Claude Code per generare presentazioni, audio e infografiche in linguaggio naturale.",
+    "skill_toccate": [
+      "claude-code"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DV81RE_iN4Z",
+    "url": "https://www.instagram.com/p/DV81RE_iN4Z/",
+    "aggiunto_il": "2026-03-16",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Evolving AI",
+      "titolo": null,
+      "didascalia": "Prompt per far fare a Claude una literature review: estrarre claim, raggruppare studi, trovare contraddizioni e sintetizzare consensi e dibattiti aperti.",
+      "data_pubblicazione": "2026-03-16"
+    },
+    "tool_nominati": [
+      "Claude"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "prova",
+    "motivo": "Prompt per far fare a Claude una literature review: estrarre claim, raggruppare studi, trovare contraddizioni e sintetizzare consensi e dibattiti aperti.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DWqlXKjDJHm",
+    "url": "https://www.instagram.com/p/DWqlXKjDJHm/",
+    "aggiunto_il": "2026-04-03",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "La casa della AI",
+      "titolo": null,
+      "didascalia": "Guida rapida a Claude Code: cosa fa (scrive codice, modifica file, gestisce git, analizza progetti, risolve bug) e da dove si usa (terminale, VS Code, desktop, telefono).",
+      "data_pubblicazione": "2026-04-03"
+    },
+    "tool_nominati": [
+      "Claude Code"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "Guida rapida a Claude Code: cosa fa (scrive codice, modifica file, gestisce git, analizza progetti, risolve bug) e da dove si usa (terminale, VS Code, desktop, telefono).",
+    "skill_toccate": [
+      "claude-code"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DWw2ydzjJw5",
+    "url": "https://www.instagram.com/p/DWw2ydzjJw5/",
+    "aggiunto_il": "2026-04-05",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "La casa della AI",
+      "titolo": null,
+      "didascalia": "'Caveman prompting': imporre a Claude frasi di 3-6 parole e niente preamboli riduce i token del ~75% (180 -> 45 per una ricerca web). Fonte: thread Reddit r/ClaudeAI.",
+      "data_pubblicazione": "2026-04-05"
+    },
+    "tool_nominati": [
+      "Claude"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "prova",
+    "motivo": "'Caveman prompting': imporre a Claude frasi di 3-6 parole e niente preamboli riduce i token del ~75% (180 -> 45 per una ricerca web). Fonte: thread Reddit r/ClaudeAI.",
+    "skill_toccate": [
+      "context-economy"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DXHll6LCKiR",
+    "url": "https://www.instagram.com/p/DXHll6LCKiR/",
+    "aggiunto_il": "2026-04-14",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "ProfessionAI",
+      "titolo": null,
+      "didascalia": "Guida ufficiale Google al prompting di Nano Banana: 5 comandi base e 5 avanzati per la generazione di immagini.",
+      "data_pubblicazione": "2026-04-14"
+    },
+    "tool_nominati": [
+      "Nano Banana"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "ignora",
+    "motivo": "Guida ufficiale Google al prompting di Nano Banana: 5 comandi base e 5 avanzati per la generazione di immagini.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DXq2b5-DLfi",
+    "url": "https://www.instagram.com/p/DXq2b5-DLfi/",
+    "aggiunto_il": "2026-04-28",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "La casa della AI",
+      "titolo": null,
+      "didascalia": "Proxy open source che fa girare Claude Code su backend alternativi (NVIDIA NIM e altri) invece dell'API Anthropic, con streaming di risposte e tool call.",
+      "data_pubblicazione": "2026-04-28"
+    },
+    "tool_nominati": [
+      "Claude Code",
+      "NVIDIA NIM"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "monitora",
+    "motivo": "Proxy open source che fa girare Claude Code su backend alternativi (NVIDIA NIM e altri) invece dell'API Anthropic, con streaming di risposte e tool call.",
+    "skill_toccate": [
+      "claude-code",
+      "agenti-locali"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DYCQLkptDla",
+    "url": "https://www.instagram.com/reel/DYCQLkptDla/",
+    "aggiunto_il": "2026-05-07",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Guglielmo Vaccaro",
+      "titolo": null,
+      "didascalia": "Video gratuito di Andrej Karpathy (3h30 su YouTube): come funzionano davvero gli LLM, come vengono addestrati, perche' allucinano, quando usare modelli di reasoning.",
+      "data_pubblicazione": "2026-05-07"
+    },
+    "tool_nominati": [
+      "Karpathy"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "Video gratuito di Andrej Karpathy (3h30 su YouTube): come funzionano davvero gli LLM, come vengono addestrati, perche' allucinano, quando usare modelli di reasoning.",
+    "skill_toccate": [
+      "fondamenta-llm"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DYy9cowis3l",
+    "url": "https://www.instagram.com/reel/DYy9cowis3l/",
+    "aggiunto_il": "2026-05-26",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Gabriele Aprile",
+      "titolo": null,
+      "didascalia": "Tool open source che indicizza il progetto con un parser AST (tree-sitter, 31 linguaggi) e costruisce un grafo, per evitare che Claude Code ricarichi l'intero codebase a ogni sessione.",
+      "data_pubblicazione": "2026-05-26"
+    },
+    "tool_nominati": [
+      "Claude Code",
+      "tree-sitter"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "Tool open source che indicizza il progetto con un parser AST (tree-sitter, 31 linguaggi) e costruisce un grafo, per evitare che Claude Code ricarichi l'intero codebase a ogni sessione.",
+    "skill_toccate": [
+      "claude-code",
+      "context-economy"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DY2GRVfN4bZ",
+    "url": "https://www.instagram.com/reel/DY2GRVfN4bZ/",
+    "aggiunto_il": "2026-05-27",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "100xEngineers",
+      "titolo": null,
+      "didascalia": "Lead magnet: 'commenta Md' per ricevere repo GitHub e PDF. Contenuto non desumibile.",
+      "data_pubblicazione": "2026-05-27"
+    },
+    "tool_nominati": [],
+    "fonte_primaria": null,
+    "verdetto": "ignora",
+    "motivo": "Lead magnet: 'commenta Md' per ricevere repo GitHub e PDF. Contenuto non desumibile.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DY4m74jCfgp",
+    "url": "https://www.instagram.com/p/DY4m74jCfgp/",
+    "aggiunto_il": "2026-05-28",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Roadside Coder",
+      "titolo": null,
+      "didascalia": "5 file markdown che danno memoria persistente a un agente: AGENTS.md (regole), SKILLS.md (competenze), MEMORY.md (decisioni ed errori passati), CONTEXT.md (stato sessione), CLAUDE.md (istruzioni persistenti).",
+      "data_pubblicazione": "2026-05-28"
+    },
+    "tool_nominati": [
+      "Claude Code",
+      "AGENTS.md",
+      "CLAUDE.md"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "5 file markdown che danno memoria persistente a un agente: AGENTS.md (regole), SKILLS.md (competenze), MEMORY.md (decisioni ed errori passati), CONTEXT.md (stato sessione), CLAUDE.md (istruzioni persistenti).",
+    "skill_toccate": [
+      "claude-code",
+      "context-economy"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZDbfeNoXSZ",
+    "url": "https://www.instagram.com/reel/DZDbfeNoXSZ/",
+    "aggiunto_il": "2026-06-01",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Dario Fontanel",
+      "titolo": null,
+      "didascalia": "LLM-Wiki, framework di Karpathy per costruire un second brain dentro Claude Code.",
+      "data_pubblicazione": "2026-06-01"
+    },
+    "tool_nominati": [
+      "Claude Code",
+      "LLM-Wiki"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "LLM-Wiki, framework di Karpathy per costruire un second brain dentro Claude Code.",
+    "skill_toccate": [
+      "claude-code",
+      "second-brain"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZFqJzvjNYM",
+    "url": "https://www.instagram.com/p/DZFqJzvjNYM/",
+    "aggiunto_il": "2026-06-02",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Evolving AI",
+      "titolo": null,
+      "didascalia": "Odysseus di PewDiePie: workspace AI open source self-hosted, con agenti, memoria, gestione documenti, email e calendario, deep research. Richiede Python e setup tecnico.",
+      "data_pubblicazione": "2026-06-02"
+    },
+    "tool_nominati": [
+      "Odysseus",
+      "Ollama",
+      "OpenRouter"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "monitora",
+    "motivo": "Odysseus di PewDiePie: workspace AI open source self-hosted, con agenti, memoria, gestione documenti, email e calendario, deep research. Richiede Python e setup tecnico.",
+    "skill_toccate": [
+      "agenti-locali"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZHF0_NlKlE",
+    "url": "https://www.instagram.com/p/DZHF0_NlKlE/",
+    "aggiunto_il": "2026-06-03",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Emiliano",
+      "titolo": null,
+      "didascalia": "8 tool gratuiti per ingegneria elettrica, design meccanico e robotica.",
+      "data_pubblicazione": "2026-06-03"
+    },
+    "tool_nominati": [],
+    "fonte_primaria": null,
+    "verdetto": "ignora",
+    "motivo": "8 tool gratuiti per ingegneria elettrica, design meccanico e robotica.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZVTkBhES1K",
+    "url": "https://www.instagram.com/p/DZVTkBhES1K/",
+    "aggiunto_il": "2026-06-08",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Simplifying AI",
+      "titolo": null,
+      "didascalia": "Pipeline di ricerca accademica in Claude Code: 13 agenti per la deep research (PRISMA), 12 per scrivere il paper, 5 per la peer review, 1 agente integrità per citazioni inventate. Si installa in .claude/skills/ e gira in Claude Code, Cowork e come Project.",
+      "data_pubblicazione": "2026-06-08"
+    },
+    "tool_nominati": [
+      "Claude Code",
+      "Claude Skills",
+      "Cowork"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "Pipeline di ricerca accademica in Claude Code: 13 agenti per la deep research (PRISMA), 12 per scrivere il paper, 5 per la peer review, 1 agente integrità per citazioni inventate. Si installa in .claude/skills/ e gira in Claude Code, Cowork e come Project.",
+    "skill_toccate": [
+      "claude-code",
+      "claude-skills",
+      "orchestrazione"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZXhnS1BIlM",
+    "url": "https://www.instagram.com/reel/DZXhnS1BIlM/",
+    "aggiunto_il": "2026-06-09",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Jacob Rising",
+      "titolo": null,
+      "didascalia": "Dichiaratamente satira. Nessun contenuto tecnico.",
+      "data_pubblicazione": "2026-06-09"
+    },
+    "tool_nominati": [],
+    "fonte_primaria": null,
+    "verdetto": "ignora",
+    "motivo": "Dichiaratamente satira. Nessun contenuto tecnico.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZdCb6wIV_d",
+    "url": "https://www.instagram.com/reel/DZdCb6wIV_d/",
+    "aggiunto_il": "2026-06-11",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Dario Fontanel",
+      "titolo": null,
+      "didascalia": "Confronto Graphify vs Obsidian per costruire un second brain in Claude Code.",
+      "data_pubblicazione": "2026-06-11"
+    },
+    "tool_nominati": [
+      "Obsidian",
+      "Graphify",
+      "Claude Code"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "Confronto Graphify vs Obsidian per costruire un second brain in Claude Code.",
+    "skill_toccate": [
+      "second-brain",
+      "claude-code"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZbfNqdIfZC",
+    "url": "https://www.instagram.com/reel/DZbfNqdIfZC/",
+    "aggiunto_il": "2026-06-11",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Julia",
+      "titolo": null,
+      "didascalia": "Composio per automatizzare collegamenti tra AI e servizi esterni.",
+      "data_pubblicazione": "2026-06-11"
+    },
+    "tool_nominati": [
+      "Composio"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "monitora",
+    "motivo": "Composio per automatizzare collegamenti tra AI e servizi esterni.",
+    "skill_toccate": [
+      "integrazioni-personali"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZcX3q6j6k8",
+    "url": "https://www.instagram.com/reel/DZcX3q6j6k8/",
+    "aggiunto_il": "2026-06-11",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Gabriele Aprile",
+      "titolo": null,
+      "didascalia": "OpenJarvis dello Scaling Intelligence Lab di Stanford: assistente open source che gira interamente in locale, impara dal modo in cui lavori.",
+      "data_pubblicazione": "2026-06-11"
+    },
+    "tool_nominati": [
+      "OpenJarvis"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "monitora",
+    "motivo": "OpenJarvis dello Scaling Intelligence Lab di Stanford: assistente open source che gira interamente in locale, impara dal modo in cui lavori.",
+    "skill_toccate": [
+      "agenti-locali"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZhW1tcsXOV",
+    "url": "https://www.instagram.com/reel/DZhW1tcsXOV/",
+    "aggiunto_il": "2026-06-13",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "NeuralCoffe",
+      "titolo": null,
+      "didascalia": "Open Notebook: repo GitHub che replica NotebookLM ma self-hosted, con modelli a scelta.",
+      "data_pubblicazione": "2026-06-13"
+    },
+    "tool_nominati": [
+      "Open Notebook"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "monitora",
+    "motivo": "Open Notebook: repo GitHub che replica NotebookLM ma self-hosted, con modelli a scelta.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZh4NI1uCpk",
+    "url": "https://www.instagram.com/reel/DZh4NI1uCpk/",
+    "aggiunto_il": "2026-06-13",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Jake",
+      "titolo": null,
+      "didascalia": "Nessun contenuto testuale utile ('this is so sick').",
+      "data_pubblicazione": "2026-06-13"
+    },
+    "tool_nominati": [],
+    "fonte_primaria": null,
+    "verdetto": "ignora",
+    "motivo": "Nessun contenuto testuale utile ('this is so sick').",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZkNjUnjEEi",
+    "url": "https://www.instagram.com/p/DZkNjUnjEEi/",
+    "aggiunto_il": "2026-06-14",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Startup Geeks",
+      "titolo": null,
+      "didascalia": "7 YouTuber da seguire sull'AI (4 internazionali, 3 italiani: Varun Mayya, Dan Martell, Raffaele Gaito, Simone Rizzo).",
+      "data_pubblicazione": "2026-06-14"
+    },
+    "tool_nominati": [],
+    "fonte_primaria": null,
+    "verdetto": "monitora",
+    "motivo": "7 YouTuber da seguire sull'AI (4 internazionali, 3 italiani: Varun Mayya, Dan Martell, Raffaele Gaito, Simone Rizzo).",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZozoNgiEbt",
+    "url": "https://www.instagram.com/p/DZozoNgiEbt/",
+    "aggiunto_il": "2026-06-16",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Edoardo Barravecchia",
+      "titolo": null,
+      "didascalia": "10 repo GitHub come alternative open source a tool a pagamento: n8n al posto di Zapier, Cal.com al posto di Calendly, Fooocus al posto di Midjourney.",
+      "data_pubblicazione": "2026-06-16"
+    },
+    "tool_nominati": [
+      "n8n",
+      "Cal.com",
+      "Fooocus"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "monitora",
+    "motivo": "10 repo GitHub come alternative open source a tool a pagamento: n8n al posto di Zapier, Cal.com al posto di Calendly, Fooocus al posto di Midjourney.",
+    "skill_toccate": [
+      "orchestrazione"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZrtCPZDBAG",
+    "url": "https://www.instagram.com/reel/DZrtCPZDBAG/",
+    "aggiunto_il": "2026-06-17",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Edoardo Barravecchia",
+      "titolo": null,
+      "didascalia": "La repo 'Awesome Claude Skills' su GitHub: skill già testate da scaricare e caricare nelle impostazioni di Claude invece di costruirle da zero.",
+      "data_pubblicazione": "2026-06-17"
+    },
+    "tool_nominati": [
+      "Claude Skills"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "La repo 'Awesome Claude Skills' su GitHub: skill già testate da scaricare e caricare nelle impostazioni di Claude invece di costruirle da zero.",
+    "skill_toccate": [
+      "claude-skills"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZsho9oo2wI",
+    "url": "https://www.instagram.com/reel/DZsho9oo2wI/",
+    "aggiunto_il": "2026-06-17",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Dario Fontanel",
+      "titolo": null,
+      "didascalia": "Il comando /ponytail riduce i consumi di Claude Code forzando il modello a essere piu' conciso.",
+      "data_pubblicazione": "2026-06-17"
+    },
+    "tool_nominati": [
+      "Claude Code",
+      "Ponytail"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "prova",
+    "motivo": "Il comando /ponytail riduce i consumi di Claude Code forzando il modello a essere piu' conciso.",
+    "skill_toccate": [
+      "claude-code",
+      "context-economy"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZw75iONmhx",
+    "url": "https://www.instagram.com/reel/DZw75iONmhx/",
+    "aggiunto_il": "2026-06-19",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Guglielmo Vaccaro",
+      "titolo": null,
+      "didascalia": "Ponytail: prima di scrivere codice l'agente cerca un motivo per non scriverlo. Claim: fino al 94% di codice in meno, 6x piu' veloce, meta' dei costi.",
+      "data_pubblicazione": "2026-06-19"
+    },
+    "tool_nominati": [
+      "Ponytail",
+      "Claude Code"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "verifica",
+    "motivo": "Ponytail: prima di scrivere codice l'agente cerca un motivo per non scriverlo. Claim: fino al 94% di codice in meno, 6x piu' veloce, meta' dei costi.",
+    "skill_toccate": [
+      "context-economy",
+      "claude-code"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZ12GswDMDY",
+    "url": "https://www.instagram.com/p/DZ12GswDMDY/",
+    "aggiunto_il": "2026-06-21",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "La casa della AI",
+      "titolo": null,
+      "didascalia": "7 prompt per usare Claude come personal trainer e nutrizionista. Il post stesso premette che non sostituisce un medico.",
+      "data_pubblicazione": "2026-06-21"
+    },
+    "tool_nominati": [
+      "Claude"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "ignora",
+    "motivo": "7 prompt per usare Claude come personal trainer e nutrizionista. Il post stesso premette che non sostituisce un medico.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DZ4pU3KNWGq",
+    "url": "https://www.instagram.com/reel/DZ4pU3KNWGq/",
+    "aggiunto_il": "2026-06-22",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Guglielmo Vaccaro",
+      "titolo": null,
+      "didascalia": "Claude Blog, skill gratuita per Claude Code di Daniel Agrici: scrive articoli, genera immagini e grafici, fa fact-check e consegna solo sopra 90/100 di qualita'. Gemella di Claude SEO.",
+      "data_pubblicazione": "2026-06-22"
+    },
+    "tool_nominati": [
+      "Claude Code",
+      "Claude Skills"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "monitora",
+    "motivo": "Claude Blog, skill gratuita per Claude Code di Daniel Agrici: scrive articoli, genera immagini e grafici, fa fact-check e consegna solo sopra 90/100 di qualita'. Gemella di Claude SEO.",
+    "skill_toccate": [
+      "claude-code",
+      "claude-skills"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DaZt7eTKOFR",
+    "url": "https://www.instagram.com/reel/DaZt7eTKOFR/",
+    "aggiunto_il": "2026-07-05",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Julian Flieller",
+      "titolo": null,
+      "didascalia": "Strava, Garmin, Whoop e Apple Health che alimentano un solo coach AI: legge il sonno della notte e scrive l'allenamento del giorno dopo direttamente sull'orologio.",
+      "data_pubblicazione": "2026-07-05"
+    },
+    "tool_nominati": [
+      "Apple Health",
+      "Garmin",
+      "Strava",
+      "Whoop"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "Strava, Garmin, Whoop e Apple Health che alimentano un solo coach AI: legge il sonno della notte e scrive l'allenamento del giorno dopo direttamente sull'orologio.",
+    "skill_toccate": [
+      "integrazioni-personali"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DafMFeND4OQ",
+    "url": "https://www.instagram.com/p/DafMFeND4OQ/",
+    "aggiunto_il": "2026-07-07",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Aashish Pahwa",
+      "titolo": null,
+      "didascalia": "6 usi di Claude Fable 5, tra cui addestrare Skills riutilizzabili, ricostruire software da screenshot e trasformare ore di ricerca in un report da 10 minuti.",
+      "data_pubblicazione": "2026-07-07"
+    },
+    "tool_nominati": [
+      "Claude Fable",
+      "Claude Skills"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "monitora",
+    "motivo": "6 usi di Claude Fable 5, tra cui addestrare Skills riutilizzabili, ricostruire software da screenshot e trasformare ore di ricerca in un report da 10 minuti.",
+    "skill_toccate": [
+      "claude-skills"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DahvtKxjDXR",
+    "url": "https://www.instagram.com/p/DahvtKxjDXR/",
+    "aggiunto_il": "2026-07-08",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "La casa della AI",
+      "titolo": null,
+      "didascalia": "Usare Claude e NotebookLM in coppia: Claude ragiona ma inventa, NotebookLM resta fedele alle fonti. 4 step su cosa incollare dove e come verificare.",
+      "data_pubblicazione": "2026-07-08"
+    },
+    "tool_nominati": [
+      "Claude",
+      "NotebookLM"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "prova",
+    "motivo": "Usare Claude e NotebookLM in coppia: Claude ragiona ma inventa, NotebookLM resta fedele alle fonti. 4 step su cosa incollare dove e come verificare.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DauBrWamWTv",
+    "url": "https://www.instagram.com/p/DauBrWamWTv/",
+    "aggiunto_il": "2026-07-13",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Deepak jangir",
+      "titolo": null,
+      "didascalia": "Afferma di aver costruito un intero team con Claude. Nessun dettaglio verificabile.",
+      "data_pubblicazione": "2026-07-13"
+    },
+    "tool_nominati": [
+      "Claude"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "ignora",
+    "motivo": "Afferma di aver costruito un intero team con Claude. Nessun dettaglio verificabile.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "Daxzh_UjHYn",
+    "url": "https://www.instagram.com/p/Daxzh_UjHYn/",
+    "aggiunto_il": "2026-07-14",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Startup Geeks",
+      "titolo": null,
+      "didascalia": "10 alternative open source ai tool di una startup early stage (task management, automazioni, design, analytics, password).",
+      "data_pubblicazione": "2026-07-14"
+    },
+    "tool_nominati": [],
+    "fonte_primaria": null,
+    "verdetto": "monitora",
+    "motivo": "10 alternative open source ai tool di una startup early stage (task management, automazioni, design, analytics, password).",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DaxJeSvqDEL",
+    "url": "https://www.instagram.com/reel/DaxJeSvqDEL/",
+    "aggiunto_il": "2026-07-14",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Julian Flieller",
+      "titolo": null,
+      "didascalia": "Collegare Garmin a Claude perche' legga HRV, TSB e split reali prima di dare consigli di allenamento. ~3 minuti di setup.",
+      "data_pubblicazione": "2026-07-14"
+    },
+    "tool_nominati": [
+      "Claude",
+      "Garmin"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "Collegare Garmin a Claude perche' legga HRV, TSB e split reali prima di dare consigli di allenamento. ~3 minuti di setup.",
+    "skill_toccate": [
+      "integrazioni-personali"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "Da-qoiNqALB",
+    "url": "https://www.instagram.com/reel/Da-qoiNqALB/",
+    "aggiunto_il": "2026-07-19",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Stavolo AI-Consulting",
+      "titolo": null,
+      "didascalia": "'Everything Claude Code', setup del vincitore dell'hackathon Anthropic: 251 skill, 63 agenti, 79 comandi. Gira anche su Cursor, Codex, Gemini, Open Code.",
+      "data_pubblicazione": "2026-07-19"
+    },
+    "tool_nominati": [
+      "Claude Code",
+      "Claude Skills"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "monitora",
+    "motivo": "'Everything Claude Code', setup del vincitore dell'hackathon Anthropic: 251 skill, 63 agenti, 79 comandi. Gira anche su Cursor, Codex, Gemini, Open Code.",
+    "skill_toccate": [
+      "claude-code",
+      "claude-skills"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DbI6aiPDfB9",
+    "url": "https://www.instagram.com/p/DbI6aiPDfB9/",
+    "aggiunto_il": "2026-07-23",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Christian",
+      "titolo": null,
+      "didascalia": "5 repo GitHub per AI/ML. Lead magnet, contenuto nei DM.",
+      "data_pubblicazione": "2026-07-23"
+    },
+    "tool_nominati": [],
+    "fonte_primaria": null,
+    "verdetto": "ignora",
+    "motivo": "5 repo GitHub per AI/ML. Lead magnet, contenuto nei DM.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "Db79HgVm2B2",
+    "url": "https://www.instagram.com/p/Db79HgVm2B2/",
+    "aggiunto_il": "2026-08-12",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Datapizza",
+      "titolo": null,
+      "didascalia": "5 libri consigliati per passare dall'usare l'AI a caso a usarla con metodo.",
+      "data_pubblicazione": "2026-08-12"
+    },
+    "tool_nominati": [],
+    "fonte_primaria": null,
+    "verdetto": "monitora",
+    "motivo": "5 libri consigliati per passare dall'usare l'AI a caso a usarla con metodo.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DcQy9GPiBFA",
+    "url": "https://www.instagram.com/p/DcQy9GPiBFA/",
+    "aggiunto_il": "2026-08-20",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Dario Fontanel",
+      "titolo": null,
+      "didascalia": "AIOS, specializzazione di Claude Code per integrare l'AI in ogni attivita'.",
+      "data_pubblicazione": "2026-08-20"
+    },
+    "tool_nominati": [
+      "Claude Code"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "monitora",
+    "motivo": "AIOS, specializzazione di Claude Code per integrare l'AI in ogni attivita'.",
+    "skill_toccate": [
+      "claude-code"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DcRaXiojL1S",
+    "url": "https://www.instagram.com/p/DcRaXiojL1S/",
+    "aggiunto_il": "2026-08-20",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "La casa della AI",
+      "titolo": null,
+      "didascalia": "8 prompt per usare Claude nella strategia di un canale YouTube (nicchia, idee, titoli, copertine, script).",
+      "data_pubblicazione": "2026-08-20"
+    },
+    "tool_nominati": [
+      "Claude"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "ignora",
+    "motivo": "8 prompt per usare Claude nella strategia di un canale YouTube (nicchia, idee, titoli, copertine, script).",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DceUtBLNxzk",
+    "url": "https://www.instagram.com/reel/DceUtBLNxzk/",
+    "aggiunto_il": "2026-08-25",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Gabi & Carlos",
+      "titolo": null,
+      "didascalia": "(in portoghese) Modellare un prodotto per la stampa 3D da zero con AI integrata in Blender, solo via prompt: misure, incastri, filettature.",
+      "data_pubblicazione": "2026-08-25"
+    },
+    "tool_nominati": [
+      "Blender"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "prova",
+    "motivo": "(in portoghese) Modellare un prodotto per la stampa 3D da zero con AI integrata in Blender, solo via prompt: misure, incastri, filettature.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "Dcjs54VslV0",
+    "url": "https://www.instagram.com/reel/Dcjs54VslV0/",
+    "aggiunto_il": "2026-08-27",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Beatrice Mazzanti",
+      "titolo": null,
+      "didascalia": "Dal 2 agosto 2026 i nuovi modelli Claude marcano l'output: invisibile nel testo, dato di provenienza C2PA nei file. Il marchio dice solo che il testo e' passato da Claude, non chi l'ha pensato.",
+      "data_pubblicazione": "2026-08-27"
+    },
+    "tool_nominati": [
+      "Claude",
+      "C2PA"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "Dal 2 agosto 2026 i nuovi modelli Claude marcano l'output: invisibile nel testo, dato di provenienza C2PA nei file. Il marchio dice solo che il testo e' passato da Claude, non chi l'ha pensato.",
+    "skill_toccate": [
+      "provenienza-sicurezza"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DcwB81VAMdh",
+    "url": "https://www.instagram.com/p/DcwB81VAMdh/",
+    "aggiunto_il": "2026-09-01",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Datapizza",
+      "titolo": null,
+      "didascalia": "8 repo GitHub con link espliciti: i-have-adhd (risposte dirette dal coding assistant), book-to-skill (documentazione -> skill per agenti), open-notebook, no-ai-slop (rimuove cliche' dagli LLM), ai-job-search.",
+      "data_pubblicazione": "2026-09-01"
+    },
+    "tool_nominati": [
+      "book-to-skill",
+      "open-notebook",
+      "no-ai-slop"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "8 repo GitHub con link espliciti: i-have-adhd (risposte dirette dal coding assistant), book-to-skill (documentazione -> skill per agenti), open-notebook, no-ai-slop (rimuove cliche' dagli LLM), ai-job-search.",
+    "skill_toccate": [
+      "claude-skills"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DcyUOBtgiwo",
+    "url": "https://www.instagram.com/reel/DcyUOBtgiwo/",
+    "aggiunto_il": "2026-09-02",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Gianmarco Pompizii",
+      "titolo": null,
+      "didascalia": "Lead magnet su plugin Google per l'AI. Contenuto nei DM.",
+      "data_pubblicazione": "2026-09-02"
+    },
+    "tool_nominati": [],
+    "fonte_primaria": null,
+    "verdetto": "ignora",
+    "motivo": "Lead magnet su plugin Google per l'AI. Contenuto nei DM.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "Dc3mnUViCgW",
+    "url": "https://www.instagram.com/p/Dc3mnUViCgW/",
+    "aggiunto_il": "2026-09-04",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Dario Fontanel",
+      "titolo": null,
+      "didascalia": "/wayfinder: layer di orchestrazione che pianifica sessioni troppo grandi per una sola finestra di contesto, creando una mappa di ticket lavorabili da agenti con contesto pulito.",
+      "data_pubblicazione": "2026-09-04"
+    },
+    "tool_nominati": [
+      "Claude Code",
+      "Wayfinder"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "/wayfinder: layer di orchestrazione che pianifica sessioni troppo grandi per una sola finestra di contesto, creando una mappa di ticket lavorabili da agenti con contesto pulito.",
+    "skill_toccate": [
+      "claude-code",
+      "orchestrazione"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "Dc6FDlUISic",
+    "url": "https://www.instagram.com/reel/Dc6FDlUISic/",
+    "aggiunto_il": "2026-09-05",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Dario Fontanel",
+      "titolo": null,
+      "didascalia": "Le modalita' Orchestrator e Advisor in Claude Code per sfruttare i modelli disponibili risparmiando costi e token.",
+      "data_pubblicazione": "2026-09-05"
+    },
+    "tool_nominati": [
+      "Claude Code"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "studia",
+    "motivo": "Le modalita' Orchestrator e Advisor in Claude Code per sfruttare i modelli disponibili risparmiando costi e token.",
+    "skill_toccate": [
+      "claude-code"
+    ],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DdOapbgoyT9",
+    "url": "https://www.instagram.com/reel/DdOapbgoyT9/",
+    "aggiunto_il": "2026-09-13",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Dario Fontanel",
+      "titolo": null,
+      "didascalia": "Codex e l'aggiornamento Sites: creare siti web in pochi click.",
+      "data_pubblicazione": "2026-09-13"
+    },
+    "tool_nominati": [
+      "Codex"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "monitora",
+    "motivo": "Codex e l'aggiornamento Sites: creare siti web in pochi click.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DdOnVLyAmJF",
+    "url": "https://www.instagram.com/reel/DdOnVLyAmJF/",
+    "aggiunto_il": "2026-09-13",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Gianmarco Pompizii",
+      "titolo": null,
+      "didascalia": "Promo di un webinar gratuito sull'implementare l'AI nei processi lavorativi.",
+      "data_pubblicazione": "2026-09-13"
+    },
+    "tool_nominati": [],
+    "fonte_primaria": null,
+    "verdetto": "ignora",
+    "motivo": "Promo di un webinar gratuito sull'implementare l'AI nei processi lavorativi.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  },
+  {
+    "id": "DdQQZf7gh2_",
+    "url": "https://www.instagram.com/reel/DdQQZf7gh2_/",
+    "aggiunto_il": "2026-09-14",
+    "fonte": "instagram",
+    "stato": "risolto",
+    "didascalia_incollata": null,
+    "estratto": {
+      "autore": "Steven Anderson",
+      "titolo": null,
+      "didascalia": "'Printing with openart'. Nessun contenuto utile nella didascalia.",
+      "data_pubblicazione": "2026-09-14"
+    },
+    "tool_nominati": [
+      "OpenArt"
+    ],
+    "fonte_primaria": null,
+    "verdetto": "ignora",
+    "motivo": "'Printing with openart'. Nessun contenuto utile nella didascalia.",
+    "skill_toccate": [],
+    "modulo_generato": null,
+    "nota_utente": ""
+  }
+]

@@ -199,4 +199,27 @@ describe("API Express (in-process)", () => {
     expect(body.fonte).toBe("github");
     expect(body.stato).toBe("da_leggere");
   });
+
+  it("oltre 5 link in coda crea una richiesta digerisci_inbox, senza duplicarla", async () => {
+    fs.writeFileSync(path.join(tmpDir, "inbox.json"), JSON.stringify([]));
+    for (const f of fs.readdirSync(path.join(tmpDir, "requests"))) {
+      if (f.endsWith(".json")) fs.rmSync(path.join(tmpDir, "requests", f));
+    }
+
+    for (let i = 0; i < 6; i++) {
+      const res = await fetch(`${baseUrl}/inbox`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ url: `https://example.com/articolo-${i}` }),
+      });
+      expect(res.status).toBe(201);
+    }
+
+    const richieste = fs
+      .readdirSync(path.join(tmpDir, "requests"))
+      .filter((f) => f.endsWith(".json"))
+      .map((f) => JSON.parse(fs.readFileSync(path.join(tmpDir, "requests", f), "utf-8")) as { tipo: string });
+    const digerisci = richieste.filter((r) => r.tipo === "digerisci_inbox");
+    expect(digerisci).toHaveLength(1); // non duplicata anche con più inserimenti oltre soglia
+  });
 });

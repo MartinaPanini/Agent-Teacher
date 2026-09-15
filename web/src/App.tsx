@@ -4,6 +4,7 @@ import Onboarding from "./pages/Onboarding";
 import Daily from "./pages/Daily";
 import Curriculum from "./pages/Curriculum";
 import KnowledgeMap from "./pages/KnowledgeMap";
+import CatturaLink from "./components/CatturaLink";
 
 type Pagina = "daily" | "curriculum" | "mappa";
 type Stato = { fase: "caricamento" } | { fase: "errore"; messaggio: string } | { fase: "onboarding" } | { fase: "pronto" };
@@ -48,6 +49,7 @@ export default function App() {
       {pagina === "daily" && <Daily />}
       {pagina === "curriculum" && <Curriculum />}
       {pagina === "mappa" && <KnowledgeMap />}
+      <CatturaLink />
     </>
   );
 }
