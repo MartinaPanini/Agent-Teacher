@@ -1,0 +1,22 @@
+:root {
+  color-scheme: light dark;
+  --color-bg: #faf9f7;
+  --color-text: #1c1b1a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.scaffold-placeholder {
+  padding: 2rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
