@@ -1,0 +1,229 @@
+[
+  {
+    "id": "corso-llm-fondamenta",
+    "titolo": "Come funzionano davvero gli LLM",
+    "obiettivo": "Capire cosa succede dentro un LLM abbastanza da ragionarci sopra, non da costruirne uno.",
+    "skill_id": [
+      "fondamenta-llm"
+    ],
+    "track": "principale",
+    "stato": "attivo",
+    "moduli": [
+      "mod-llm-01",
+      "mod-llm-02",
+      "mod-llm-03",
+      "mod-llm-04",
+      "mod-llm-05",
+      "mod-llm-06"
+    ],
+    "origine": "seed",
+    "creato_il": "2026-09-15",
+    "aggiornato_il": "2026-09-15"
+  },
+  {
+    "id": "corso-claude-code",
+    "titolo": "Claude Code dalle fondamenta",
+    "obiettivo": "Usare Claude Code con sicurezza nel lavoro quotidiano.",
+    "skill_id": [
+      "claude-code"
+    ],
+    "track": "principale",
+    "stato": "attivo",
+    "moduli": [
+      "mod-claude-code-01",
+      "mod-claude-code-02",
+      "mod-claude-code-03",
+      "mod-claude-code-04",
+      "mod-claude-code-05",
+      "mod-claude-code-06",
+      "mod-claude-code-07"
+    ],
+    "origine": "seed",
+    "creato_il": "2026-09-15",
+    "aggiornato_il": "2026-09-15"
+  },
+  {
+    "id": "corso-mcp",
+    "titolo": "MCP — dal protocollo al tuo server",
+    "obiettivo": "Scrivere e collegare un MCP server funzionante.",
+    "skill_id": [
+      "tool-calling",
+      "mcp-protocollo"
+    ],
+    "track": "principale",
+    "stato": "attivo",
+    "moduli": [
+      "mod-mcp-01",
+      "mod-mcp-02",
+      "mod-mcp-03",
+      "mod-mcp-04",
+      "mod-mcp-05",
+      "mod-mcp-06",
+      "mod-mcp-07",
+      "mod-mcp-08",
+      "mod-mcp-09"
+    ],
+    "origine": "seed",
+    "creato_il": "2026-09-15",
+    "aggiornato_il": "2026-09-15"
+  },
+  {
+    "id": "corso-context-economy",
+    "titolo": "Context engineering e memoria",
+    "obiettivo": "Gestire il contesto di un agente senza sprecare token.",
+    "skill_id": [
+      "context-economy"
+    ],
+    "track": "principale",
+    "stato": "attivo",
+    "moduli": [
+      "mod-context-economy-01",
+      "mod-context-economy-02",
+      "mod-context-economy-03",
+      "mod-context-economy-04",
+      "mod-context-economy-05"
+    ],
+    "origine": "seed",
+    "creato_il": "2026-09-15",
+    "aggiornato_il": "2026-09-15"
+  },
+  {
+    "id": "corso-claude-skills",
+    "titolo": "Claude Skills",
+    "obiettivo": "Creare e installare skill per Claude.",
+    "skill_id": [
+      "claude-skills"
+    ],
+    "track": "principale",
+    "stato": "attivo",
+    "moduli": [
+      "mod-claude-skills-01",
+      "mod-claude-skills-02",
+      "mod-claude-skills-03",
+      "mod-claude-skills-04",
+      "mod-claude-skills-05"
+    ],
+    "origine": "seed",
+    "creato_il": "2026-09-15",
+    "aggiornato_il": "2026-09-15"
+  },
+  {
+    "id": "corso-second-brain",
+    "titolo": "Second brain con Obsidian e agenti",
+    "obiettivo": "Costruire un second brain personale collegato a un agente.",
+    "skill_id": [
+      "second-brain"
+    ],
+    "track": "principale",
+    "stato": "attivo",
+    "moduli": [
+      "mod-second-brain-01",
+      "mod-second-brain-02",
+      "mod-second-brain-03",
+      "mod-second-brain-04",
+      "mod-second-brain-05"
+    ],
+    "origine": "seed",
+    "creato_il": "2026-09-15",
+    "aggiornato_il": "2026-09-15"
+  },
+  {
+    "id": "corso-orchestrazione",
+    "titolo": "Orchestrazione multi-agent",
+    "obiettivo": "Far collaborare più agenti sullo stesso compito.",
+    "skill_id": [
+      "orchestrazione"
+    ],
+    "track": "principale",
+    "stato": "attivo",
+    "moduli": [
+      "mod-orchestrazione-01",
+      "mod-orchestrazione-02",
+      "mod-orchestrazione-03",
+      "mod-orchestrazione-04",
+      "mod-orchestrazione-05",
+      "mod-orchestrazione-06"
+    ],
+    "origine": "seed",
+    "creato_il": "2026-09-15",
+    "aggiornato_il": "2026-09-15"
+  },
+  {
+    "id": "corso-agenti-locali",
+    "titolo": "Agenti locali e self-hosted",
+    "obiettivo": "Far girare un agente in locale senza servizi cloud.",
+    "skill_id": [
+      "agenti-locali"
+    ],
+    "track": "principale",
+    "stato": "attivo",
+    "moduli": [
+      "mod-agenti-locali-01",
+      "mod-agenti-locali-02",
+      "mod-agenti-locali-03",
+      "mod-agenti-locali-04"
+    ],
+    "origine": "seed",
+    "creato_il": "2026-09-15",
+    "aggiornato_il": "2026-09-15"
+  },
+  {
+    "id": "corso-evals-sicurezza",
+    "titolo": "Evals, valutazione e sicurezza",
+    "obiettivo": "Misurare se un agente funziona bene e cosa può andare storto.",
+    "skill_id": [
+      "evals-sicurezza"
+    ],
+    "track": "principale",
+    "stato": "attivo",
+    "moduli": [
+      "mod-evals-sicurezza-01",
+      "mod-evals-sicurezza-02",
+      "mod-evals-sicurezza-03",
+      "mod-evals-sicurezza-04",
+      "mod-evals-sicurezza-05"
+    ],
+    "origine": "seed",
+    "creato_il": "2026-09-15",
+    "aggiornato_il": "2026-09-15"
+  },
+  {
+    "id": "corso-framework-agentici",
+    "titolo": "Framework agentici a confronto",
+    "obiettivo": "Orientarsi fra i framework più usati per costruire agenti.",
+    "skill_id": [
+      "framework-agentici"
+    ],
+    "track": "principale",
+    "stato": "attivo",
+    "moduli": [
+      "mod-framework-agentici-01",
+      "mod-framework-agentici-02",
+      "mod-framework-agentici-03",
+      "mod-framework-agentici-04",
+      "mod-framework-agentici-05"
+    ],
+    "origine": "seed",
+    "creato_il": "2026-09-15",
+    "aggiornato_il": "2026-09-15"
+  },
+  {
+    "id": "corso-integrazioni-personali",
+    "titolo": "Integrazioni con i dati personali",
+    "obiettivo": "Collegare Claude ai propri dati: Apple Health, Garmin, e altre fonti personali.",
+    "skill_id": [
+      "integrazioni-personali"
+    ],
+    "track": "principale",
+    "stato": "attivo",
+    "moduli": [
+      "mod-integrazioni-personali-01",
+      "mod-integrazioni-personali-02",
+      "mod-integrazioni-personali-03",
+      "mod-integrazioni-personali-04"
+    ],
+    "origine": "seed",
+    "creato_il": "2026-09-15",
+    "aggiornato_il": "2026-09-15"
+  }
+]

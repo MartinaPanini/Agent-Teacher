@@ -1,0 +1,259 @@
+[
+  {
+    "id": "fondamenta-llm",
+    "nome": "Come funzionano davvero gli LLM",
+    "area": "fondamenta",
+    "descrizione": "Cosa succede dentro un LLM: tokenizzazione, context window, next-token prediction, limiti reali.",
+    "livello": 0,
+    "livello_fonte": "calibrazione",
+    "livello_aggiornato_il": null,
+    "prerequisiti": [],
+    "moduli_completati": 0,
+    "moduli_totali": 6,
+    "interesse_osservato": 0,
+    "utilita_dichiarata": 0.5,
+    "peso_scoperta": 1,
+    "note": ""
+  },
+  {
+    "id": "claude-code",
+    "nome": "Claude Code",
+    "area": "strumenti",
+    "descrizione": "Uso quotidiano di Claude Code come strumento di sviluppo: comandi, file, workflow.",
+    "livello": 0,
+    "livello_fonte": "calibrazione",
+    "livello_aggiornato_il": null,
+    "prerequisiti": [
+      "fondamenta-llm"
+    ],
+    "moduli_completati": 0,
+    "moduli_totali": 7,
+    "interesse_osservato": 0,
+    "utilita_dichiarata": 0.5,
+    "peso_scoperta": 1,
+    "note": ""
+  },
+  {
+    "id": "tool-calling",
+    "nome": "Tool calling",
+    "area": "fondamenta",
+    "descrizione": "Come un modello chiama funzioni esterne e ne usa il risultato: la base di ogni agente.",
+    "livello": 0,
+    "livello_fonte": "calibrazione",
+    "livello_aggiornato_il": null,
+    "prerequisiti": [
+      "fondamenta-llm",
+      "claude-code"
+    ],
+    "moduli_completati": 0,
+    "moduli_totali": 4,
+    "interesse_osservato": 0,
+    "utilita_dichiarata": 0.7,
+    "peso_scoperta": 1,
+    "note": ""
+  },
+  {
+    "id": "mcp-protocollo",
+    "nome": "MCP — il protocollo",
+    "area": "protocolli",
+    "descrizione": "Cos'è il Model Context Protocol, come è fatto un server, come si collega a un client.",
+    "livello": 0,
+    "livello_fonte": "calibrazione",
+    "livello_aggiornato_il": null,
+    "prerequisiti": [
+      "fondamenta-llm",
+      "claude-code",
+      "tool-calling"
+    ],
+    "moduli_completati": 0,
+    "moduli_totali": 5,
+    "interesse_osservato": 0,
+    "utilita_dichiarata": 0.9,
+    "peso_scoperta": 1,
+    "note": ""
+  },
+  {
+    "id": "context-economy",
+    "nome": "Context engineering e memoria",
+    "area": "ingegneria-contesto",
+    "descrizione": "Come gestire il contesto di un agente: cosa tenere, cosa scartare, come risparmiare token.",
+    "livello": 0,
+    "livello_fonte": "calibrazione",
+    "livello_aggiornato_il": null,
+    "prerequisiti": [
+      "claude-code"
+    ],
+    "moduli_completati": 0,
+    "moduli_totali": 5,
+    "interesse_osservato": 0,
+    "utilita_dichiarata": 0.5,
+    "peso_scoperta": 1,
+    "note": ""
+  },
+  {
+    "id": "claude-skills",
+    "nome": "Claude Skills",
+    "area": "strumenti",
+    "descrizione": "Come creare e installare skill per Claude: pacchetti di istruzioni riutilizzabili.",
+    "livello": 0,
+    "livello_fonte": "calibrazione",
+    "livello_aggiornato_il": null,
+    "prerequisiti": [
+      "claude-code"
+    ],
+    "moduli_completati": 0,
+    "moduli_totali": 5,
+    "interesse_osservato": 0,
+    "utilita_dichiarata": 0.5,
+    "peso_scoperta": 1,
+    "note": ""
+  },
+  {
+    "id": "second-brain",
+    "nome": "Second brain con Obsidian e agenti",
+    "area": "applicazioni-personali",
+    "descrizione": "Collegare un agente a una base di note personale: ricerca, sintesi, organizzazione automatica.",
+    "livello": 0,
+    "livello_fonte": "calibrazione",
+    "livello_aggiornato_il": null,
+    "prerequisiti": [
+      "mcp-protocollo",
+      "context-economy"
+    ],
+    "moduli_completati": 0,
+    "moduli_totali": 5,
+    "interesse_osservato": 0,
+    "utilita_dichiarata": 0.9,
+    "peso_scoperta": 1,
+    "note": ""
+  },
+  {
+    "id": "orchestrazione",
+    "nome": "Orchestrazione multi-agent",
+    "area": "orchestrazione",
+    "descrizione": "Come far collaborare più agenti fra loro: ruoli, handoff, coordinamento.",
+    "livello": 0,
+    "livello_fonte": "calibrazione",
+    "livello_aggiornato_il": null,
+    "prerequisiti": [
+      "mcp-protocollo",
+      "claude-skills"
+    ],
+    "moduli_completati": 0,
+    "moduli_totali": 6,
+    "interesse_osservato": 0,
+    "utilita_dichiarata": 0.5,
+    "peso_scoperta": 1,
+    "note": ""
+  },
+  {
+    "id": "agenti-locali",
+    "nome": "Agenti locali e self-hosted",
+    "area": "runtime",
+    "descrizione": "Far girare agenti in locale senza servizi cloud: runtime, modelli, limiti pratici.",
+    "livello": 0,
+    "livello_fonte": "calibrazione",
+    "livello_aggiornato_il": null,
+    "prerequisiti": [
+      "mcp-protocollo"
+    ],
+    "moduli_completati": 0,
+    "moduli_totali": 4,
+    "interesse_osservato": 0,
+    "utilita_dichiarata": 0.2,
+    "peso_scoperta": 1,
+    "note": ""
+  },
+  {
+    "id": "evals-sicurezza",
+    "nome": "Evals, valutazione e sicurezza",
+    "area": "qualita-sicurezza",
+    "descrizione": "Come si misura se un agente funziona bene, e cosa può andare storto.",
+    "livello": 0,
+    "livello_fonte": "calibrazione",
+    "livello_aggiornato_il": null,
+    "prerequisiti": [
+      "mcp-protocollo",
+      "orchestrazione"
+    ],
+    "moduli_completati": 0,
+    "moduli_totali": 5,
+    "interesse_osservato": 0,
+    "utilita_dichiarata": 0.2,
+    "peso_scoperta": 1,
+    "note": ""
+  },
+  {
+    "id": "framework-agentici",
+    "nome": "Framework agentici a confronto",
+    "area": "framework",
+    "descrizione": "LangGraph, LlamaIndex, CrewAI, smolagents: cosa offrono e quando servono davvero.",
+    "livello": 0,
+    "livello_fonte": "calibrazione",
+    "livello_aggiornato_il": null,
+    "prerequisiti": [
+      "orchestrazione",
+      "evals-sicurezza"
+    ],
+    "moduli_completati": 0,
+    "moduli_totali": 5,
+    "interesse_osservato": 0,
+    "utilita_dichiarata": 0.2,
+    "peso_scoperta": 1,
+    "note": ""
+  },
+  {
+    "id": "integrazioni-personali",
+    "nome": "Integrazioni con i dati personali",
+    "area": "applicazioni-personali",
+    "descrizione": "Collegare un agente ai propri dati: Apple Health, Garmin, e altre fonti personali.",
+    "livello": 0,
+    "livello_fonte": "calibrazione",
+    "livello_aggiornato_il": null,
+    "prerequisiti": [
+      "mcp-protocollo"
+    ],
+    "moduli_completati": 0,
+    "moduli_totali": 4,
+    "interesse_osservato": 0,
+    "utilita_dichiarata": 0.9,
+    "peso_scoperta": 1,
+    "note": ""
+  },
+  {
+    "id": "rag",
+    "nome": "RAG — recupero aumentato",
+    "area": "tecniche",
+    "descrizione": "Come un agente recupera informazioni da una base di documenti prima di rispondere.",
+    "livello": 0,
+    "livello_fonte": "calibrazione",
+    "livello_aggiornato_il": null,
+    "prerequisiti": [
+      "fondamenta-llm"
+    ],
+    "moduli_completati": 0,
+    "moduli_totali": 0,
+    "interesse_osservato": 0,
+    "utilita_dichiarata": 0.2,
+    "peso_scoperta": 1,
+    "note": ""
+  },
+  {
+    "id": "provenienza-sicurezza",
+    "nome": "Provenienza e sicurezza dei contenuti",
+    "area": "qualita-sicurezza",
+    "descrizione": "Come si verifica l'origine e l'affidabilità di un contenuto generato o processato da un agente.",
+    "livello": 0,
+    "livello_fonte": "calibrazione",
+    "livello_aggiornato_il": null,
+    "prerequisiti": [
+      "fondamenta-llm"
+    ],
+    "moduli_completati": 0,
+    "moduli_totali": 0,
+    "interesse_osservato": 0,
+    "utilita_dichiarata": 0.2,
+    "peso_scoperta": 1,
+    "note": ""
+  }
+]

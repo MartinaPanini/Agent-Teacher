@@ -1,0 +1,20 @@
+{
+  "nome": "Martina",
+  "ritmo_atteso_settimana": 4.5,
+  "durata_sessione_min": 20,
+  "quota_scoperta": 0.2,
+  "buffer_minimo": 3,
+  "buffer_target": 7,
+  "soglia_ripasso_giorni": 10,
+  "obiettivi": [
+    "Scrivere un MCP server mio",
+    "Collegare Claude ai miei dati personali (Apple Health, Garmin)",
+    "Costruire un second brain con Obsidian e un agente"
+  ],
+  "calibrazione": {
+    "fatta_il": null,
+    "risposte": []
+  },
+  "ultima_sessione_il": null,
+  "sessioni_totali": 0
+}

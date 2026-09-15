@@ -1,0 +1,1611 @@
+[
+  {
+    "id": "mod-llm-01",
+    "course_id": "corso-llm-fondamenta",
+    "titolo": "Modulo 1 — Come funzionano davvero gli LLM (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "fondamenta-llm": 0.17
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-llm-02",
+    "course_id": "corso-llm-fondamenta",
+    "titolo": "Modulo 2 — Come funzionano davvero gli LLM (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "fondamenta-llm": 0.17
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-llm-03",
+    "course_id": "corso-llm-fondamenta",
+    "titolo": "Modulo 3 — Come funzionano davvero gli LLM (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "fondamenta-llm": 0.17
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-llm-04",
+    "course_id": "corso-llm-fondamenta",
+    "titolo": "Modulo 4 — Come funzionano davvero gli LLM (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "fondamenta-llm": 0.17
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-llm-05",
+    "course_id": "corso-llm-fondamenta",
+    "titolo": "Modulo 5 — Come funzionano davvero gli LLM (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "fondamenta-llm": 0.17
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-llm-06",
+    "course_id": "corso-llm-fondamenta",
+    "titolo": "Modulo 6 — Come funzionano davvero gli LLM (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "fondamenta-llm": 0.15
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-claude-code-01",
+    "course_id": "corso-claude-code",
+    "titolo": "Modulo 1 — Claude Code (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "claude-code": 0.14
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-claude-code-02",
+    "course_id": "corso-claude-code",
+    "titolo": "Modulo 2 — Claude Code (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "claude-code": 0.14
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-claude-code-03",
+    "course_id": "corso-claude-code",
+    "titolo": "Modulo 3 — Claude Code (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "claude-code": 0.14
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-claude-code-04",
+    "course_id": "corso-claude-code",
+    "titolo": "Modulo 4 — Claude Code (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "claude-code": 0.14
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-claude-code-05",
+    "course_id": "corso-claude-code",
+    "titolo": "Modulo 5 — Claude Code (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "claude-code": 0.14
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-claude-code-06",
+    "course_id": "corso-claude-code",
+    "titolo": "Modulo 6 — Claude Code (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "claude-code": 0.14
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-claude-code-07",
+    "course_id": "corso-claude-code",
+    "titolo": "Modulo 7 — Claude Code (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "claude-code": 0.16
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-mcp-01",
+    "course_id": "corso-mcp",
+    "titolo": "Modulo 1 — Tool calling (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm",
+      "claude-code"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "tool-calling": 0.25
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-mcp-02",
+    "course_id": "corso-mcp",
+    "titolo": "Modulo 2 — Tool calling (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm",
+      "claude-code"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "tool-calling": 0.25
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-mcp-03",
+    "course_id": "corso-mcp",
+    "titolo": "Modulo 3 — Tool calling (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm",
+      "claude-code"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "tool-calling": 0.25
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-mcp-04",
+    "course_id": "corso-mcp",
+    "titolo": "Modulo 4 — Tool calling (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm",
+      "claude-code"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "tool-calling": 0.25
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-mcp-05",
+    "course_id": "corso-mcp",
+    "titolo": "Modulo 5 — MCP — il protocollo (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm",
+      "claude-code",
+      "tool-calling"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "mcp-protocollo": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-mcp-06",
+    "course_id": "corso-mcp",
+    "titolo": "Modulo 6 — MCP — il protocollo (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm",
+      "claude-code",
+      "tool-calling"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "mcp-protocollo": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-mcp-07",
+    "course_id": "corso-mcp",
+    "titolo": "Modulo 7 — MCP — il protocollo (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm",
+      "claude-code",
+      "tool-calling"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "mcp-protocollo": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-mcp-08",
+    "course_id": "corso-mcp",
+    "titolo": "Modulo 8 — MCP — il protocollo (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm",
+      "claude-code",
+      "tool-calling"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "mcp-protocollo": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-mcp-09",
+    "course_id": "corso-mcp",
+    "titolo": "Modulo 9 — MCP — il protocollo (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "fondamenta-llm",
+      "claude-code",
+      "tool-calling"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "mcp-protocollo": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-context-economy-01",
+    "course_id": "corso-context-economy",
+    "titolo": "Modulo 1 — Context engineering e memoria (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "claude-code"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "context-economy": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-context-economy-02",
+    "course_id": "corso-context-economy",
+    "titolo": "Modulo 2 — Context engineering e memoria (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "claude-code"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "context-economy": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-context-economy-03",
+    "course_id": "corso-context-economy",
+    "titolo": "Modulo 3 — Context engineering e memoria (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "claude-code"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "context-economy": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-context-economy-04",
+    "course_id": "corso-context-economy",
+    "titolo": "Modulo 4 — Context engineering e memoria (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "claude-code"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "context-economy": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-context-economy-05",
+    "course_id": "corso-context-economy",
+    "titolo": "Modulo 5 — Context engineering e memoria (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "claude-code"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "context-economy": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-claude-skills-01",
+    "course_id": "corso-claude-skills",
+    "titolo": "Modulo 1 — Claude Skills (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "claude-code"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "claude-skills": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-claude-skills-02",
+    "course_id": "corso-claude-skills",
+    "titolo": "Modulo 2 — Claude Skills (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "claude-code"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "claude-skills": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-claude-skills-03",
+    "course_id": "corso-claude-skills",
+    "titolo": "Modulo 3 — Claude Skills (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "claude-code"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "claude-skills": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-claude-skills-04",
+    "course_id": "corso-claude-skills",
+    "titolo": "Modulo 4 — Claude Skills (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "claude-code"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "claude-skills": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-claude-skills-05",
+    "course_id": "corso-claude-skills",
+    "titolo": "Modulo 5 — Claude Skills (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "claude-code"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "claude-skills": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-second-brain-01",
+    "course_id": "corso-second-brain",
+    "titolo": "Modulo 1 — Second brain con Obsidian e agenti (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "context-economy"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "second-brain": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-second-brain-02",
+    "course_id": "corso-second-brain",
+    "titolo": "Modulo 2 — Second brain con Obsidian e agenti (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "context-economy"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "second-brain": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-second-brain-03",
+    "course_id": "corso-second-brain",
+    "titolo": "Modulo 3 — Second brain con Obsidian e agenti (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "context-economy"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "second-brain": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-second-brain-04",
+    "course_id": "corso-second-brain",
+    "titolo": "Modulo 4 — Second brain con Obsidian e agenti (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "context-economy"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "second-brain": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-second-brain-05",
+    "course_id": "corso-second-brain",
+    "titolo": "Modulo 5 — Second brain con Obsidian e agenti (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "context-economy"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "second-brain": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-orchestrazione-01",
+    "course_id": "corso-orchestrazione",
+    "titolo": "Modulo 1 — Orchestrazione multi-agent (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "claude-skills"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "orchestrazione": 0.17
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-orchestrazione-02",
+    "course_id": "corso-orchestrazione",
+    "titolo": "Modulo 2 — Orchestrazione multi-agent (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "claude-skills"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "orchestrazione": 0.17
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-orchestrazione-03",
+    "course_id": "corso-orchestrazione",
+    "titolo": "Modulo 3 — Orchestrazione multi-agent (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "claude-skills"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "orchestrazione": 0.17
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-orchestrazione-04",
+    "course_id": "corso-orchestrazione",
+    "titolo": "Modulo 4 — Orchestrazione multi-agent (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "claude-skills"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "orchestrazione": 0.17
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-orchestrazione-05",
+    "course_id": "corso-orchestrazione",
+    "titolo": "Modulo 5 — Orchestrazione multi-agent (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "claude-skills"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "orchestrazione": 0.17
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-orchestrazione-06",
+    "course_id": "corso-orchestrazione",
+    "titolo": "Modulo 6 — Orchestrazione multi-agent (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "claude-skills"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "orchestrazione": 0.15
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-agenti-locali-01",
+    "course_id": "corso-agenti-locali",
+    "titolo": "Modulo 1 — Agenti locali e self-hosted (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "agenti-locali": 0.25
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-agenti-locali-02",
+    "course_id": "corso-agenti-locali",
+    "titolo": "Modulo 2 — Agenti locali e self-hosted (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "agenti-locali": 0.25
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-agenti-locali-03",
+    "course_id": "corso-agenti-locali",
+    "titolo": "Modulo 3 — Agenti locali e self-hosted (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "agenti-locali": 0.25
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-agenti-locali-04",
+    "course_id": "corso-agenti-locali",
+    "titolo": "Modulo 4 — Agenti locali e self-hosted (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "agenti-locali": 0.25
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-evals-sicurezza-01",
+    "course_id": "corso-evals-sicurezza",
+    "titolo": "Modulo 1 — Evals, valutazione e sicurezza (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "orchestrazione"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "evals-sicurezza": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-evals-sicurezza-02",
+    "course_id": "corso-evals-sicurezza",
+    "titolo": "Modulo 2 — Evals, valutazione e sicurezza (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "orchestrazione"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "evals-sicurezza": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-evals-sicurezza-03",
+    "course_id": "corso-evals-sicurezza",
+    "titolo": "Modulo 3 — Evals, valutazione e sicurezza (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "orchestrazione"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "evals-sicurezza": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-evals-sicurezza-04",
+    "course_id": "corso-evals-sicurezza",
+    "titolo": "Modulo 4 — Evals, valutazione e sicurezza (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "orchestrazione"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "evals-sicurezza": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-evals-sicurezza-05",
+    "course_id": "corso-evals-sicurezza",
+    "titolo": "Modulo 5 — Evals, valutazione e sicurezza (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo",
+      "orchestrazione"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "evals-sicurezza": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-framework-agentici-01",
+    "course_id": "corso-framework-agentici",
+    "titolo": "Modulo 1 — Framework agentici a confronto (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "orchestrazione",
+      "evals-sicurezza"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "framework-agentici": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-framework-agentici-02",
+    "course_id": "corso-framework-agentici",
+    "titolo": "Modulo 2 — Framework agentici a confronto (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "orchestrazione",
+      "evals-sicurezza"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "framework-agentici": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-framework-agentici-03",
+    "course_id": "corso-framework-agentici",
+    "titolo": "Modulo 3 — Framework agentici a confronto (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "orchestrazione",
+      "evals-sicurezza"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "framework-agentici": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-framework-agentici-04",
+    "course_id": "corso-framework-agentici",
+    "titolo": "Modulo 4 — Framework agentici a confronto (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "orchestrazione",
+      "evals-sicurezza"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "framework-agentici": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-framework-agentici-05",
+    "course_id": "corso-framework-agentici",
+    "titolo": "Modulo 5 — Framework agentici a confronto (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "orchestrazione",
+      "evals-sicurezza"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "framework-agentici": 0.2
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-integrazioni-personali-01",
+    "course_id": "corso-integrazioni-personali",
+    "titolo": "Modulo 1 — Integrazioni con i dati personali (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "integrazioni-personali": 0.25
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-integrazioni-personali-02",
+    "course_id": "corso-integrazioni-personali",
+    "titolo": "Modulo 2 — Integrazioni con i dati personali (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "integrazioni-personali": 0.25
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-integrazioni-personali-03",
+    "course_id": "corso-integrazioni-personali",
+    "titolo": "Modulo 3 — Integrazioni con i dati personali (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "integrazioni-personali": 0.25
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  },
+  {
+    "id": "mod-integrazioni-personali-04",
+    "course_id": "corso-integrazioni-personali",
+    "titolo": "Modulo 4 — Integrazioni con i dati personali (in preparazione)",
+    "tipo": "teoria",
+    "durata_min": 15,
+    "voci_inbox": [],
+    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "prerequisiti_skill": [
+      "mcp-protocollo"
+    ],
+    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
+    "sintesi_md": "",
+    "fonte_primaria": null,
+    "fonti_extra": [],
+    "domande": [],
+    "peso_skill": {
+      "integrazioni-personali": 0.25
+    },
+    "stato": "bozza",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
+  }
+]
