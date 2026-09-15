@@ -99,9 +99,18 @@ describe("API Express (in-process)", () => {
       body: JSON.stringify({ risposte: [{ q: "domanda", risposta: "risposta" }] }),
     });
     expect(res1.status).toBe(200);
-    const body1 = (await res1.json()) as { modulo: { stato: string }; review: { stato: string } };
+    const body1 = (await res1.json()) as {
+      modulo: { stato: string };
+      review: { stato: string };
+      skill: { id: string; livello: number; livello_fonte: string; moduli_completati: number } | null;
+    };
     expect(body1.modulo.stato).toBe("completato");
     expect(body1.review.stato).toBe("in_attesa");
+    // criterio di accettazione: il livello della skill sale dopo il completamento
+    expect(body1.skill?.id).toBe("fondamenta-llm");
+    expect(body1.skill?.livello).toBeGreaterThan(0);
+    expect(body1.skill?.livello_fonte).toBe("moduli");
+    expect(body1.skill?.moduli_completati).toBe(1);
 
     const res2 = await fetch(`${baseUrl}/modules/mod-llm-01/completa`, {
       method: "PATCH",
