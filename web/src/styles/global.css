@@ -257,3 +257,203 @@ button.secondario {
   padding-left: 1.1rem;
   color: #55524d;
 }
+
+/* ------------------------- Navigazione ------------------------- */
+
+.tab-bar {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid #e2ddd4;
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  background: var(--color-bg);
+  z-index: 1;
+}
+
+.tab-bar button {
+  background: transparent;
+  color: #6b675f;
+  border: none;
+  padding: 0.5rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.tab-bar button.tab-attiva {
+  background: #1c1b1a;
+  color: #faf9f7;
+}
+
+/* ------------------------- Knowledge Map ------------------------- */
+
+.knowledge-map {
+  padding: 1.5rem 1.25rem 3rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.knowledge-map-intro {
+  color: #6b675f;
+  margin-bottom: 1.5rem;
+}
+
+.area-gruppo {
+  margin-bottom: 1.75rem;
+}
+
+.area-gruppo h2 {
+  text-transform: capitalize;
+  font-size: 1.05rem;
+  margin-bottom: 0.6rem;
+}
+
+.area-griglia {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.skill-card {
+  border: 1px solid #e2ddd4;
+  border-radius: 8px;
+  padding: 0.9rem;
+  border-left: 4px solid #c9c3b6;
+}
+
+.skill-card--livello-0 {
+  border-left-color: #c9c3b6;
+}
+.skill-card--livello-1 {
+  border-left-color: #d9a441;
+}
+.skill-card--livello-2 {
+  border-left-color: #c98a2b;
+}
+.skill-card--livello-3 {
+  border-left-color: #6a9955;
+}
+.skill-card--livello-4 {
+  border-left-color: #2e7d32;
+}
+
+.skill-card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.skill-card p {
+  margin: 0.2rem 0;
+  font-size: 0.85rem;
+  color: #55524d;
+}
+
+.skill-card-bloccata {
+  color: #b3261e;
+}
+
+.skill-card-completa {
+  color: #2e7d32;
+}
+
+/* ------------------------- Curriculum ------------------------- */
+
+.curriculum {
+  padding: 1.5rem 1.25rem 3rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.corso {
+  border: 1px solid #e2ddd4;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.corso-intestazione {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.corso-intestazione h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.corso-stato {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #6b675f;
+}
+
+.corso-stato--completato {
+  color: #2e7d32;
+}
+
+.corso-obiettivo {
+  color: #55524d;
+  margin: 0.35rem 0 0.75rem;
+}
+
+.corso-in-preparazione {
+  color: #8a8578;
+  font-style: italic;
+  margin-bottom: 0.75rem;
+}
+
+.corso-moduli {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.modulo-riga {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  border-top: 1px solid #eee8dd;
+  font-size: 0.9rem;
+}
+
+.corso-moduli li:first-child {
+  border-top: none;
+}
+
+.modulo-titolo {
+  flex: 1;
+}
+
+.modulo-riga--completato .modulo-titolo {
+  color: #6b675f;
+}
+
+.modulo-riga--completato .modulo-titolo::before {
+  content: "✓ ";
+  color: #2e7d32;
+}
+
+.modulo-badge {
+  font-size: 0.75rem;
+  color: #8a8578;
+  border: 1px solid #e2ddd4;
+  border-radius: 999px;
+  padding: 0.1rem 0.55rem;
+}
+
+.etichetta-nuovo {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  background: #d9a441;
+  color: #2b2200;
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+}
