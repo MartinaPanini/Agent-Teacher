@@ -278,3 +278,34 @@ export function calcolaSessione(input: PriorityInput, opts: { ora: Date; random:
 
   return { numero, items, qualifica_inbox, vuoto: false };
 }
+
+// ---------------------------------------------------------------------------
+// "Cosa ignorare oggi" (§3.2): metà del valore della Daily, non riempitivo.
+// ---------------------------------------------------------------------------
+
+export function cosaIgnorareOggi(input: PriorityInput): string[] {
+  const righe: string[] = [];
+
+  const monitora = input.inbox.filter((e) => e.verdetto === "monitora" && e.stato !== "archiviato");
+  if (monitora.length > 0) {
+    righe.push(
+      monitora.length === 1
+        ? `1 voce salvata è in "monitora": nessuna azione richiesta ora.`
+        : `${monitora.length} voci salvate sono in "monitora": nessuna azione richiesta ora.`,
+    );
+  }
+
+  const byId = skillsMap(input.skills);
+  const bloccate = input.skills.filter((s) => {
+    if (s.moduli_totali === 0 || s.livello > 0) return false;
+    return s.prerequisiti.some((pid) => (byId.get(pid)?.livello ?? 0) < 2);
+  });
+  for (const s of bloccate.slice(0, 3)) {
+    const mancanti = s.prerequisiti
+      .filter((pid) => (byId.get(pid)?.livello ?? 0) < 2)
+      .map((pid) => byId.get(pid)?.nome ?? pid);
+    righe.push(`"${s.nome}": non ancora alla tua portata, ti servono prima ${mancanti.join(", ")}.`);
+  }
+
+  return righe;
+}

@@ -9,6 +9,7 @@ import {
   RequestSchema,
   SessionsFileSchema,
   ReviewsFileSchema,
+  InboxFileSchema,
   type Skill,
   type Course,
   type Module,
@@ -441,6 +442,10 @@ function main(): void {
   writeJsonValidated(path.join(DATA_DIR, "profile.json"), profile, ProfileSchema);
   writeJsonValidated(path.join(DATA_DIR, "sessions.json"), [], SessionsFileSchema);
   writeJsonValidated(path.join(DATA_DIR, "reviews.json"), [], ReviewsFileSchema);
+  // Scheletro vuoto: il contenuto reale arriva da scripts/import-inbox.ts, non da qui.
+  if (!fs.existsSync(path.join(DATA_DIR, "inbox.json"))) {
+    writeJsonValidated(path.join(DATA_DIR, "inbox.json"), [], InboxFileSchema);
+  }
   writeJsonValidated(path.join(REQUESTS_DIR, `${generaModuliRequest.id}.json`), generaModuliRequest, RequestSchema);
 
   console.log(
