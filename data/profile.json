@@ -12,8 +12,41 @@
     "Costruire un second brain con Obsidian e un agente"
   ],
   "calibrazione": {
-    "fatta_il": null,
-    "risposte": []
+    "fatta_il": "2026-09-15",
+    "risposte": [
+      {
+        "domanda_id": "q-fondamenta-llm",
+        "risposta_id": "so-seguire"
+      },
+      {
+        "domanda_id": "q-tool-calling",
+        "risposta_id": "so-seguire"
+      },
+      {
+        "domanda_id": "q-mcp",
+        "risposta_id": "so-seguire"
+      },
+      {
+        "domanda_id": "q-claude-code",
+        "risposta_id": "so-seguire"
+      },
+      {
+        "domanda_id": "q-context-economy",
+        "risposta_id": "so-seguire"
+      },
+      {
+        "domanda_id": "q-claude-skills",
+        "risposta_id": "so-seguire"
+      },
+      {
+        "domanda_id": "q-orchestrazione",
+        "risposta_id": "so-seguire"
+      },
+      {
+        "domanda_id": "q-evals",
+        "risposta_id": "so-seguire"
+      }
+    ]
   },
   "ultima_sessione_il": null,
   "sessioni_totali": 0

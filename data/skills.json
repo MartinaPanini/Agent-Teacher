@@ -4,9 +4,9 @@
     "nome": "Come funzionano davvero gli LLM",
     "area": "fondamenta",
     "descrizione": "Cosa succede dentro un LLM: tokenizzazione, context window, next-token prediction, limiti reali.",
-    "livello": 0,
+    "livello": 2,
     "livello_fonte": "calibrazione",
-    "livello_aggiornato_il": null,
+    "livello_aggiornato_il": "2026-09-15",
     "prerequisiti": [],
     "moduli_completati": 0,
     "moduli_totali": 6,
@@ -20,9 +20,9 @@
     "nome": "Claude Code",
     "area": "strumenti",
     "descrizione": "Uso quotidiano di Claude Code come strumento di sviluppo: comandi, file, workflow.",
-    "livello": 0,
+    "livello": 2,
     "livello_fonte": "calibrazione",
-    "livello_aggiornato_il": null,
+    "livello_aggiornato_il": "2026-09-15",
     "prerequisiti": [
       "fondamenta-llm"
     ],
@@ -38,9 +38,9 @@
     "nome": "Tool calling",
     "area": "fondamenta",
     "descrizione": "Come un modello chiama funzioni esterne e ne usa il risultato: la base di ogni agente.",
-    "livello": 0,
+    "livello": 2,
     "livello_fonte": "calibrazione",
-    "livello_aggiornato_il": null,
+    "livello_aggiornato_il": "2026-09-15",
     "prerequisiti": [
       "fondamenta-llm",
       "claude-code"
@@ -57,9 +57,9 @@
     "nome": "MCP — il protocollo",
     "area": "protocolli",
     "descrizione": "Cos'è il Model Context Protocol, come è fatto un server, come si collega a un client.",
-    "livello": 0,
+    "livello": 2,
     "livello_fonte": "calibrazione",
-    "livello_aggiornato_il": null,
+    "livello_aggiornato_il": "2026-09-15",
     "prerequisiti": [
       "fondamenta-llm",
       "claude-code",
@@ -77,9 +77,9 @@
     "nome": "Context engineering e memoria",
     "area": "ingegneria-contesto",
     "descrizione": "Come gestire il contesto di un agente: cosa tenere, cosa scartare, come risparmiare token.",
-    "livello": 0,
+    "livello": 2,
     "livello_fonte": "calibrazione",
-    "livello_aggiornato_il": null,
+    "livello_aggiornato_il": "2026-09-15",
     "prerequisiti": [
       "claude-code"
     ],
@@ -95,9 +95,9 @@
     "nome": "Claude Skills",
     "area": "strumenti",
     "descrizione": "Come creare e installare skill per Claude: pacchetti di istruzioni riutilizzabili.",
-    "livello": 0,
+    "livello": 2,
     "livello_fonte": "calibrazione",
-    "livello_aggiornato_il": null,
+    "livello_aggiornato_il": "2026-09-15",
     "prerequisiti": [
       "claude-code"
     ],
@@ -132,9 +132,9 @@
     "nome": "Orchestrazione multi-agent",
     "area": "orchestrazione",
     "descrizione": "Come far collaborare più agenti fra loro: ruoli, handoff, coordinamento.",
-    "livello": 0,
+    "livello": 2,
     "livello_fonte": "calibrazione",
-    "livello_aggiornato_il": null,
+    "livello_aggiornato_il": "2026-09-15",
     "prerequisiti": [
       "mcp-protocollo",
       "claude-skills"
@@ -169,9 +169,9 @@
     "nome": "Evals, valutazione e sicurezza",
     "area": "qualita-sicurezza",
     "descrizione": "Come si misura se un agente funziona bene, e cosa può andare storto.",
-    "livello": 0,
+    "livello": 2,
     "livello_fonte": "calibrazione",
-    "livello_aggiornato_il": null,
+    "livello_aggiornato_il": "2026-09-15",
     "prerequisiti": [
       "mcp-protocollo",
       "orchestrazione"
