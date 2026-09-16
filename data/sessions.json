@@ -70,5 +70,25 @@
     "stato": "chiusa",
     "aperta_il": "2026-09-16T06:46:46.871Z",
     "chiusa_il": "2026-09-16T06:46:46.871Z"
+  },
+  {
+    "id": "ses-0005",
+    "numero": 5,
+    "data": "2026-09-16",
+    "durata_stimata_min": 20,
+    "items": [
+      {
+        "module_id": "mod-claude-code-01",
+        "ruolo": "principale"
+      },
+      {
+        "module_id": "mod-second-brain-01",
+        "ruolo": "scoperta"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "chiusa",
+    "aperta_il": "2026-09-16T07:25:55.104Z",
+    "chiusa_il": "2026-09-16T07:27:57.738Z"
   }
 ]

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   getSessionNext,
   apriSessione,
   chiudiSessione,
+  chiudiSessioneBeacon,
   completaModulo,
   scopertaFeedback,
   qualificaInbox,
@@ -41,6 +42,27 @@ export default function Daily() {
     return () => {
       cancellato = true;
     };
+  }, []);
+
+  // se la scheda viene chiusa a metà sessione, il server non riceve mai la
+  // POST di chiusura e la sessione resta "aperta" per sempre: la chiudiamo
+  // qui via sendBeacon, l'unico modo affidabile in questa fase della pagina.
+  const sessioneIdRef = useRef<string | null>(null);
+  const sessioneChiusaRef = useRef(false);
+  useEffect(() => {
+    sessioneIdRef.current = sessioneId;
+  }, [sessioneId]);
+  useEffect(() => {
+    sessioneChiusaRef.current = sessioneChiusa;
+  }, [sessioneChiusa]);
+  useEffect(() => {
+    function handlePageHide() {
+      if (sessioneIdRef.current && !sessioneChiusaRef.current) {
+        chiudiSessioneBeacon(sessioneIdRef.current);
+      }
+    }
+    window.addEventListener("pagehide", handlePageHide);
+    return () => window.removeEventListener("pagehide", handlePageHide);
   }, []);
 
   if (errore) {

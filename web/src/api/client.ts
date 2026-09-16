@@ -98,6 +98,12 @@ export function chiudiSessione(id: string): Promise<{ id: string }> {
   return request(`/session/${id}/chiudi`, { method: "POST" });
 }
 
+// per l'uscita a metà sessione (tab chiusa, navigazione via): fetch non è affidabile
+// in questa fase della pagina, sendBeacon sì.
+export function chiudiSessioneBeacon(id: string): void {
+  navigator.sendBeacon(`${BASE}/session/${id}/chiudi`);
+}
+
 export function postInbox(url: string, didascalia?: string): Promise<InboxEntry> {
   return request("/inbox", { method: "POST", body: JSON.stringify({ url, didascalia }) });
 }
