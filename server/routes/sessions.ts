@@ -57,6 +57,7 @@ sessionsRouter.get("/session/next", (_req, res) => {
     res.json({
       vuoto: false,
       numero: sessioneAperta.numero,
+      session_id: sessioneAperta.id,
       items: espandiItems(sessioneAperta.items, input, modulesById),
       qualifica_inbox: sessioneAperta.qualifica_inbox.map((id) => inboxById.get(id)).filter((e) => e !== undefined),
       cosa_ignorare_oggi: cosaIgnorareOggi(input),

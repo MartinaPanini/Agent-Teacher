@@ -252,6 +252,10 @@ button.secondario {
   color: #6b675f;
 }
 
+.sessione-chiusa button {
+  margin-top: 0.5rem;
+}
+
 .daily-ignora ul {
   margin: 0;
   padding-left: 1.1rem;

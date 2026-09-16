@@ -24,25 +24,47 @@ export default function Daily() {
   const [noteQualifica, setNoteQualifica] = useState<Record<string, string>>({});
   const [qualificaFatte, setQualificaFatte] = useState<Set<string>>(new Set());
 
-  useEffect(() => {
-    let cancellato = false;
-    getSessionNext()
-      .then(async (risposta) => {
-        if (cancellato) return;
-        setDati(risposta);
-        if (!risposta.vuoto) {
+  async function caricaSessione(isCancellato: () => boolean) {
+    try {
+      const risposta = await getSessionNext();
+      if (isCancellato()) return;
+      setDati(risposta);
+      if (!risposta.vuoto) {
+        if (risposta.session_id) {
+          // sessione già aperta (es. tab ricaricata a metà): la si riprende, non la si riapre.
+          if (!isCancellato()) setSessioneId(risposta.session_id);
+        } else {
           const sessione = await apriSessione(
             risposta.items.map((it) => ({ module_id: it.module_id, ruolo: it.ruolo })),
             risposta.qualifica_inbox.map((e) => e.id),
           );
-          if (!cancellato) setSessioneId(sessione.id);
+          if (!isCancellato()) setSessioneId(sessione.id);
         }
-      })
-      .catch((err) => setErrore(err instanceof Error ? err.message : "errore sconosciuto"));
+      }
+    } catch (err) {
+      if (!isCancellato()) setErrore(err instanceof Error ? err.message : "errore sconosciuto");
+    }
+  }
+
+  useEffect(() => {
+    let cancellato = false;
+    void caricaSessione(() => cancellato);
     return () => {
       cancellato = true;
     };
   }, []);
+
+  function handleProssimaLezione() {
+    setErrore(null);
+    setDati(null);
+    setSessioneId(null);
+    setFaseModulo("da_leggere");
+    setRisposteDomande([]);
+    setSessioneChiusa(false);
+    setNoteQualifica({});
+    setQualificaFatte(new Set());
+    void caricaSessione(() => false);
+  }
 
   // se la scheda viene chiusa a metà sessione, il server non riceve mai la
   // POST di chiusura e la sessione resta "aperta" per sempre: la chiudiamo
@@ -197,7 +219,12 @@ export default function Daily() {
         </ModuleCard>
       )}
 
-      {sessioneChiusa && <p className="sessione-chiusa">Sessione chiusa. A presto.</p>}
+      {sessioneChiusa && (
+        <div className="sessione-chiusa">
+          <p>Sessione chiusa. A presto.</p>
+          <button onClick={handleProssimaLezione}>Prossima lezione</button>
+        </div>
+      )}
 
       {dati.cosa_ignorare_oggi.length > 0 && (
         <section className="daily-ignora">

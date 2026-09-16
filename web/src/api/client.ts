@@ -72,6 +72,7 @@ export type SessionNextRisposta =
   | {
       vuoto: false;
       numero: number;
+      session_id?: string;
       items: SessionItemEspanso[];
       qualifica_inbox: InboxEntry[];
       cosa_ignorare_oggi: string[];
