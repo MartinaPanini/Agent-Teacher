@@ -30,29 +30,34 @@ export const DATA_DIR = process.env.AGENT_TEACHER_DATA_DIR
 export const REQUESTS_DIR = path.join(DATA_DIR, "requests");
 export const REQUESTS_DONE_DIR = path.join(REQUESTS_DIR, "done");
 
+// la routine Cowork scrive direttamente nei file data/*.json da un processo
+// esterno mentre il server è in esecuzione: senza lock, una lettura può capitare
+// nel mezzo di una scrittura e trovare JSON troncato. È una finestra di pochi
+// millisecondi, quindi un paio di retry immediati bastano a scavallarla.
+const LETTURA_MAX_TENTATIVI = 5;
+
 export function readJson<T>(fileName: string, schema: { parse: (d: unknown) => T }): T {
   const filePath = path.join(DATA_DIR, fileName);
-  let raw: string;
-  try {
-    raw = fs.readFileSync(filePath, "utf-8");
-  } catch (err) {
-    throw new Error(`data/${fileName}: impossibile leggere il file (${(err as Error).message})`);
-  }
-  let json: unknown;
-  try {
-    json = JSON.parse(raw);
-  } catch (err) {
-    throw new Error(`data/${fileName}: JSON non valido (${(err as Error).message})`);
-  }
-  try {
-    return schema.parse(json);
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      const dettagli = err.issues.map((i) => `campo "${i.path.join(".") || "(radice)"}": ${i.message}`).join("; ");
-      throw new Error(`data/${fileName}: ${dettagli}`);
+  let ultimoErrore: Error | undefined;
+  for (let tentativo = 1; tentativo <= LETTURA_MAX_TENTATIVI; tentativo++) {
+    let raw: string;
+    try {
+      raw = fs.readFileSync(filePath, "utf-8");
+    } catch (err) {
+      throw new Error(`data/${fileName}: impossibile leggere il file (${(err as Error).message})`);
     }
-    throw err;
+    try {
+      const json: unknown = JSON.parse(raw);
+      return schema.parse(json);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        const dettagli = err.issues.map((i) => `campo "${i.path.join(".") || "(radice)"}": ${i.message}`).join("; ");
+        throw new Error(`data/${fileName}: ${dettagli}`);
+      }
+      ultimoErrore = new Error(`data/${fileName}: JSON non valido (${(err as Error).message})`);
+    }
   }
+  throw ultimoErrore;
 }
 
 export function writeJson<T>(fileName: string, data: T, schema: { parse: (d: unknown) => T }): void {
