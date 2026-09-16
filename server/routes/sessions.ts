@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
+import type { Module } from "../../shared/schema.js";
 import {
   calcolaSessione,
   cosaIgnorareOggi,
@@ -32,8 +33,37 @@ function buildPriorityInput(): PriorityInput {
   };
 }
 
+function espandiItems(
+  items: Array<{ module_id: string; ruolo: SessionRuolo }>,
+  input: PriorityInput,
+  modulesById: Map<string, Module>,
+) {
+  return items.map((it) => {
+    const modulo = modulesById.get(it.module_id) ?? null;
+    const motivazione = it.ruolo === "principale" && modulo ? motivazionePrincipale(modulo, input) : null;
+    return { ...it, modulo, motivazione };
+  });
+}
+
 sessionsRouter.get("/session/next", (_req, res) => {
   const input = buildPriorityInput();
+  const modulesById = new Map(input.modules.map((m) => [m.id, m]));
+  const inboxById = new Map(input.inbox.map((e) => [e.id, e]));
+
+  // §1.2: esiste "la prossima sessione", non una sessione nuova per apertura del sito —
+  // se una sessione è già aperta, la si riprende invece di calcolarne un'altra.
+  const sessioneAperta = input.sessions.find((s) => s.stato === "aperta");
+  if (sessioneAperta) {
+    res.json({
+      vuoto: false,
+      numero: sessioneAperta.numero,
+      items: espandiItems(sessioneAperta.items, input, modulesById),
+      qualifica_inbox: sessioneAperta.qualifica_inbox.map((id) => inboxById.get(id)).filter((e) => e !== undefined),
+      cosa_ignorare_oggi: cosaIgnorareOggi(input),
+    });
+    return;
+  }
+
   const draft = calcolaSessione(input, { ora: new Date(), random: Math.random });
 
   if (draft.vuoto) {
@@ -45,18 +75,10 @@ sessionsRouter.get("/session/next", (_req, res) => {
     return;
   }
 
-  const modulesById = new Map(input.modules.map((m) => [m.id, m]));
-  const itemsEspansi = draft.items.map((it) => {
-    const modulo = modulesById.get(it.module_id) ?? null;
-    const motivazione = it.ruolo === "principale" && modulo ? motivazionePrincipale(modulo, input) : null;
-    return { ...it, modulo, motivazione };
-  });
-  const inboxById = new Map(input.inbox.map((e) => [e.id, e]));
-
   res.json({
     vuoto: false,
     numero: draft.numero,
-    items: itemsEspansi,
+    items: espandiItems(draft.items, input, modulesById),
     qualifica_inbox: draft.qualifica_inbox.map((id) => inboxById.get(id)).filter((e) => e !== undefined),
     cosa_ignorare_oggi: cosaIgnorareOggi(input),
   });
@@ -75,6 +97,13 @@ sessionsRouter.post("/session/apri", (req, res) => {
   const parsed = ApriBodySchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: parsed.error.message });
+    return;
+  }
+
+  const sessions = readSessions();
+  const sessioneAperta = sessions.find((s) => s.stato === "aperta");
+  if (sessioneAperta) {
+    res.status(409).json({ error: "una sessione è già aperta", session_id: sessioneAperta.id });
     return;
   }
 
@@ -114,7 +143,6 @@ sessionsRouter.post("/session/apri", (req, res) => {
     chiusa_il: null,
   };
 
-  const sessions = readSessions();
   writeSessions([...sessions, sessione]);
 
   const oggi = oraApertura.toISOString().slice(0, 10);
@@ -137,9 +165,21 @@ sessionsRouter.post("/session/:id/chiudi", (req, res) => {
     res.status(404).json({ error: `sessione "${req.params.id}" non trovata` });
     return;
   }
+  const sessioneOriginale = sessions[idx]!;
   const ora = new Date();
-  const sessioneChiusa = { ...sessions[idx]!, stato: "chiusa" as const, chiusa_il: ora.toISOString() };
+  const sessioneChiusa = { ...sessioneOriginale, stato: "chiusa" as const, chiusa_il: ora.toISOString() };
   writeSessions(sessions.map((s) => (s.id === sessioneChiusa.id ? sessioneChiusa : s)));
+
+  // chiudere senza finire non deve costare un modulo: chi è rimasto "servito" senza
+  // essere stato completato torna "pronto" e riappare fra i candidati.
+  const moduleIdsSessione = new Set(sessioneOriginale.items.map((it) => it.module_id));
+  const modules = readModules();
+  const moduliAggiornati = modules.map((m) =>
+    moduleIdsSessione.has(m.id) && m.stato === "servito" && m.completato_il === null
+      ? { ...m, stato: "pronto" as const, servito_il: null }
+      : m,
+  );
+  writeModules(moduliAggiornati);
 
   const profile = readProfile();
   writeProfile({ ...profile, ultima_sessione_il: ora.toISOString().slice(0, 10) });

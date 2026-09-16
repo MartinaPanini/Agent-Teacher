@@ -197,6 +197,61 @@ describe("API Express (in-process)", () => {
     expect(next2.vuoto).toBe(true);
   });
 
+  it("GET /session/next con una sessione aperta la riprende invece di calcolarne una nuova", async () => {
+    fs.writeFileSync(
+      path.join(tmpDir, "modules.json"),
+      JSON.stringify(schema.ModulesFileSchema.parse(modulesConUnoPronto), null, 2),
+    );
+    fs.writeFileSync(path.join(tmpDir, "sessions.json"), JSON.stringify([]));
+
+    const next1Res = await fetch(`${baseUrl}/session/next`);
+    const next1 = (await next1Res.json()) as { numero: number; items: Array<{ module_id: string; ruolo: string }> };
+
+    const apriRes = await fetch(`${baseUrl}/session/apri`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ items: next1.items, qualifica_inbox: [] }),
+    });
+    expect(apriRes.status).toBe(200);
+    const sessione = (await apriRes.json()) as { id: string };
+
+    const profiloPrima = (await (await fetch(`${baseUrl}/profile`)).json()) as { sessioni_totali: number };
+
+    const next2Res = await fetch(`${baseUrl}/session/next`);
+    const next2 = (await next2Res.json()) as { numero: number };
+    const next3Res = await fetch(`${baseUrl}/session/next`);
+    const next3 = (await next3Res.json()) as { numero: number };
+
+    expect(next2.numero).toBe(next1.numero);
+    expect(next3.numero).toBe(next1.numero);
+
+    const profiloDopo = (await (await fetch(`${baseUrl}/profile`)).json()) as { sessioni_totali: number };
+    expect(profiloDopo.sessioni_totali).toBe(profiloPrima.sessioni_totali); // nessuna nuova sessione creata
+
+    // POST /session/apri con una sessione già aperta rifiuta con 409
+    const apriDiNuovoRes = await fetch(`${baseUrl}/session/apri`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ items: next1.items, qualifica_inbox: [] }),
+    });
+    expect(apriDiNuovoRes.status).toBe(409);
+
+    // chiudere senza completare libera il modulo principale: torna "pronto" ed è di nuovo candidato
+    const chiudiRes = await fetch(`${baseUrl}/session/${sessione.id}/chiudi`, { method: "POST" });
+    expect(chiudiRes.status).toBe(200);
+
+    const principale = next1.items.find((i) => i.ruolo === "principale")!;
+    const moduloRes = await fetch(`${baseUrl}/modules/${principale.module_id}`);
+    const moduloPrincipale = (await moduloRes.json()) as { stato: string; servito_il: string | null };
+    expect(moduloPrincipale.stato).toBe("pronto");
+    expect(moduloPrincipale.servito_il).toBeNull();
+
+    const next4Res = await fetch(`${baseUrl}/session/next`);
+    const next4 = (await next4Res.json()) as { vuoto: boolean; items?: Array<{ module_id: string; ruolo: string }> };
+    expect(next4.vuoto).toBe(false);
+    expect(next4.items?.some((i) => i.module_id === principale.module_id)).toBe(true);
+  });
+
   it("POST /api/inbox scrive in coda senza errori e senza fare rete", async () => {
     const res = await fetch(`${baseUrl}/inbox`, {
       method: "POST",
