@@ -20,13 +20,13 @@
     "nome": "Claude Code",
     "area": "strumenti",
     "descrizione": "Uso quotidiano di Claude Code come strumento di sviluppo: comandi, file, workflow.",
-    "livello": 1,
+    "livello": 2,
     "livello_fonte": "moduli",
     "livello_aggiornato_il": "2026-09-16",
     "prerequisiti": [
       "fondamenta-llm"
     ],
-    "moduli_completati": 2,
+    "moduli_completati": 4,
     "moduli_totali": 7,
     "interesse_osservato": 1,
     "utilita_dichiarata": 0.5,

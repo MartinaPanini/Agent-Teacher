@@ -230,5 +230,69 @@
     "stato": "chiusa",
     "aperta_il": "2026-09-16T13:01:22.125Z",
     "chiusa_il": "2026-09-16T13:01:32.185Z"
+  },
+  {
+    "id": "ses-0014",
+    "numero": 14,
+    "data": "2026-09-16",
+    "durata_stimata_min": 15,
+    "items": [
+      {
+        "module_id": "mod-claude-code-03",
+        "ruolo": "principale"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "chiusa",
+    "aperta_il": "2026-09-16T13:51:34.738Z",
+    "chiusa_il": "2026-09-16T14:27:08.299Z"
+  },
+  {
+    "id": "ses-0015",
+    "numero": 15,
+    "data": "2026-09-16",
+    "durata_stimata_min": 15,
+    "items": [
+      {
+        "module_id": "mod-claude-code-04",
+        "ruolo": "principale"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "chiusa",
+    "aperta_il": "2026-09-16T14:27:40.848Z",
+    "chiusa_il": "2026-09-16T14:48:38.731Z"
+  },
+  {
+    "id": "ses-0016",
+    "numero": 16,
+    "data": "2026-09-16",
+    "durata_stimata_min": 15,
+    "items": [
+      {
+        "module_id": "mod-claude-code-05",
+        "ruolo": "principale"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "chiusa",
+    "aperta_il": "2026-09-16T14:48:41.896Z",
+    "chiusa_il": "2026-09-16T14:49:03.250Z"
+  },
+  {
+    "id": "ses-0017",
+    "numero": 17,
+    "data": "2026-09-16",
+    "durata_stimata_min": 15,
+    "items": [
+      {
+        "module_id": "mod-claude-code-05",
+        "ruolo": "principale"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "chiusa",
+    "aperta_il": "2026-09-16T15:04:08.231Z",
+    "chiusa_il": "2026-09-16T15:19:15.424Z"
   }
 ]

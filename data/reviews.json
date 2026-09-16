@@ -165,5 +165,51 @@
     "nota_libera": "",
     "stato": "in_attesa",
     "valutazione": null
+  },
+  {
+    "id": "rev-0006",
+    "module_id": "mod-claude-code-03",
+    "session_id": "ses-0014",
+    "data": "2026-09-16",
+    "risposte": [
+      {
+        "q": "In una sessione approvi 'sì, e non chiedermelo più' due volte: una su `npm test` e una su una modifica a `src/api.ts`. Il giorno dopo riapri Claude Code nella stessa repository. Cosa ti richiede e cosa no?",
+        "risposta": "Non mi richiede più di eseguire npm test e src/api.ts; il resto me lo chiede se previsto dalle /permissions"
+      },
+      {
+        "q": "Hai una regola `allow` su `Bash(git *)` e una regola `deny` su `Bash(git push *)`. Claude Code prova a fare `git push origin main`. Cosa succede, e perché non conta che la prima sia più generica?",
+        "risposta": "deny batte allow, quindi lui nega"
+      },
+      {
+        "q": "Stai per far girare un agente senza stare davanti allo schermo. Fra `acceptEdits`, `auto` e `bypassPermissions`, quale scegli e cosa stai accettando in ciascun caso?",
+        "risposta": "scelgo bypassPermissions così non mi chiede niente. "
+      }
+    ],
+    "nota_libera": "",
+    "stato": "in_attesa",
+    "valutazione": null
+  },
+  {
+    "id": "rev-0007",
+    "module_id": "mod-claude-code-04",
+    "session_id": "ses-0015",
+    "data": "2026-09-16",
+    "risposte": [
+      {
+        "q": "Hai tre cose da far sapere a Claude: il comando per far girare i test, una procedura in sei passi per rilasciare, e una convenzione che vale solo per i file in `src/api/`. Dove metti ciascuna e perché?",
+        "risposta": "I primi due li metto in CLAUDE.md; il terzo lo metto in file CLAUDE.md all'interno del folder src/api/"
+      },
+      {
+        "q": "Il tuo CLAUDE.md è arrivato a 600 righe. Lo spezzi in quattro file e li richiami con `@import`. Hai risolto il problema?",
+        "risposta": "no perchè comunque claude espande i file e li va a leggere"
+      },
+      {
+        "q": "Metti in CLAUDE.md la riga 'esegui sempre i test prima di ogni commit'. Due volte su dieci Claude committa lo stesso senza eseguirli. È un bug?",
+        "risposta": "forse il file è nel folder sbagliato"
+      }
+    ],
+    "nota_libera": "",
+    "stato": "in_attesa",
+    "valutazione": null
   }
 ]
