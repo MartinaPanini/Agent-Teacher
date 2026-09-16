@@ -28,7 +28,7 @@
     ],
     "moduli_completati": 0,
     "moduli_totali": 7,
-    "interesse_osservato": 1,
+    "interesse_osservato": 1.0,
     "utilita_dichiarata": 0.5,
     "peso_scoperta": 1,
     "note": ""
@@ -47,7 +47,7 @@
     ],
     "moduli_completati": 0,
     "moduli_totali": 4,
-    "interesse_osservato": 0,
+    "interesse_osservato": 0.0,
     "utilita_dichiarata": 0.7,
     "peso_scoperta": 1,
     "note": ""
@@ -67,7 +67,7 @@
     ],
     "moduli_completati": 0,
     "moduli_totali": 5,
-    "interesse_osservato": 0,
+    "interesse_osservato": 0.0,
     "utilita_dichiarata": 0.9,
     "peso_scoperta": 1,
     "note": ""
@@ -122,7 +122,7 @@
     ],
     "moduli_completati": 0,
     "moduli_totali": 5,
-    "interesse_osservato": 0.13,
+    "interesse_osservato": 0.12,
     "utilita_dichiarata": 0.9,
     "peso_scoperta": 1,
     "note": ""
@@ -178,7 +178,7 @@
     ],
     "moduli_completati": 0,
     "moduli_totali": 5,
-    "interesse_osservato": 0,
+    "interesse_osservato": 0.0,
     "utilita_dichiarata": 0.2,
     "peso_scoperta": 1,
     "note": ""
@@ -197,7 +197,7 @@
     ],
     "moduli_completati": 0,
     "moduli_totali": 5,
-    "interesse_osservato": 0,
+    "interesse_osservato": 0.0,
     "utilita_dichiarata": 0.2,
     "peso_scoperta": 1,
     "note": ""
@@ -233,7 +233,7 @@
     ],
     "moduli_completati": 0,
     "moduli_totali": 0,
-    "interesse_osservato": 0,
+    "interesse_osservato": 0.0,
     "utilita_dichiarata": 0.2,
     "peso_scoperta": 1,
     "note": ""

@@ -179,7 +179,7 @@
     "skill_toccate": [
       "claude-code"
     ],
-    "modulo_generato": null,
+    "modulo_generato": "mod-claude-code-01",
     "nota_utente": ""
   },
   {
@@ -227,7 +227,7 @@
     "skill_toccate": [
       "claude-code"
     ],
-    "modulo_generato": null,
+    "modulo_generato": "mod-claude-code-01",
     "nota_utente": ""
   },
   {
@@ -327,7 +327,7 @@
     "skill_toccate": [
       "fondamenta-llm"
     ],
-    "modulo_generato": null,
+    "modulo_generato": "mod-llm-01",
     "nota_utente": ""
   },
   {
@@ -354,7 +354,7 @@
       "claude-code",
       "context-economy"
     ],
-    "modulo_generato": null,
+    "modulo_generato": "mod-context-economy-01",
     "nota_utente": ""
   },
   {
@@ -403,7 +403,7 @@
       "claude-code",
       "context-economy"
     ],
-    "modulo_generato": null,
+    "modulo_generato": "mod-context-economy-01",
     "nota_utente": ""
   },
   {
@@ -430,7 +430,7 @@
       "claude-code",
       "second-brain"
     ],
-    "modulo_generato": null,
+    "modulo_generato": "mod-second-brain-01",
     "nota_utente": ""
   },
   {
@@ -507,7 +507,7 @@
       "claude-skills",
       "orchestrazione"
     ],
-    "modulo_generato": null,
+    "modulo_generato": "mod-orchestrazione-01",
     "nota_utente": ""
   },
   {
@@ -556,7 +556,7 @@
       "second-brain",
       "claude-code"
     ],
-    "modulo_generato": null,
+    "modulo_generato": "mod-second-brain-01",
     "nota_utente": ""
   },
   {
@@ -723,7 +723,7 @@
     "skill_toccate": [
       "claude-skills"
     ],
-    "modulo_generato": null,
+    "modulo_generato": "mod-claude-skills-01",
     "nota_utente": ""
   },
   {
@@ -855,7 +855,7 @@
     "skill_toccate": [
       "integrazioni-personali"
     ],
-    "modulo_generato": null,
+    "modulo_generato": "mod-integrazioni-personali-01",
     "nota_utente": ""
   },
   {
@@ -975,7 +975,7 @@
     "skill_toccate": [
       "integrazioni-personali"
     ],
-    "modulo_generato": null,
+    "modulo_generato": "mod-integrazioni-personali-01",
     "nota_utente": ""
   },
   {
@@ -1168,7 +1168,7 @@
     "skill_toccate": [
       "claude-skills"
     ],
-    "modulo_generato": null,
+    "modulo_generato": "mod-claude-skills-01",
     "nota_utente": ""
   },
   {
@@ -1216,7 +1216,7 @@
       "claude-code",
       "orchestrazione"
     ],
-    "modulo_generato": null,
+    "modulo_generato": "mod-orchestrazione-01",
     "nota_utente": ""
   },
   {
@@ -1241,7 +1241,7 @@
     "skill_toccate": [
       "claude-code"
     ],
-    "modulo_generato": null,
+    "modulo_generato": "mod-claude-code-01",
     "nota_utente": ""
   },
   {

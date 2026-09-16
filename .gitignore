@@ -27,3 +27,6 @@ tmp/
 # Solo se un giorno rendi la repo PUBBLICA, decommenta:
 # data/
 # !data/seed/
+
+# Docs
+docs/*

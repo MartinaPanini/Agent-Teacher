@@ -18,7 +18,7 @@
     ],
     "origine": "seed",
     "creato_il": "2026-09-15",
-    "aggiornato_il": "2026-09-15"
+    "aggiornato_il": "2026-09-16"
   },
   {
     "id": "corso-claude-code",
@@ -40,7 +40,7 @@
     ],
     "origine": "seed",
     "creato_il": "2026-09-15",
-    "aggiornato_il": "2026-09-15"
+    "aggiornato_il": "2026-09-16"
   },
   {
     "id": "corso-mcp",
@@ -65,7 +65,7 @@
     ],
     "origine": "seed",
     "creato_il": "2026-09-15",
-    "aggiornato_il": "2026-09-15"
+    "aggiornato_il": "2026-09-16"
   },
   {
     "id": "corso-context-economy",
@@ -85,7 +85,7 @@
     ],
     "origine": "seed",
     "creato_il": "2026-09-15",
-    "aggiornato_il": "2026-09-15"
+    "aggiornato_il": "2026-09-16"
   },
   {
     "id": "corso-claude-skills",
@@ -105,7 +105,7 @@
     ],
     "origine": "seed",
     "creato_il": "2026-09-15",
-    "aggiornato_il": "2026-09-15"
+    "aggiornato_il": "2026-09-16"
   },
   {
     "id": "corso-second-brain",
@@ -125,7 +125,7 @@
     ],
     "origine": "seed",
     "creato_il": "2026-09-15",
-    "aggiornato_il": "2026-09-15"
+    "aggiornato_il": "2026-09-16"
   },
   {
     "id": "corso-orchestrazione",
@@ -146,7 +146,7 @@
     ],
     "origine": "seed",
     "creato_il": "2026-09-15",
-    "aggiornato_il": "2026-09-15"
+    "aggiornato_il": "2026-09-16"
   },
   {
     "id": "corso-agenti-locali",
@@ -224,6 +224,6 @@
     ],
     "origine": "seed",
     "creato_il": "2026-09-15",
-    "aggiornato_il": "2026-09-15"
+    "aggiornato_il": "2026-09-16"
   }
 ]

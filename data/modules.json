@@ -2,22 +2,42 @@
   {
     "id": "mod-llm-01",
     "course_id": "corso-llm-fondamenta",
-    "titolo": "Modulo 1 — Come funzionano davvero gli LLM (in preparazione)",
+    "titolo": "Token e context window: cosa vede davvero il modello",
     "tipo": "teoria",
     "durata_min": 15,
-    "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "voci_inbox": [
+      "DYCQLkptDla"
+    ],
+    "obiettivo": "Alla fine sai elencare cosa occupa la finestra di contesto in una conversazione con tool, e sai spiegare perché una finestra più grande non dà automaticamente risposte migliori.",
     "prerequisiti_skill": [],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
+    "prerequisiti_testo": "Nessun prerequisito: è il primo modulo del percorso. Ti servono solo due parole, che trovi definite qui.\n\n**Token**: l'unità in cui il modello legge e scrive. Non è una parola e non è un carattere: è un pezzo di testo ricorrente, spesso una parola breve o un frammento di parola. \"Trento\" può essere un token solo, \"bioprinting\" può valerne tre. Come ordine di grandezza per l'italiano, mille token sono circa settecento parole.\n\n**Turno**: uno scambio, cioè il tuo messaggio più la risposta del modello. Una conversazione è una sequenza di turni.",
+    "sintesi_md": "La documentazione di Anthropic definisce la context window come *\"tutto il testo che un modello linguistico può referenziare quando genera una risposta, inclusa la risposta stessa\"*. È la memoria di lavoro del modello, e non ha niente a che vedere con i dati su cui è stato addestrato: quelli sono nei pesi, questa è la scrivania.\n\n## Cosa ci sta dentro\n\nTutto quello che mandi nella richiesta occupa la finestra:\n\n- il system prompt,\n- **ogni** messaggio della conversazione, compresi i risultati dei tool, le immagini e i documenti,\n- le **definizioni** dei tool (nome, descrizione, schema dei parametri: ci sono anche se non li usi),\n- l'output che Claude genera, ragionamento esteso incluso.\n\nE si accumula. A ogni turno, l'input è tutto ciò che c'era prima più il tuo messaggio nuovo; l'output di questo turno diventa input del prossimo. Non c'è niente che \"resta fuori\" e viene ricordato altrove: se è nella conversazione, viene rispedito ogni volta.\n\nQuesto spiega il comportamento che vedi con un agente che lavora sui file: ogni file letto entra e ci resta. Dieci letture esplorative costano per tutta la sessione, non solo nel turno in cui le fa.\n\n## Grande non vuol dire meglio\n\nLa frase che vale il modulo intero: *\"A larger context window allows the model to handle more complex and lengthy prompts, but more context isn't automatically better. As token count grows, accuracy and recall degrade, a phenomenon known as context rot.\"*\n\nCioè: man mano che i token crescono, precisione e capacità di ritrovare le cose peggiorano. Riempire la finestra fino all'orlo non è sfruttarla, è degradarla. È il motivo per cui \"context engineering\" è un mestiere e non una sigla: la domanda utile non è *quanto ci sta*, ma *cosa merita di starci*.\n\n## Numeri, con la data addosso\n\nVerificati sulla documentazione ufficiale il 16/09/2026: i modelli Claude più recenti (Opus 5, Sonnet 5, Claude 5.1 e affini) dichiarano una finestra di **1 milione di token** con un massimo di **128k token in output**; Claude Sonnet 4.5 e altri modelli precedenti si fermano a **200k**. Ci sono limiti anche sui contenuti non testuali: 600 immagini o pagine PDF nella finestra da 1M, 100 in quella da 200k. Sono numeri che invecchiano: la lezione che resta è che il tetto dipende dal modello e che va controllato, non ricordato.\n\n## Due dettagli che ti serviranno\n\n**Il ragionamento esteso conta.** I token di thinking rientrano in `max_tokens` e occupano la finestra. Sui modelli recenti i blocchi di thinking dei turni precedenti restano e contano come input; sui modelli più vecchi venivano rimossi in automatico.\n\n**Overflow.** Se input più `max_tokens` supera la finestra, sui modelli recenti la generazione si ferma con `stop_reason: \"model_context_window_exceeded\"` invece di troncare in silenzio. Per stimare prima di spedire esiste una API di conteggio token: la stima a occhio sbaglia sistematicamente sul codice e sui JSON.",
+    "fonte_primaria": {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/context-windows",
+      "titolo": "Context windows — documentazione Claude Platform",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
     "fonti_extra": [],
-    "domande": [],
+    "domande": [
+      {
+        "q": "Una sessione con un agente che legge file rallenta e peggiora dopo un’ora, senza che tu abbia cambiato modello. Elenca cosa sta occupando la finestra e di’ quale rimedio ha senso e quale no.",
+        "rubrica": "2 = elenca almeno system prompt, tutti i turni precedenti, i risultati dei tool e i file letti, le definizioni dei tool, l'output del modello; collega il peggioramento al context rot (precisione e recall calano con il numero di token) e non solo al costo; rimedi sensati: ripartire pulito, dare puntatori precisi invece di far esplorare, tenere fuori i file non necessari. Rimedio che non risolve: chiedere al modello di \"ricordare meglio\" o solo passare a una finestra più grande. 1 = elenca due o tre voci, o propone rimedi senza spiegare perché funzionano. 0 = dice che il modello \"si stanca\" o che basta una finestra più grande."
+      },
+      {
+        "q": "Un post dice: \"con la finestra da 1 milione di token puoi caricare tutto il codebase e smettere di preoccuparti del contesto\". Dove sbaglia?",
+        "rubrica": "2 = smonta la conclusione citando il context rot (precisione e recall degradano al crescere dei token) e distingue la capienza dalla qualità del recupero; può aggiungere il costo e il fatto che il tetto dipende dal modello. 1 = dice solo \"costa troppo\" o \"non ci sta tutto\" senza toccare il degrado. 0 = accetta la conclusione, magari aggiungendo che basta il modello giusto."
+      },
+      {
+        "q": "Nella stessa conversazione fai due domande identiche, a dieci turni di distanza. Il conto dei token di input è lo stesso? Perché?",
+        "rubrica": "2 = no: l'input del secondo turno contiene tutti i turni precedenti più il messaggio, quindi è molto più grande; il modello non \"ricorda\" fra le richieste, tutta la storia viene rispedita ogni volta. 1 = risponde no ma giustifica con la memoria del modello invece che con il rinvio integrale del contesto. 0 = risponde sì."
+      }
+    ],
     "peso_skill": {
       "fondamenta-llm": 0.17
     },
-    "stato": "bozza",
-    "origine": "seed",
+    "stato": "pronto",
+    "origine": "routine-cowork",
     "nuovo": false,
     "creato_il": "2026-09-15",
     "servito_il": null,
@@ -146,24 +166,46 @@
   {
     "id": "mod-claude-code-01",
     "course_id": "corso-claude-code",
-    "titolo": "Modulo 1 — Claude Code (in preparazione)",
+    "titolo": "Che cos’è Claude Code e cosa succede davvero quando gli chiedi qualcosa",
     "tipo": "teoria",
     "durata_min": 15,
-    "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "voci_inbox": [
+      "DWqlXKjDJHm",
+      "Dc6FDlUISic",
+      "DV6eCZyiKqD"
+    ],
+    "obiettivo": "Alla fine sai raccontare passo per passo cosa succede fra il tuo messaggio e una modifica scritta sul disco, e sai dire perché un file letto costa.",
     "prerequisiti_skill": [
       "fondamenta-llm"
     ],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
+    "prerequisiti_testo": "Servono due concetti, scritti qui per esteso: non devi aprire altro.\n\n**Cos'è un LLM, operativamente.** Un modello che riceve un testo — istruzioni di sistema, messaggi precedenti, file che gli hai passato — e produce il testo successivo, un token alla volta. Non ha accesso al tuo computer e non ricorda niente da una richiesta all'altra: a ogni turno gli viene rispedito tutto il contesto da capo.\n\n**Cos'è un tool call.** Siccome il modello non può agire da solo, il programma che lo ospita gli dichiara una lista di funzioni disponibili (leggi un file, esegui un comando, cerca nel progetto) con i loro parametri. Il modello, invece di rispondere a te, emette una richiesta strutturata — per esempio \"leggi src/auth.py\". Il programma la esegue davvero sulla tua macchina e gli restituisce il risultato come altro testo. Il modello legge quel risultato e decide la mossa dopo. Un tool call non è codice eseguito dal modello: è una richiesta che qualcun altro esegue per lui, e il risultato torna indietro come testo che occupa contesto.",
+    "sintesi_md": "La documentazione ufficiale lo definisce così: *\"an agentic coding tool that reads your codebase, edits files, runs commands, and integrates with your development tools\"*. Tre verbi: legge, modifica, esegue. Non è un autocomplete nell'editor e non è una chat che ti restituisce uno snippet da incollare: è un processo che ha accesso ai tuoi file e alla tua shell, e che agisce.\n\n## Il ciclo\n\nTu scrivi un compito in linguaggio naturale. Il modello non sa cosa c'è nel tuo progetto: lo chiede. Ogni lettura di file, ogni ricerca, ogni comando è un tool call. Il programma esegue, restituisce il risultato come testo, il modello legge e decide la mossa successiva. Il giro si ripete finché il compito è chiuso.\n\nDa questo unico meccanismo discende quasi tutto il resto:\n\n- **Costa.** Ogni file letto entra nel contesto e ci resta per i turni successivi. Un progetto grande esplorato a tentoni è lento e caro.\n- **Sbaglia in modo riconoscibile.** Se il modello non ha letto il file giusto, ragiona su ipotesi. Il rimedio non è insistere: è dargli il puntatore preciso.\n- **Le istruzioni scritte valgono più di quelle dette.** Un file `CLAUDE.md` nella radice del progetto viene letto all'inizio di ogni sessione: standard di codice, scelte di architettura, comandi di test. Ripetere la stessa regola in chat ogni volta è la stessa informazione pagata ogni volta.\n\n## Le superfici\n\nLo stesso motore gira in posti diversi: terminale (`claude` dentro una cartella), estensione VS Code e JetBrains, app desktop, web e mobile. La documentazione è esplicita: *\"Each surface connects to the same underlying Claude Code engine, so your repo's CLAUDE.md files, settings, and MCP servers work across all of them\"*. Cambia l'interfaccia e cambia **dove gira il processo** — terminale e IDE lavorano sui tuoi file locali, il web lavora su una copia del repo in un container remoto — non il comportamento del modello.\n\n## Cosa fa oltre a scrivere codice\n\nGit è un caso d'uso di prima classe: stage, messaggi di commit, branch, pull request. Ed è componibile in stile Unix, quindi entra negli script e nella CI:\n\n```bash\ntail -200 app.log | claude -p \"segnalami eventuali anomalie\"\ngit diff main --name-only | claude -p \"rivedi questi file per problemi di sicurezza\"\n```\n\nTre punti di personalizzazione, tutti **file versionabili nel repo**, non impostazioni in un menu: `CLAUDE.md` (istruzioni persistenti), le *skill* (procedure ripetibili, caricate solo quando servono), gli *hook* (comandi shell prima o dopo un'azione). Li studi nei moduli successivi.\n\n## Il limite da tenere presente\n\nClaude Code chiede il permesso prima di modificare file o eseguire comandi, e la domanda è scomoda apposta: un agente che esegue comandi sulla tua macchina è utile quanto un collega con accesso al tuo terminale, e rischioso allo stesso modo.\n\nConviene su compiti noiosi e verificabili — test da scrivere, lint da sistemare, refactor meccanici, un bug con un sintomo chiaro, l'esplorazione di un codebase che non conosci. Conviene molto meno quando non sai ancora dire cosa vuoi: il ciclo si ripete comunque, solo nella direzione sbagliata.",
+    "fonte_primaria": {
+      "url": "https://code.claude.com/docs/en/overview",
+      "titolo": "Claude Code — Overview (documentazione ufficiale Anthropic)",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
     "fonti_extra": [],
-    "domande": [],
+    "domande": [
+      {
+        "q": "Claude Code deve correggere una funzione in un file che in questa sessione non ha ancora aperto. Racconta cosa succede dal tuo messaggio alla riga cambiata sul disco.",
+        "rubrica": "2 = descrive il ciclo: il modello non ha il file in contesto, quindi emette un tool call di lettura; il programma lo esegue sulla macchina e restituisce il contenuto come testo; il modello legge, decide la modifica ed emette un secondo tool call di scrittura, soggetto a permesso. 1 = dice \"legge il file e poi lo modifica\" senza distinguere chi esegue davvero o senza nominare il meccanismo di richiesta/risultato. 0 = parla di un modello che \"conosce\" il progetto o che esegue codice da solo."
+      },
+      {
+        "q": "Lavori sullo stesso repo dal terminale e poi dal web. Cosa resta identico e cosa cambia? Fai un esempio in cui la differenza ti si ritorce contro.",
+        "rubrica": "2 = motore, CLAUDE.md, settings e server MCP sono gli stessi; cambia dove gira il processo, quindi su quali file si lavora (locali contro copia remota del repo) e cosa è raggiungibile da lì (un database sulla tua macchina, un file fuori dal repo, uno script che dipende dal tuo ambiente). L'esempio deve mostrare questa conseguenza. 1 = cita la stessa base di configurazione ma non arriva alla conseguenza pratica, o fa un esempio generico. 0 = dice che cambia il modello o che è la stessa identica cosa."
+      },
+      {
+        "q": "Un collega ti dice: \"metto tutta la documentazione del progetto in CLAUDE.md, così Claude sa sempre tutto\". Cosa gli rispondi?",
+        "rubrica": "2 = CLAUDE.md viene riletto all'inizio di ogni sessione, quindi ogni riga è un costo di contesto ricorrente pagato anche quando non serve; il materiale lungo va tenuto dove si carica su richiesta (skill, file che l'agente apre quando gli serve), mentre in CLAUDE.md stanno regole e fatti stabili. 1 = dice solo \"diventa troppo lungo\" o \"consuma contesto\" senza distinguere il costo ricorrente da quello su richiesta. 0 = approva, o risponde che il modello filtra da solo quello che non gli serve."
+      }
+    ],
     "peso_skill": {
       "claude-code": 0.14
     },
-    "stato": "bozza",
-    "origine": "seed",
+    "stato": "pronto",
+    "origine": "routine-cowork",
     "nuovo": false,
     "creato_il": "2026-09-15",
     "servito_il": null,
@@ -436,26 +478,56 @@
   {
     "id": "mod-mcp-05",
     "course_id": "corso-mcp",
-    "titolo": "Modulo 5 — MCP — il protocollo (in preparazione)",
+    "titolo": "Cos’è MCP e quale problema risolve",
     "tipo": "teoria",
     "durata_min": 15,
     "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "obiettivo": "Alla fine sai dire chi sono host, client e server in una connessione MCP, e sai distinguere un tool da una resource senza guardare la documentazione.",
     "prerequisiti_skill": [
-      "fondamenta-llm",
-      "claude-code",
-      "tool-calling"
+      "tool-calling",
+      "claude-code"
     ],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
-    "fonti_extra": [],
-    "domande": [],
+    "prerequisiti_testo": "Servono due cose, scritte qui per esteso.\n\n**Il tool call.** Il programma che ospita il modello gli dichiara una lista di funzioni con nome, descrizione e schema dei parametri. Il modello, quando serve, non risponde a te: emette una richiesta strutturata (\"chiama `weather_current` con location=Trento\"). Il programma esegue davvero la funzione e gli restituisce il risultato come testo. Il modello legge il risultato e prosegue. Tre attori distinti: chi decide (il modello), chi esegue (il programma), chi ha scritto la funzione (tu).\n\n**Cosa vuol dire \"integrazione\" prima di MCP.** Se hai cinque applicazioni AI e sei sistemi da collegare (Drive, Jira, il tuo database, Slack...), ogni coppia richiede il suo pezzo di codice: trenta integrazioni, ognuna con la sua autenticazione e il suo formato. È il problema che MCP prova a togliere di mezzo, allo stesso modo in cui un connettore standard toglie di mezzo un cavo diverso per ogni dispositivo.",
+    "sintesi_md": "MCP (Model Context Protocol) è, nelle parole della documentazione, *\"an open-source standard for connecting AI applications to external systems\"*. L'immagine che usano loro: una porta USB-C per le applicazioni AI. Scrivi il server una volta, e qualunque client che parla MCP lo può usare.\n\nAttenzione a cosa **non** è: *\"MCP focuses solely on the protocol for context exchange — it does not dictate how AI applications use LLMs or manage the provided context\"*. Il protocollo non decide come l'agente ragiona. Sposta solo dati e capacità.\n\n## I tre partecipanti\n\n- **Host**: l'applicazione AI (Claude Code, Claude Desktop, VS Code). Coordina il tutto.\n- **Client**: un componente dentro l'host che tiene **una** connessione dedicata **verso un** server. Host con tre server = tre client.\n- **Server**: un programma che fornisce contesto e capacità. Può girare sulla tua macchina o su Internet: \"server\" indica il ruolo, non il luogo.\n\nQuesto uno-a-uno è il dettaglio che di solito si perde: il client non è \"l'app\", è la connessione.\n\n## Due strati\n\nIl **data layer** è il protocollo vero: messaggi JSON-RPC 2.0, gestione del ciclo di vita, primitive. Il **transport layer** è come i messaggi viaggiano. Due trasporti:\n\n- **stdio**: il server è un processo locale, si parla sullo standard input/output. Niente rete, tipicamente un client solo.\n- **Streamable HTTP**: POST HTTP più Server-Sent Events per lo streaming. Server remoto, molti client, autenticazione HTTP standard (OAuth raccomandato).\n\nStesso formato dei messaggi su entrambi: il trasporto è intercambiabile.\n\n## Le primitive\n\nUn server può esporre tre cose, e la distinzione conta:\n\n| Primitiva | Cos'è | Esempio |\n|---|---|---|\n| **Tools** | funzioni eseguibili, il modello le invoca per **agire** | interroga il database |\n| **Resources** | dati da **leggere** come contesto | lo schema del database |\n| **Prompts** | template riutilizzabili di interazione | esempi few-shot per usare quei tool |\n\nOgni primitiva ha i suoi metodi: `*/list` per scoprirla, `*/get` o `tools/call` per usarla. Le liste sono dinamiche apposta.\n\nCi sono anche primitive che il **client** espone al server: `sampling` (il server chiede all'host una risposta del modello, così non deve incorporare un SDK di LLM), `elicitation` (il server chiede qualcosa all'utente) e il logging.\n\n## Come comincia una connessione\n\n1. Il client manda `initialize` con la versione di protocollo e le proprie capability.\n2. Il server risponde con le sue: per esempio `\"tools\": {\"listChanged\": true}`, cioè \"ho i tool e ti avviso se cambiano\".\n3. Il client manda la notifica `notifications/initialized` e si parte.\n4. Poi `tools/list` per scoprire cosa c'è, e `tools/call` per eseguire.\n\nLa negoziazione serve: se non si trova una versione compatibile, la connessione va chiusa. E se i tool del server cambiano, arriva `notifications/tools/list_changed` — una notifica JSON-RPC senza `id`, perché non aspetta risposta — e il client ricarica la lista invece di fare polling.\n\nLa conseguenza pratica per te: un server MCP tuo è un programma che risponde a quattro o cinque metodi JSON-RPC. Non è un servizio web, non è un framework.",
+    "fonte_primaria": {
+      "url": "https://modelcontextprotocol.io/docs/learn/architecture",
+      "titolo": "Model Context Protocol — Architecture overview",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
+    "fonti_extra": [
+      {
+        "url": "https://modelcontextprotocol.io/docs/getting-started/intro",
+        "titolo": "What is the Model Context Protocol (MCP)?",
+        "tipo": "documentazione",
+        "verificata_il": "2026-09-16"
+      },
+      {
+        "url": "https://github.com/modelcontextprotocol/servers",
+        "titolo": "Reference server implementations",
+        "tipo": "repo",
+        "verificata_il": "2026-09-16"
+      }
+    ],
+    "domande": [
+      {
+        "q": "Claude Desktop è collegato a due server: il filesystem locale e Sentry. Quanti client MCP esistono, dove gira ogni pezzo e quale trasporto useresti per ciascuno? Motiva.",
+        "rubrica": "2 = due client, uno per connessione, entrambi dentro l'host; il server filesystem è un processo locale sulla stessa macchina, quindi stdio (nessuna rete, un client solo); Sentry gira sulla piattaforma di Sentry, quindi Streamable HTTP con autenticazione. 1 = conta bene i client ma confonde il luogo con il ruolo, o assegna i trasporti senza motivarli. 0 = dice un client solo, o che \"server\" significa per forza remoto."
+      },
+      {
+        "q": "Stai scrivendo un server MCP per il tuo archivio di note. Vuoi esporre: la ricerca full-text, il contenuto di una nota specifica, e un modo ripetibile per chiedere il riassunto settimanale. Assegna ognuna a tool, resource o prompt e spiega perché.",
+        "rubrica": "2 = ricerca = tool (azione eseguibile con parametri); contenuto della nota = resource (dato letto come contesto, identificato da URI); riassunto settimanale = prompt (template riutilizzabile di interazione). Motivazione ancorata alla distinzione agire/leggere/strutturare. 1 = due giuste su tre, o assegnazioni giuste ma motivate solo con \"è più comodo\". 0 = mette tutto come tool perché \"tanto funziona lo stesso\"."
+      },
+      {
+        "q": "Un server aggiunge un tool mentre la sessione è già aperta. Come fa il client ad accorgersene, e quale condizione doveva essere soddisfatta all'inizio?",
+        "rubrica": "2 = il server manda la notifica `notifications/tools/list_changed` (senza id, non attende risposta) e il client rifà `tools/list`; la condizione è che il server abbia dichiarato `listChanged: true` fra le sue capability durante l'initialize. 1 = dice che il client \"ricarica la lista\" ma non collega la notifica alla capability negoziata. 0 = risponde che il client fa polling o che il modello se ne accorge da solo."
+      }
+    ],
     "peso_skill": {
       "mcp-protocollo": 0.2
     },
-    "stato": "bozza",
-    "origine": "seed",
+    "stato": "pronto",
+    "origine": "routine-cowork",
     "nuovo": false,
     "creato_il": "2026-09-15",
     "servito_il": null,
@@ -579,7 +651,10 @@
     "titolo": "Modulo 1 — Context engineering e memoria (in preparazione)",
     "tipo": "teoria",
     "durata_min": 15,
-    "voci_inbox": [],
+    "voci_inbox": [
+      "DY4m74jCfgp",
+      "DYy9cowis3l"
+    ],
     "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
     "prerequisiti_skill": [
       "claude-code"
@@ -706,24 +781,45 @@
   {
     "id": "mod-claude-skills-01",
     "course_id": "corso-claude-skills",
-    "titolo": "Modulo 1 — Claude Skills (in preparazione)",
+    "titolo": "Cos’è una Skill e perché non è un altro CLAUDE.md",
     "tipo": "teoria",
     "durata_min": 15,
-    "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "voci_inbox": [
+      "DZrtCPZDBAG",
+      "DcwB81VAMdh"
+    ],
+    "obiettivo": "Alla fine sai decidere se un’istruzione ricorrente va in CLAUDE.md o in una skill, e sai scrivere il frontmatter che fa caricare la skill al momento giusto.",
     "prerequisiti_skill": [
       "claude-code"
     ],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
+    "prerequisiti_testo": "Due cose, per esteso.\n\n**CLAUDE.md.** Un file markdown nella radice del progetto che Claude Code legge all’inizio di ogni sessione: standard di codice, scelte di architettura, comandi di test. Sta nel repo, quindi è versionato e condiviso con chi ci lavora. Costo: viene caricato **sempre**, anche nelle sessioni in cui non serve.\n\n**Finestra di contesto.** Tutto ciò che il modello guarda mentre risponde — istruzioni, conversazione, file, risultati dei tool — si accumula turno dopo turno e ha un tetto; più si riempie, più precisione e recall calano. Quindi ogni riga caricata sempre è un costo pagato sempre.",
+    "sintesi_md": "Una **skill** è una cartella con dentro un file `SKILL.md`: frontmatter YAML più istruzioni in markdown. Claude la usa quando la ritiene pertinente, oppure la invochi tu con `/nome-skill`.\n\n```yaml\n---\nname: summarize-changes\ndescription: Riassume le modifiche non committate e segnala quelle rischiose. Usala quando l'utente chiede cosa è cambiato o vuole un messaggio di commit.\n---\n\n## Modifiche correnti\n\n!`git diff HEAD`\n\n## Istruzioni\n\nRiassumi le modifiche in due o tre punti, poi elenca i rischi.\n```\n\n## La frase che definisce tutto\n\n*\"Unlike CLAUDE.md content, a skill's body loads only when it's used, so long reference material costs almost nothing until you need it.\"*\n\nÈ il **progressive disclosure**: le `description` di tutte le skill stanno sempre in contesto — poche righe, servono a Claude per sapere cosa esiste — mentre il corpo entra solo quando la skill viene invocata. Da lì in poi però ci resta: *\"When a skill loads, its content stays in context across turns, so every line is a recurring token cost.\"*\n\nQuindi il criterio non è \"dove è più ordinato\": è **ogni quanto serve**. Un fatto stabile che vale per ogni sessione (questo progetto usa pnpm) sta in CLAUDE.md. Una procedura che serve una volta ogni tanto ma è lunga (come si prepara una release, la checklist di code review) sta in una skill. La regola pratica della documentazione: crea una skill quando ti accorgi di reincollare le stesse istruzioni, o quando una sezione di CLAUDE.md è diventata una procedura invece che un fatto.\n\n## I campi che contano\n\n- `name` e `description`: la `description` è l'unica cosa su cui Claude decide se caricarla. Scritta male, la skill non parte mai. Deve dire *cosa fa* e *quando usarla*.\n- `disable-model-invocation: true`: solo tu puoi invocarla. Da mettere su tutto ciò che è irreversibile — deploy, commit.\n- `user-invocable: false`: solo Claude, per conoscenza di sfondo.\n- `allowed-tools`: strumenti preapprovati, senza richiesta di permesso.\n- `context: fork`: la esegue in un subagent isolato.\n\n## Injection dinamica\n\nLa sintassi `` !`comando` `` esegue il comando **prima** che il contenuto arrivi a Claude e ne sostituisce l'output. Nell'esempio sopra, Claude non riceve la riga `git diff HEAD`: riceve il diff vero. La skill smette di essere un testo e diventa un contesto già riempito.\n\n## Dove si installano\n\n`~/.claude/skills/<nome>/SKILL.md` per tutti i tuoi progetti, `.claude/skills/<nome>/SKILL.md` per questo repository (versionata con il codice), oppure dentro un plugin. Tieni `SKILL.md` sotto le 500 righe e sposta il materiale di riferimento in file separati che la skill cita: si aprono solo se servono.\n\n## Sulle raccolte di skill pronte\n\nL'inbox ha due contenuti su questo: una repo \"Awesome Claude Skills\" e una lista di otto repo con skill già fatte. Utili come esempi di scrittura del frontmatter. Ma una skill è testo che entra nel tuo contesto e può avere `allowed-tools` preapprovati: una skill scaricata va letta riga per riga prima di installarla, come faresti con uno script trovato su Internet.",
+    "fonte_primaria": {
+      "url": "https://code.claude.com/docs/en/skills",
+      "titolo": "Claude Code — Agent Skills (documentazione ufficiale)",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
     "fonti_extra": [],
-    "domande": [],
+    "domande": [
+      {
+        "q": "Hai due cose da dare a Claude Code su un progetto: (a) \"i test si lanciano con `pnpm test`, mai con npm\"; (b) una checklist di quaranta righe per preparare una release, che usi una volta al mese. Dove le metti e perché?",
+        "rubrica": "2 = (a) in CLAUDE.md: è un fatto breve e stabile che serve in ogni sessione; (b) in una skill: è lunga e serve di rado, e il corpo si carica solo quando la invochi, quindi non costa contesto nelle altre sessioni. Motivazione ancorata alla frequenza d'uso e al costo ricorrente. 1 = colloca bene ma motiva con l'ordine o la leggibilità. 0 = mette entrambe in CLAUDE.md, o sceglie a caso."
+      },
+      {
+        "q": "Una tua skill non viene mai caricata da sola: devi invocarla ogni volta a mano. Da cosa parti per capire il problema?",
+        "rubrica": "2 = dalla `description`, perché è l'unica cosa su cui Claude decide: deve dire cosa fa e soprattutto *quando* usarla, con le situazioni in cui si applica; va controllato anche che non ci sia `disable-model-invocation: true`. 1 = dice di riscrivere la descrizione senza spiegare che è il criterio di attivazione. 0 = cerca il problema nel corpo della skill o nel modello."
+      },
+      {
+        "q": "Trovi una repo con cinquanta skill pronte. Cosa controlli prima di installarne una, e perché è diverso dall’installare una libreria?",
+        "rubrica": "2 = la skill è testo che entra nel contesto e guida il comportamento dell'agente, e può dichiarare `allowed-tools` preapprovati o eseguire comandi con l'injection dinamica `` !`cmd` ``: va letta riga per riga, come uno script trovato online. Differenza: qui non si tratta solo di codice che gira, ma di istruzioni che cambiano cosa l'agente fa al posto tuo, con permessi già concessi. 1 = dice \"la leggo prima\" senza nominare tool preapprovati o comandi eseguiti. 0 = la installa perché la repo ha molte stelle."
+      }
+    ],
     "peso_skill": {
       "claude-skills": 0.2
     },
-    "stato": "bozza",
-    "origine": "seed",
+    "stato": "pronto",
+    "origine": "routine-cowork",
     "nuovo": false,
     "creato_il": "2026-09-15",
     "servito_il": null,
@@ -836,25 +932,59 @@
   {
     "id": "mod-second-brain-01",
     "course_id": "corso-second-brain",
-    "titolo": "Modulo 1 — Second brain con Obsidian e agenti (in preparazione)",
+    "titolo": "Un vault Obsidian visto da un agente",
     "tipo": "teoria",
     "durata_min": 15,
-    "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "voci_inbox": [
+      "DZDbfeNoXSZ",
+      "DZdCb6wIV_d"
+    ],
+    "obiettivo": "Alla fine sai spiegare perché un agente può lavorare su un vault Obsidian senza API né database, e sai dire dove si rompe quando le note sono duemila.",
     "prerequisiti_skill": [
       "mcp-protocollo",
       "context-economy"
     ],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
-    "fonti_extra": [],
-    "domande": [],
+    "prerequisiti_testo": "Due cose, per esteso.\n\n**Server MCP.** Un programma che espone a un’applicazione AI dei *tools* (funzioni eseguibili: cerca, leggi, scrivi) e delle *resources* (dati leggibili). Può girare in locale sulla tua macchina, parlando sullo standard input/output. Il modello scopre cosa esiste e lo chiama quando serve, invece di ricevere tutto in blocco.\n\n**Finestra di contesto.** Tutto il testo che il modello può guardare mentre risponde: istruzioni, conversazione, file letti, risultati dei tool, e la risposta stessa. Si accumula turno dopo turno e ha un tetto. Soprattutto: più si riempie, più precisione e capacità di ritrovare le cose peggiorano — il *context rot*. Quindi \"dare all’agente tutte le note\" non è un obiettivo: è il problema.",
+    "sintesi_md": "Prima di parlare di agenti va capita una cosa sola su Obsidian, ed è anche il motivo per cui è il caso più semplice di second brain: *\"A vault is a folder on your local file system where Obsidian stores your notes\"*.\n\nNon c'è un database, non c'è un backend, non c'è una API da chiamare. C'è una cartella con dentro file `.md` — più allegati: immagini, audio, video, PDF, file `.canvas` — e una sottocartella `.obsidian` con la configurazione. Obsidian è un'interfaccia sopra dei file di testo. Il che significa che **qualunque cosa sappia leggere una cartella sa leggere il tuo second brain**: `grep`, uno script, un agente con gli strumenti di lettura file, o un server MCP che espone ricerca e lettura.\n\n## Il grafo è nel testo\n\nLa struttura non sta in un indice separato: sta dentro le note, come link. Obsidian ne supporta due formati equivalenti, `[[Tre leggi del moto]]` e `[Tre leggi del moto](Tre%20leggi%20del%20moto)`, e genera il primo per compattezza. Si può puntare a una sezione, `[[Nota#Titolo]]`, o a un blocco specifico, `[[2023-01-01#^37066d]]`; con `|` si cambia il testo mostrato; con `!` davanti si incorpora il contenuto.\n\nDue conseguenze per un agente:\n\n- I link sono **dati leggibili**: un regex su `[[...]]` ricostruisce il grafo delle relazioni senza aprire Obsidian.\n- Rinominando un file Obsidian aggiorna i link. Un agente che rinomina file da fuori **non lo fa**: rompe i riferimenti in silenzio. È la prima regola di sicurezza quando gli dai il permesso di scrittura.\n\n## Dove si rompe\n\nSu venti note funziona tutto, anche l'approccio ingenuo di darle tutte in pasto. Su duemila no: la finestra si riempie di materiale irrilevante e le risposte peggiorano proprio mentre il vault cresce. Il second brain utile non è \"l'agente legge tutto\", è **l'agente cerca, apre tre note e risponde citando quelle**. Da qui in avanti il corso è tutto su questo: come si cerca, cosa si espone, cosa si lascia sul disco.\n\n## Sui tool che hai salvato\n\nL'inbox contiene due contenuti sul tema — un confronto fra Obsidian e Graphify per costruire un second brain dentro Claude Code, e il framework LLM-Wiki attribuito a Karpathy. Sono segnalazioni, non fonti: nessuno dei due cambia quello che hai letto qui, perché tutti partono dallo stesso fatto — file markdown su disco — e cambiano solo il modo di organizzarli e interrogarli. Quando li valuterai, la domanda giusta non è \"quale è più bello\", ma: **cosa fa entrare nel contesto, e quanto**.\n\nNota pratica: prima di dare a un agente il permesso di scrivere nel vault vero, fai una copia. Non per prudenza generica — perché un rinomina fatto da fuori ti lascia i link rotti e te ne accorgi settimane dopo.",
+    "fonte_primaria": {
+      "url": "https://obsidian.md/help/vault",
+      "titolo": "Obsidian Help — Vault",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
+    "fonti_extra": [
+      {
+        "url": "https://obsidian.md/help/links",
+        "titolo": "Obsidian Help — Internal links",
+        "tipo": "documentazione",
+        "verificata_il": "2026-09-16"
+      },
+      {
+        "url": "https://obsidian.md/help/file-formats",
+        "titolo": "Obsidian Help — Accepted file formats",
+        "tipo": "documentazione",
+        "verificata_il": "2026-09-16"
+      }
+    ],
+    "domande": [
+      {
+        "q": "Perché un agente può lavorare su un vault Obsidian senza che Obsidian sia aperto, e senza nessuna API?",
+        "rubrica": "2 = il vault è una cartella sul filesystem locale con file markdown e allegati; Obsidian è solo un'interfaccia sopra quei file, quindi bastano gli strumenti che leggono file (o un server MCP che li espone). 1 = dice \"sono file di testo\" senza collegare il fatto che l'app non è nel percorso dei dati. 0 = pensa che serva un plugin, un export o una API di Obsidian."
+      },
+      {
+        "q": "Chiedi a un agente di riorganizzare il vault rinominando cinquanta note. Cosa può andare storto, e cosa fai prima di lanciarlo?",
+        "rubrica": "2 = Obsidian aggiorna i link interni quando rinomini dentro l'app, ma un agente che rinomina dal filesystem no: i `[[link]]` restano puntati ai vecchi nomi e si rompono in silenzio; prima si fa una copia del vault o si lavora su una copia, e si fa aggiornare anche i riferimenti. 1 = intuisce il rischio di rompere qualcosa ma non nomina i link né il rimedio. 0 = non vede problemi o si limita a \"controllo dopo\"."
+      },
+      {
+        "q": "Il tuo vault cresce da 20 a 2000 note e le risposte dell’agente peggiorano. Cosa è cambiato, visto che il contenuto è più ricco di prima?",
+        "rubrica": "2 = con 20 note tutto entrava nella finestra; con 2000 non entra, e se ci si prova la finestra si riempie di materiale irrilevante, con precisione e recall che degradano (context rot); la soluzione è cercare e aprire poche note pertinenti invece di caricare tutto. 1 = dice \"sono troppe\" o \"non ci stanno\" senza collegare il degrado alla qualità della risposta. 0 = attribuisce il peggioramento al modello o propone di riassumere tutto il vault in un file unico."
+      }
+    ],
     "peso_skill": {
       "second-brain": 0.2
     },
-    "stato": "bozza",
-    "origine": "seed",
+    "stato": "pronto",
+    "origine": "routine-cowork",
     "nuovo": false,
     "creato_il": "2026-09-15",
     "servito_il": null,
@@ -971,25 +1101,46 @@
   {
     "id": "mod-orchestrazione-01",
     "course_id": "corso-orchestrazione",
-    "titolo": "Modulo 1 — Orchestrazione multi-agent (in preparazione)",
+    "titolo": "Quando conviene un secondo agente (e quando no)",
     "tipo": "teoria",
     "durata_min": 15,
-    "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "voci_inbox": [
+      "DZVTkBhES1K",
+      "Dc3mnUViCgW"
+    ],
+    "obiettivo": "Alla fine sai decidere, davanti a un compito concreto, se delegarlo a un subagent o tenerlo nella conversazione principale, e sai dire cosa perdi delegando.",
     "prerequisiti_skill": [
       "mcp-protocollo",
       "claude-skills"
     ],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
+    "prerequisiti_testo": "Tre cose, per esteso.\n\n**Finestra di contesto.** Tutto ciò che il modello può guardare mentre risponde: istruzioni, messaggi, file letti, risultati dei tool, output suo. Si accumula a ogni turno e ha un tetto; più si riempie, più precisione e recall calano.\n\n**Tool call.** Il modello non agisce: emette richieste strutturate (leggi, cerca, esegui) che il programma esegue davvero, restituendo il risultato come testo che finisce nel contesto.\n\n**Skill.** Un file `SKILL.md` con istruzioni riutilizzabili; la descrizione sta sempre in contesto, il corpo si carica solo quando serve. Un subagent può riceverne alcune precaricate.\n\nIl punto di partenza dell’orchestrazione è questo: il collo di bottiglia di un agente non è l’intelligenza, è lo spazio nella finestra.",
+    "sintesi_md": "Un **subagent** è un assistente specializzato che lavora in una **finestra di contesto isolata**. La documentazione dice quando serve: *\"Use one when a side task would flood your main conversation with search results, logs, or file contents you won't reference again\"*.\n\nÈ tutto lì. Non deleghi perché \"due agenti sono meglio di uno\": deleghi perché c'è del rumore che non vuoi nella tua finestra.\n\n## Cosa riceve e cosa non riceve\n\nUn subagent parte pulito. Riceve: un system prompt suo, il messaggio con il compito, i file `CLAUDE.md`, lo stato di git, le skill precaricate. **Non** riceve la cronologia della conversazione principale né la memoria della sessione. Ha permessi propri.\n\nQuesta è la parte che si paga. Quello che torna indietro è un **riassunto**: non i file che ha letto, non i passaggi intermedi. Se ti serve discutere il dettaglio dopo, quel dettaglio non c'è più — e non puoi correggerlo mentre lavora come faresti in una conversazione normale.\n\n## Quando delegare\n\n- il compito produce output verboso che non rileggerai (log, suite di test, esplorazione di un codebase);\n- è autoconsistente e si chiude con un riassunto;\n- vuoi imporre restrizioni: un agente che può solo leggere, per esempio;\n- ci sono più rami indipendenti da fare in parallelo.\n\n## Quando non delegare\n\n- serve avanti-e-indietro con te;\n- le fasi condividono contesto (piano → implementazione → test): il subagent riparte da zero ogni volta;\n- la modifica è piccola e mirata;\n- la latenza conta: un subagent è un giro in più.\n\n## Come si definisce\n\nUn file markdown in `.claude/agents/` con frontmatter YAML: `name`, `description` (è ciò che decide quando delegare), e in opzione `tools` (allowlist), `model`, `memory`, `maxTurns`. Il corpo è il system prompt.\n\n```yaml\n---\nname: code-improver\ndescription: Scans files and suggests improvements\ntools: Read, Grep, Glob\nmodel: sonnet\n---\n```\n\nSuggerimento dalla documentazione: tieni corte le `description` — stanno tutte in contesto all'avvio — e metti i dettagli nel corpo. Esistono limiti: profondità di annidamento 3 livelli, venti subagent in parallelo.\n\n## Le due voci dell'inbox, lette con questa lente\n\nUna pipeline di ricerca accademica con 13 agenti per la deep research, 12 per scrivere, 5 per la peer review; e `/wayfinder`, un layer che spezza una sessione troppo grande per una finestra in ticket lavorabili da agenti con contesto pulito. La seconda descrive esattamente il problema di questo modulo. La prima è impressionante, ma la domanda da farsi davanti a trenta agenti è sempre la stessa: **quale di questi esiste perché quel pezzo di lavoro sporcherebbe la finestra di qualcun altro?** Quelli che non rispondono sono decorazione, e costano un giro in più ciascuno.",
+    "fonte_primaria": {
+      "url": "https://code.claude.com/docs/en/sub-agents",
+      "titolo": "Claude Code — Subagents (documentazione ufficiale)",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
     "fonti_extra": [],
-    "domande": [],
+    "domande": [
+      {
+        "q": "Devi far girare la suite di test, capire quali falliscono e sistemarli insieme a me, discutendo ogni fix. Cosa deleghi a un subagent e cosa tieni nella conversazione principale?",
+        "rubrica": "2 = delega l'esecuzione dei test e la raccolta dei fallimenti (output verboso che non rileggerai, si chiude con un riassunto), tiene i fix nella conversazione principale perché servono avanti-e-indietro e le fasi condividono contesto. 1 = divide in modo ragionevole ma motiva con \"così è più ordinato\" invece che con il rumore nel contesto e l'iterazione. 0 = delega tutto, o niente, senza criterio."
+      },
+      {
+        "q": "Un subagent ha esplorato per venti minuti e ti torna un riassunto di dieci righe. Tu vuoi discutere un dettaglio che non c’è. Cosa è successo e cosa avresti dovuto fare prima?",
+        "rubrica": "2 = il subagent aveva una finestra isolata: la sua esplorazione non è nella conversazione principale e quello che torna è solo il riassunto, quindi il dettaglio è perso e ricostruirlo costa un altro giro; prima andava chiesto esplicitamente nel compito cosa doveva riportare, o il pezzo che ti interessa andava tenuto nella conversazione principale. 1 = capisce che il contesto è separato ma non arriva al rimedio. 0 = pensa che il contesto si possa \"recuperare\" o che l'agente principale l'abbia visto."
+      },
+      {
+        "q": "Ti mostrano un sistema con trenta agenti specializzati. Quale domanda fai per capire se quel numero ha senso?",
+        "rubrica": "2 = chiede, per ciascun agente, quale output verboso o quale vincolo di tool giustifica una finestra separata; nota che ogni agente in più è un giro e un riassunto in più, e che chi non risolve un problema di contesto è decorazione. 1 = si limita a \"sono troppi\" o \"sarà lento\" senza il criterio. 0 = giudica dal numero degli agenti, in bene o in male."
+      }
+    ],
     "peso_skill": {
       "orchestrazione": 0.17
     },
-    "stato": "bozza",
-    "origine": "seed",
+    "stato": "pronto",
+    "origine": "routine-cowork",
     "nuovo": false,
     "creato_il": "2026-09-15",
     "servito_il": null,
@@ -1507,24 +1658,52 @@
   {
     "id": "mod-integrazioni-personali-01",
     "course_id": "corso-integrazioni-personali",
-    "titolo": "Modulo 1 — Integrazioni con i dati personali (in preparazione)",
+    "titolo": "Dove vivono i tuoi dati e per quali strade arrivano a un agente",
     "tipo": "teoria",
     "durata_min": 15,
-    "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "voci_inbox": [
+      "DaZt7eTKOFR",
+      "DaxJeSvqDEL"
+    ],
+    "obiettivo": "Alla fine sai scegliere, per una fonte di dati personali, se conviene export manuale, API ufficiale o server MCP locale, e sai dire cosa ti costa ciascuna.",
     "prerequisiti_skill": [
       "mcp-protocollo"
     ],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
-    "fonti_extra": [],
-    "domande": [],
+    "prerequisiti_testo": "Serve sapere cos’è un server MCP, e lo trovi qui per esteso.\n\nMCP è uno standard aperto per collegare applicazioni AI a sistemi esterni. I ruoli sono tre: **host** (l’applicazione: Claude Desktop, Claude Code), **client** (una connessione dedicata dentro l’host, una per server), **server** (un programma che espone dati e funzioni). Il server può girare in locale — parlando sullo standard input/output, trasporto `stdio` — oppure da remoto via HTTP.\n\nUn server espone tre tipi di cose: **tools**, funzioni eseguibili (leggi le attività dell’ultima settimana); **resources**, dati da leggere come contesto (il file esportato); **prompts**, template riutilizzabili. Il modello scopre cosa esiste con `tools/list` e lo usa con `tools/call`.\n\nTi serve anche una parola: **OAuth**, il meccanismo con cui tu autorizzi un’applicazione a leggere i tuoi dati su un servizio senza darle la password, con la possibilità di revocare l’accesso.",
+    "sintesi_md": "Il tuo obiettivo — un agente che legge Apple Health e Garmin — è un problema di strade, non di intelligenza. Le strade sono tre e si scelgono guardando chi possiede il dato.\n\n## 1. L'export manuale\n\nChiedi al servizio un file (ZIP, CSV, XML), lo metti in una cartella, l'agente lo legge. Zero autenticazione, zero dipendenze, zero permessi da chiedere a nessuno. È una fotografia, non un flusso: da rifare a mano quando vuoi i dati aggiornati. Per imparare, e per qualunque analisi che non debba girare ogni giorno, è la strada che sottovaluti sempre e che quasi sempre basta.\n\n## 2. L'API ufficiale\n\nGarmin ha una Health API documentata. Restituisce JSON con passi, frequenza cardiaca, sonno, stress, Pulse Ox, Body Battery, composizione corporea, respirazione; prevede due modelli di sincronizzazione, *ping/pull* o *push*, e l'utente autorizza una volta, poi il dato arriva quando l'orologio si sincronizza con Garmin Connect.\n\nPoi ci sono le condizioni, ed è la parte che i contenuti social saltano sempre: l'accesso **va richiesto e approvato** da Garmin, si ottiene prima un ambiente di valutazione, l'uso commerciale richiede il pagamento di una licenza, e alcuni dati — gli intervalli battito-battito completi, quelli che servirebbero per l'HRV seria — sono dietro licenza commerciale. La pagina ufficiale non dichiara criteri per il singolo sviluppatore: è un programma pensato per aziende di corporate wellness e monitoraggio pazienti.\n\nTraduzione pratica: due reel salvati nell'inbox promettono un collegamento Garmin→Claude in \"circa 3 minuti di setup\". Alla fonte primaria quel percorso non esiste in quella forma. O passa da un export, o da servizi terzi che hanno già l'accesso, o da un'approvazione che richiede tempo. Questo è esattamente il motivo per cui il social è un puntatore e non una fonte.\n\n## 3. Il server MCP locale\n\nÈ la strada che tiene insieme le altre due. Scrivi un programmino che gira sulla tua macchina, legge i file esportati (o chiama l'API se ce l'hai) ed espone due o tre tool: `ultimi_allenamenti`, `sonno_per_data`, `serie_hrv`. L'agente li scopre e li chiama quando gli servono.\n\nIl vantaggio non è l'eleganza: è il **controllo del contesto**. Senza server, per farti rispondere su una settimana di allenamenti devi incollare un XML da centomila righe nella conversazione. Con il server, il modello chiede i sette record che gli servono. Il dato resta sul tuo disco, esce solo il pezzo richiesto, e sei tu a decidere quale.\n\n## Il criterio\n\nUna sola domanda: **quanto spesso serve il dato aggiornato?** Una volta per un'analisi → export. Ogni giorno → server MCP sopra la strada che riesci davvero a percorrere. In entrambi i casi, prima di scrivere una riga di codice vai a leggere le condizioni di accesso alla fonte: ti risparmiano un pomeriggio.",
+    "fonte_primaria": {
+      "url": "https://developer.garmin.com/gc-developer-program/health-api/",
+      "titolo": "Garmin Connect Developer Program — Health API",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
+    "fonti_extra": [
+      {
+        "url": "https://modelcontextprotocol.io/docs/learn/architecture",
+        "titolo": "MCP — Architecture overview",
+        "tipo": "documentazione",
+        "verificata_il": "2026-09-16"
+      }
+    ],
+    "domande": [
+      {
+        "q": "Vuoi che un agente guardi il tuo sonno dell’ultima notte prima di proporti l’allenamento, ogni mattina. Quale strada scegli e cosa devi verificare prima di iniziare?",
+        "rubrica": "2 = serve un dato aggiornato ogni giorno, quindi l'export manuale non regge; sceglie API ufficiale o server MCP sopra una fonte accessibile, e verifica prima le condizioni di accesso (approvazione Garmin, ambiente di valutazione, licenza per l'uso commerciale e per i dati battito-battito) prima di scrivere codice. 1 = sceglie una strada ragionevole ma non nomina nessuna verifica preliminare. 0 = risponde \"basta collegare Garmin a Claude\" o propone di incollare l'export nella chat ogni mattina."
+      },
+      {
+        "q": "Perché un server MCP locale che espone `sonno_per_data` è diverso dall’incollare l’export completo nella conversazione? Rispondi in termini di contesto e di dati.",
+        "rubrica": "2 = contesto: escono solo i record richiesti invece dell'intero file, quindi la finestra non si riempie di dati inutili e il modello ritrova meglio quello che serve; dati: il file resta sul disco, il modello vede solo la risposta del tool, e tu decidi quali tool esistono. 1 = coglie uno dei due assi. 0 = risponde che è più comodo o più veloce, senza motivo."
+      },
+      {
+        "q": "Un reel mostra un collegamento Garmin→Claude \"in 3 minuti\". La documentazione ufficiale dice altro. Cosa fai con questa voce, e quale verdetto le daresti?",
+        "rubrica": "2 = verdetto `verifica`: il claim resta sospeso finché non lo si trova alla fonte; il reel resta come puntatore al tema, non come base di studio; la strada da testare è quella documentata (export, oppure richiesta di accesso, oppure un servizio terzo che ha già l'accesso). 1 = dice che non si fida ma non nomina il verdetto né cosa farebbe della voce. 0 = prova il metodo del reel perché \"tanto se lo mostra funziona\", o scarta il tema del tutto."
+      }
+    ],
     "peso_skill": {
       "integrazioni-personali": 0.25
     },
-    "stato": "bozza",
-    "origine": "seed",
+    "stato": "pronto",
+    "origine": "routine-cowork",
     "nuovo": false,
     "creato_il": "2026-09-15",
     "servito_il": null,
