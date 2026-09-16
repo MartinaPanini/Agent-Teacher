@@ -19,9 +19,19 @@ export function applicaValutazione(livelloCalcolato: number, livelloSuggerito: n
   return Math.min(livelloCalcolato, livelloSuggerito);
 }
 
-function livelloSuggeritoPiuRecente(skillId: string, reviews: Review[]): number | null {
+/**
+ * Solo le review valutate DOPO l'ultimo aggiornamento del livello contano: una correzione
+ * si applica una tantum, al momento in cui viene valutata, non a ogni ricalcolo successivo.
+ * Senza questo filtro una review vecchia terrebbe la skill tappata per sempre anche dopo
+ * altri moduli completati.
+ */
+function livelloSuggeritoPiuRecente(skillId: string, reviews: Review[], dopoIl: string | null): number | null {
   const rilevanti = reviews.filter(
-    (r) => r.stato === "valutata" && r.valutazione !== null && skillId in r.valutazione.livello_suggerito,
+    (r) =>
+      r.stato === "valutata" &&
+      r.valutazione !== null &&
+      skillId in r.valutazione.livello_suggerito &&
+      r.valutazione.valutata_il > (dopoIl ?? ""),
   );
   if (rilevanti.length === 0) return null;
   const ultima = rilevanti.reduce((a, b) =>
@@ -41,7 +51,7 @@ export function aggiornaLivelloSkill(skill: Skill, modules: Module[], reviews: R
   const livelloPavimento = Math.max(skill.livello, livelloDaModuli);
   const fonte = livelloDaModuli > skill.livello ? "moduli" : skill.livello_fonte;
 
-  const livelloSuggerito = livelloSuggeritoPiuRecente(skill.id, reviews);
+  const livelloSuggerito = livelloSuggeritoPiuRecente(skill.id, reviews, skill.livello_aggiornato_il);
   const livello = applicaValutazione(livelloPavimento, livelloSuggerito);
 
   if (livello === skill.livello && fonte === skill.livello_fonte) {

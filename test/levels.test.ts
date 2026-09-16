@@ -140,4 +140,26 @@ describe("aggiornaLivelloSkill", () => {
     const aggiornata = aggiornaLivelloSkill(s, modules, reviews);
     expect(aggiornata.livello).toBe(1);
   });
+
+  it("una correzione vecchia non tappa il livello per sempre: si applica una tantum", () => {
+    // una review di settembre ha già corretto la skill a 1 (livello_aggiornato_il riflette
+    // quel momento); a dicembre altri moduli completati fanno salire il pavimento a 3 e
+    // la vecchia review non deve più tenerla bloccata a 1.
+    const s = skill("skill-x", { livello: 1, livello_fonte: "moduli", livello_aggiornato_il: "2026-09-01" });
+    const modules = [modulo("m1", "skill-x", 0.75)];
+    const reviews = [review("r-settembre", "skill-x", 1, "2026-09-01")];
+    const aggiornata = aggiornaLivelloSkill(s, modules, reviews);
+    expect(aggiornata.livello).toBe(3);
+  });
+
+  it("una nuova review valutata dopo l'ultimo aggiornamento corregge ancora verso il basso", () => {
+    const s = skill("skill-x", { livello: 1, livello_fonte: "moduli", livello_aggiornato_il: "2026-09-01" });
+    const modules = [modulo("m1", "skill-x", 0.75)];
+    const reviews = [
+      review("r-settembre", "skill-x", 1, "2026-09-01"),
+      review("r-dicembre", "skill-x", 2, "2026-12-01"),
+    ];
+    const aggiornata = aggiornaLivelloSkill(s, modules, reviews);
+    expect(aggiornata.livello).toBe(2);
+  });
 });
