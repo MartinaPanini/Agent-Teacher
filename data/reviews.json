@@ -142,5 +142,28 @@
       },
       "valutata_il": "2026-09-16"
     }
+  },
+  {
+    "id": "rev-0005",
+    "module_id": "mod-claude-code-02",
+    "session_id": "ses-0012",
+    "data": "2026-09-16",
+    "risposte": [
+      {
+        "q": "Il modello ha bisogno del contenuto di un file per rispondere. Quante richieste all'API servono in totale, e cosa c'e' dentro ciascuna?",
+        "risposta": "servono tool per aprire il file e per leggerlo"
+      },
+      {
+        "q": "Un collega dice: 'il modello legge il file'. Correggilo in modo preciso, e di' in quale caso la frase sarebbe ancora piu' sbagliata.",
+        "risposta": "non è il modello a leggerlo, ma il tool che richiama"
+      },
+      {
+        "q": "Scrivi la descrizione di uno strumento e ti accorgi che il modello non lo usa mai, anche quando servirebbe. Dove guardi per primo e perche'?",
+        "risposta": "i casi d'uso definiti nello strumento"
+      }
+    ],
+    "nota_libera": "",
+    "stato": "in_attesa",
+    "valutazione": null
   }
 ]
