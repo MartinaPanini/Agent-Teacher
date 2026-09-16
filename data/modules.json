@@ -46,21 +46,39 @@
   {
     "id": "mod-llm-02",
     "course_id": "corso-llm-fondamenta",
-    "titolo": "Modulo 2 — Come funzionano davvero gli LLM (in preparazione)",
+    "titolo": "La finestra di contesto: cosa ci sta dentro davvero",
     "tipo": "teoria",
     "durata_min": 15,
     "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "obiettivo": "Alla fine sai elencare tutto cio' che occupa la finestra di contesto in una richiesta reale, e sai spiegare perche' il conto dei token di input cresce a ogni turno.",
     "prerequisiti_skill": [],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
+    "prerequisiti_testo": "Serve sapere che un modello linguistico non ha memoria fra una richiesta e l'altra: tutto quello che deve sapere glielo rispedisci ogni volta dentro la richiesta. Serve anche sapere cos'e' un token: l'unita' in cui il testo viene spezzato prima di essere dato al modello, indicativamente qualche carattere, e l'unita' in cui si misura tutto quello che segue.",
+    "sintesi_md": "## La definizione esatta\n\nLa finestra di contesto e' **tutto il testo che il modello puo' consultare mentre genera la risposta, risposta compresa**. E' la memoria di lavoro di una singola richiesta, e non ha niente a che vedere con i dati di addestramento.\n\n## Cosa ci finisce dentro\n\nTutto quello che c'e' nella richiesta conta:\n\n- il **system prompt**;\n- **ogni messaggio** dentro `messages`, compresi i risultati degli strumenti, le immagini e i documenti;\n- le **definizioni degli strumenti** — non solo i risultati, anche il solo elenco di cosa e' disponibile;\n- l'**output** che il modello genera in questo turno, ragionamento esteso incluso.\n\nQuesto elenco e' la risposta alla domanda \"perche' la mia sessione e' gia' piena e non ho fatto quasi niente\". Se un agente ha venti strumenti registrati, le loro definizioni sono li' dentro prima ancora del tuo primo messaggio.\n\n## Come cresce, turno per turno\n\nIl punto che di solito non e' ovvio. I turni precedenti sono **conservati per intero**: i messaggi e le risposte si accumulano dentro la finestra fino a quando la conversazione si avvicina al limite. Quindi la stessa identica domanda, fatta al turno 1 e al turno 10, costa in input due cifre molto diverse: la seconda volta l'input contiene tutta la storia precedente piu' il messaggio.\n\nNon e' che il modello \"si ricorda\" e quindi paga di piu'. E' il contrario: **non si ricorda niente**, quindi ogni volta gli rispedisci tutto, e quel tutto e' cresciuto.\n\n## Le dimensioni\n\nI modelli piu' recenti hanno una finestra da **1 milione di token**, con un massimo di 128k token di output per singola richiesta; modelli precedenti stanno a 200k. Una finestra grande permette prompt piu' lunghi e complessi, ma la documentazione lo dice senza giri di parole: **piu' contesto non e' automaticamente meglio**, perche' al crescere del numero di token accuratezza e recall peggiorano. Quel fenomeno ha un nome, *context rot*, ed e' il modulo successivo.\n\n## Ragionamento esteso e strumenti\n\nI token di ragionamento contano nella finestra e vengono fatturati come output. Sui modelli piu' recenti i blocchi di ragionamento dei turni precedenti vengono **conservati** e contano come input; su quelli precedenti l'API li rimuoveva da sola per liberare spazio.\n\nQuando si combinano ragionamento e strumenti c'e' un vincolo pratico: insieme al `tool_result` devi rimandare indietro il blocco di ragionamento **intero e non modificato**, firma compresa, perche' l'API lo verifica crittograficamente.\n\n## Sapere quanto e' rimasto\n\nAlcuni modelli hanno la *context awareness*: ricevono il budget di token disponibile e, dopo ogni chiamata a uno strumento, un aggiornamento su quanto ne resta. Serve a gestire un compito lungo sapendo davvero quanto spazio c'e' invece di indovinarlo.",
+    "fonte_primaria": {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/context-windows",
+      "titolo": "Context windows — Claude Docs",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
     "fonti_extra": [],
-    "domande": [],
+    "domande": [
+      {
+        "q": "Apri una sessione con un agente, non scrivi ancora niente, e la finestra risulta gia' occupata. Cosa c'e' dentro?",
+        "rubrica": "2 = il system prompt e le definizioni degli strumenti, che contano anche se nessuno strumento e' stato ancora usato; in un contesto tipo Claude Code anche i file di istruzioni caricati all'avvio. Deve essere chiaro che le definizioni degli strumenti pesano di per se'. 1 = nomina il system prompt ma non le definizioni degli strumenti, o viceversa. 0 = dice che a inizio sessione la finestra e' vuota, o parla di dati di addestramento."
+      },
+      {
+        "q": "Nella stessa conversazione fai due domande identiche, a dieci turni di distanza. Il conto dei token di input e' lo stesso? Spiega il meccanismo, non solo il risultato.",
+        "rubrica": "2 = no, la seconda e' molto piu' grande: i turni precedenti sono conservati per intero e l'input del secondo turno contiene tutta la storia piu' il messaggio. Il meccanismo e' che il modello non ricorda niente fra una richiesta e l'altra, quindi tutta la conversazione viene rispedita ogni volta. 1 = risponde no ma giustifica dicendo che il modello 'ha piu' memoria da gestire' invece che col rinvio integrale. 0 = risponde si'."
+      },
+      {
+        "q": "Un collega propone: 'passiamo al modello con la finestra da 1 milione, cosi' il problema del contesto e' risolto'. Cosa gli manca?",
+        "rubrica": "2 = la capienza non e' la qualita' del recupero: la documentazione dice esplicitamente che piu' contesto non e' automaticamente meglio, perche' accuratezza e recall degradano al crescere dei token (context rot). Puo' aggiungere che l'output massimo resta limitato e che tutto quello che ci metti va comunque rispedito ogni turno. 1 = dice solo che costa di piu' o che comunque non ci sta tutto, senza toccare il degrado. 0 = accetta la proposta, o risponde che basta scegliere il modello giusto."
+      }
+    ],
     "peso_skill": {
       "fondamenta-llm": 0.17
     },
-    "stato": "bozza",
+    "stato": "pronto",
     "origine": "seed",
     "nuovo": false,
     "creato_il": "2026-09-15",
@@ -70,21 +88,39 @@
   {
     "id": "mod-llm-03",
     "course_id": "corso-llm-fondamenta",
-    "titolo": "Modulo 3 — Come funzionano davvero gli LLM (in preparazione)",
+    "titolo": "Context rot: perche' una finestra piu' grande non basta",
     "tipo": "teoria",
     "durata_min": 15,
     "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "obiettivo": "Alla fine sai spiegare perche' la qualita' delle risposte cala al crescere del contesto, e sai indicare quale rimedio attacca la causa e quale no.",
     "prerequisiti_skill": [],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
+    "prerequisiti_testo": "Serve sapere cosa occupa la finestra di contesto: system prompt, tutti i turni precedenti conservati per intero, i risultati degli strumenti, le definizioni degli strumenti e l'output del turno. Serve sapere che i turni precedenti non vengono riassunti da soli: si accumulano. Non serve conoscere l'architettura dei transformer nel dettaglio: basta sapere che il meccanismo di attenzione mette in relazione ogni token con ogni altro token della sequenza.",
+    "sintesi_md": "## Il fenomeno\n\nSi chiama **context rot**: al crescere del numero di token nella finestra, la capacita' del modello di richiamare con precisione le informazioni cala. Succede su tutti i modelli; alcuni degradano piu' dolcemente di altri, ma nessuno e' immune.\n\nE' la ragione per cui \"ci sta tutto dentro\" e \"lo usera' bene\" sono due affermazioni diverse, e per cui il secondo non segue dal primo.\n\n## Da dove viene\n\nDue cause, entrambe strutturali.\n\n**L'attenzione cresce in modo quadratico.** Un transformer deve gestire n² relazioni a coppie per n token: raddoppiare il contesto piu' che raddoppia il lavoro di attenzione, e quell'attenzione e' una risorsa finita che va spalmata su piu' roba.\n\n**L'addestramento ha visto soprattutto sequenze corte.** I modelli imparano i pattern di attenzione dai dati su cui sono addestrati, e li' le sequenze brevi sono molto piu' comuni di quelle lunghe. Sulle dipendenze a lunga distanza hanno semplicemente meno esperienza. Le tecniche di codifica della posizione aiutano, ma al prezzo di una certa degradazione nella comprensione della posizione dei token.\n\n## La conseguenza pratica\n\nIl contesto va trattato come una **risorsa finita con rendimenti decrescenti**, non come un contenitore da riempire. La domanda giusta prima di aggiungere qualcosa non e' \"ci sta?\" ma \"questo aumenta o diluisce la probabilita' che il modello faccia la cosa giusta?\".\n\n## I rimedi che attaccano la causa\n\n**Compattazione.** Si riassume la conversazione e si riparte da una versione compressa, tenendo quello che serve davvero: decisioni architetturali prese, bug ancora aperti, dettagli implementativi. Riduce i token senza perdere il filo.\n\n**Appunti strutturati.** L'agente tiene una memoria esterna in file — uno stile `NOTES.md` — e la rilegge quando serve, invece di portarsi dietro tutta la storia dentro la finestra.\n\n**Recupero al momento giusto.** Invece di precaricare tutto, l'agente usa strumenti per caricare i dati quando servono. E' il modo in cui lavorano le persone: non tengono in testa l'intero filesystem, tengono i puntatori e aprono il file al momento.\n\n**Sottoagenti.** Un agente specializzato affronta un compito circoscritto nel proprio contesto e restituisce solo un riassunto condensato. Il contesto principale riceve la conclusione, non tutta l'esplorazione.\n\n## I rimedi che non risolvono\n\nPassare a una finestra piu' grande sposta il limite ma non toglie il degrado: e' la cosa che il fenomeno stesso descrive. Chiedere al modello di \"fare piu' attenzione\" o \"ricordare meglio\" non agisce su niente di reale. E lasciare che un agente esplori liberamente una cartella grande, quando potresti dargli il percorso preciso, e' il modo piu' rapido di riempire la finestra di materiale che non serve.\n\n## Come si riconosce\n\nIl sintomo tipico: una sessione lunga che a un certo punto peggiora — dimentica un vincolo che avevi dato all'inizio, rifa' una cosa gia' fatta, perde il filo — senza che tu abbia cambiato modello ne' chiesto qualcosa di piu' difficile. Non e' che il modello \"si stanca\": e' che la finestra si e' riempita.",
+    "fonte_primaria": {
+      "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+      "titolo": "Effective context engineering for AI agents — Anthropic Engineering",
+      "tipo": "articolo",
+      "verificata_il": "2026-09-16"
+    },
     "fonti_extra": [],
-    "domande": [],
+    "domande": [
+      {
+        "q": "Una sessione con un agente che legge file rallenta e peggiora dopo un'ora, senza che tu abbia cambiato modello. Elenca cosa sta occupando la finestra, spiega il peggioramento e di' un rimedio che funziona e uno che no.",
+        "rubrica": "2 = elenca almeno system prompt, tutti i turni precedenti, i risultati degli strumenti e i file letti, le definizioni degli strumenti, l'output del modello; collega il peggioramento al context rot, cioe' al calo di precisione e recall al crescere dei token, e non solo al costo; rimedio che funziona: compattare, dare puntatori precisi invece di far esplorare, tenere fuori i file non necessari, delegare a un sottoagente; rimedio che non funziona: chiedere al modello di ricordare meglio, o solo passare a una finestra piu' grande. 1 = elenca due o tre voci, o propone rimedi senza spiegare perche' funzionano. 0 = dice che il modello si stanca, o che basta una finestra piu' grande."
+      },
+      {
+        "q": "Perche' il degrado e' strutturale e non un difetto che si corregge con un aggiornamento? Cita almeno una delle due cause.",
+        "rubrica": "2 = cita almeno una causa correttamente: l'attenzione richiede n^2 relazioni a coppie per n token, quindi il carico cresce quadraticamente e l'attenzione disponibile si diluisce; oppure i modelli imparano i pattern di attenzione da dati in cui le sequenze corte sono molto piu' comuni, quindi hanno meno esperienza delle dipendenze lunghe. Deve emergere che e' una proprieta' dell'architettura e dell'addestramento, non un bug. 1 = dice che e' strutturale ma non sa nominare nessuna delle due cause. 0 = dice che e' un limite temporaneo che i modelli nuovi hanno risolto."
+      },
+      {
+        "q": "Delegare un pezzo di lavoro a un sottoagente riduce il context rot. Perche' funziona, e in quale caso non aiuterebbe?",
+        "rubrica": "2 = funziona perche' l'esplorazione avviene in un contesto separato e nel contesto principale rientra solo un riassunto condensato, quindi il contesto principale cresce di poco invece che di tutto il materiale attraversato. Non aiuta quando il compito delegato richiede comunque che il risultato integrale rientri nel contesto principale, o quando il sottoagente deve ricevere in ingresso tutto lo stesso contesto: li' hai spostato il problema, non ridotto i token. 1 = spiega bene perche' funziona ma non porta un caso in cui non aiuta, o ne porta uno non pertinente. 0 = dice che funziona perche' 'due agenti sono meglio di uno' o perche' il sottoagente e' piu' veloce."
+      }
+    ],
     "peso_skill": {
       "fondamenta-llm": 0.17
     },
-    "stato": "bozza",
+    "stato": "pronto",
     "origine": "seed",
     "nuovo": false,
     "creato_il": "2026-09-15",
@@ -94,21 +130,39 @@
   {
     "id": "mod-llm-04",
     "course_id": "corso-llm-fondamenta",
-    "titolo": "Modulo 4 — Come funzionano davvero gli LLM (in preparazione)",
+    "titolo": "Prompt caching: perche' rispedire tutto non costa quanto sembra",
     "tipo": "teoria",
     "durata_min": 15,
     "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "obiettivo": "Alla fine sai dire dove va messo un punto di cache e perche' spostarlo di un blocco puo' annullare tutto il risparmio.",
     "prerequisiti_skill": [],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
+    "prerequisiti_testo": "Serve sapere che il modello non conserva niente fra una richiesta e l'altra: ogni turno rispedisci l'intera conversazione, e i token di input crescono a ogni giro. Serve sapere in che ordine e' fatta una richiesta: prima le definizioni degli strumenti, poi il system prompt, poi i messaggi. Questo ordine e' l'unica cosa che conta per capire la cache. Serve infine sapere che input e output si pagano a token, con tariffe diverse.",
+    "sintesi_md": "## Il problema che risolve\n\nSe ogni turno rispedisci tutta la conversazione, rispedisci anche le stesse identiche migliaia di token di system prompt e di definizioni degli strumenti, ogni volta. Il prompt caching serve a non rielaborarli da capo.\n\n## Come funziona\n\nIl sistema controlla se il **prefisso** del prompt, fino a un punto che hai marcato, combacia con una richiesta recente. Se si', riusa la versione in cache; altrimenti elabora tutto e mette in cache mentre la risposta comincia.\n\nLa parola chiave e' *prefisso*. La cache guarda il prompt **in ordine**: `tools` → `system` → `messages`, fino al blocco marcato incluso. Non e' una cache per pezzi: e' una cache dell'inizio della richiesta.\n\n## Tre regole che spiegano tutto\n\n**La scrittura avviene solo nei punti marcati.** Mettere `cache_control` su un blocco scrive una voce sola: l'hash del prefisso che finisce li'. Cambiare qualunque blocco a quel punto o prima produce un hash diverso.\n\n**La lettura guarda all'indietro.** Se al tuo punto non c'e' corrispondenza, il sistema torna indietro un blocco alla volta cercando voci precedenti. La finestra di ricerca e' di **20 blocchi**. Oltre, non trova piu' niente: in una conversazione che cresce in fretta serve un secondo punto di cache piu' indietro.\n\n**Il tempo di vita parte dall'inizio della richiesta.** Il minimo di base e' **5 minuti**, e il tempo speso a generare la risposta conta: se la generazione dura quattro minuti, il turno successivo deve partire entro il minuto che resta. Esiste una variante a un'ora. Ogni riuso rinfresca la cache senza costo aggiuntivo.\n\n## L'errore che annulla il risparmio\n\nE' l'esempio che vale l'intero modulo. Hai un system prompt grande e stabile nei blocchi 1-5 e, nel blocco 6, un timestamp che cambia a ogni richiesta. Se metti `cache_control` sul blocco 6, l'hash del prefisso cambia ogni volta, la ricerca all'indietro non trova mai niente e paghi sempre una scrittura di cache nuova — cioe' piu' del prezzo pieno. Mettendolo sul blocco 5 tutto il resto legge dalla cache. Il punto di cache va **sull'ultimo blocco stabile**, non sull'ultimo blocco.\n\n## Quanto si risparmia\n\nLe letture costano circa un decimo dell'input normale; le scritture costano di piu' dell'input normale (1,25x per la cache da 5 minuti, 2x per quella da un'ora). Quindi la cache conviene quando viene **riletta**: una scrittura mai riusata e' una perdita netta. Ci sono anche lunghezze minime sotto le quali non si mette in cache niente, e nessun errore ti avvisa che non e' successo.\n\n## Cosa la invalida\n\nSegue la gerarchia `tools` → `system` → `messages`: un cambiamento invalida quel livello e tutti quelli successivi. Cambiare le definizioni degli strumenti butta via tutto. Ecco perche' aggiungere uno strumento a meta' sessione non e' gratis.\n\n## Come leggerlo nei conti\n\nI token totali di input sono `cache_read_input_tokens + cache_creation_input_tokens + input_tokens`, e `input_tokens` conta **solo** quello che viene dopo l'ultimo punto di cache. Se guardi solo quel campo, sembra che tu stia spedendo pochissimo.",
+    "fonte_primaria": {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+      "titolo": "Prompt caching — Claude Docs",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
     "fonti_extra": [],
-    "domande": [],
+    "domande": [
+      {
+        "q": "Hai un system prompt lungo e stabile, e in fondo una riga con la data e l'ora della richiesta. Dove metti il punto di cache e cosa succede se sbagli?",
+        "rubrica": "2 = sull'ultimo blocco stabile, cioe' prima della riga con il timestamp. Se lo metti dopo, l'hash del prefisso cambia a ogni richiesta, la ricerca all'indietro non trova mai una voce e paghi ogni volta una scrittura di cache nuova, che costa piu' dell'input normale: il risparmio non solo sparisce, diventa un costo. 1 = dice di metterlo prima del timestamp ma spiega con 'altrimenti non funziona' senza dire che si paga una scrittura ogni volta. 0 = dice di metterlo alla fine del prompt, o che la posizione non conta."
+      },
+      {
+        "q": "Una conversazione cresce di circa 25 blocchi a turno e hai un solo punto di cache, sempre sull'ultimo blocco. Dopo qualche turno smetti di vedere cache hit. Perche', e come si rimedia?",
+        "rubrica": "2 = la ricerca all'indietro copre al massimo 20 blocchi, quindi la voce scritta al turno precedente e' gia' fuori finestra e non viene piu' trovata: cache miss a ogni turno. Si rimedia aggiungendo un secondo punto di cache piu' indietro, che crea una nuova voce raggiungibile. 1 = intuisce che la voce non viene piu' trovata ma non nomina la finestra di 20 blocchi o non propone il secondo breakpoint. 0 = attribuisce il problema alla scadenza temporale o alla dimensione del contesto."
+      },
+      {
+        "q": "A meta' di una sessione lunga aggiungi uno strumento nuovo. Cosa succede alla cache e perche' proprio quello?",
+        "rubrica": "2 = si invalida tutto: la cache segue la gerarchia tools, system, messages, e un cambiamento invalida quel livello e tutti i successivi; le definizioni degli strumenti stanno all'inizio del prefisso, quindi cambiarle cambia l'hash di ogni prefisso a valle. Il turno successivo si paga come scrittura piena. 1 = dice che la cache si invalida ma non collega la conseguenza alla posizione di tools nella gerarchia. 0 = dice che si invalidano solo i messaggi, o che non cambia niente perche' il system prompt e' rimasto uguale."
+      }
+    ],
     "peso_skill": {
       "fondamenta-llm": 0.17
     },
-    "stato": "bozza",
+    "stato": "pronto",
     "origine": "seed",
     "nuovo": false,
     "creato_il": "2026-09-15",
@@ -214,23 +268,41 @@
   {
     "id": "mod-claude-code-02",
     "course_id": "corso-claude-code",
-    "titolo": "Modulo 2 — Claude Code (in preparazione)",
+    "titolo": "Il ciclo del tool calling: chi esegue davvero",
     "tipo": "teoria",
     "durata_min": 15,
     "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "obiettivo": "Alla fine sai raccontare turno per turno cosa succede fra il tuo messaggio e una riga cambiata sul disco, e sai dire chi esegue lo strumento.",
     "prerequisiti_skill": [
       "fondamenta-llm"
     ],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
+    "prerequisiti_testo": "Serve sapere una cosa sola, e va tenuta ferma per tutto il modulo: un modello linguistico produce testo e nient'altro. Non apre file, non lancia comandi, non tocca la rete. Quando sembra che lo faccia, sta scrivendo del testo strutturato che un programma esterno legge ed esegue al posto suo. Serve anche sapere cos'e' una richiesta all'API: un programma manda al modello un elenco di messaggi e riceve indietro una risposta; fra una richiesta e l'altra il modello non conserva niente, tutto quello che deve sapere glielo rispedisci ogni volta.",
+    "sintesi_md": "## Il problema\n\nUn modello che produce solo testo non puo' leggere il tuo `package.json`. Il tool calling e' il protocollo che colma questa distanza, e capirlo per bene e' la cosa da cui dipende tutto il resto: Claude Code, MCP, gli agenti. Sono tutti lo stesso ciclo, con piu' strati sopra.\n\n## I quattro passi\n\n**1. Tu dichiari gli strumenti.** La tua applicazione passa nel parametro `tools` della richiesta un elenco di strumenti: per ciascuno un nome, una descrizione e un `input_schema`, cioe' uno schema JSON che dice quali parametri accetta. La descrizione non e' decorazione: e' l'unica cosa che il modello legge per decidere quando usare quello strumento.\n\n**2. Il modello chiede, non fa.** Se decide di usare uno strumento, la risposta torna con `stop_reason: \"tool_use\"` e contiene uno o piu' blocchi `tool_use`, fatti cosi':\n\n```json\n{\n  \"type\": \"tool_use\",\n  \"id\": \"toolu_01A09q90qw90lq917835lq9\",\n  \"name\": \"get_weather\",\n  \"input\": { \"location\": \"New York, NY\", \"unit\": \"fahrenheit\" }\n}\n```\n\nQuesto blocco e' una richiesta. Non e' successo ancora niente.\n\n**3. Qualcun altro esegue.** Chi esegue dipende dal tipo di strumento. Gli strumenti *client* — quelli che definisci tu, piu' bash, l'editor di testo, il computer use — li esegue la tua applicazione, sulla tua macchina. Gli strumenti *server* — ricerca web, esecuzione di codice, il connettore MCP — li esegue l'infrastruttura di Anthropic. In entrambi i casi non e' il modello a eseguire.\n\n**4. Il risultato torna dentro come nuovo messaggio.** La tua applicazione fa una **seconda richiesta**, in cui rimanda tutti i messaggi precedenti piu' un messaggio `user` che contiene un blocco `tool_result` con il `tool_use_id` di prima e il contenuto vero. Solo a quel punto il modello vede il risultato, e di norma risponde con `stop_reason: \"end_turn\"`.\n\n## Perche' e' due richieste e non una\n\nE' il punto che quasi sempre sfugge. Il modello non si mette in pausa aspettando il file: la prima richiesta finisce li'. Fra le due richieste c'e' il tuo programma che lavora. Il modello non ha memoria di quello che e' successo in mezzo, se non perche' tu glielo rimandi dentro `messages`.\n\n## Come si legge Claude Code alla luce di questo\n\nClaude Code e' un programma che gira sulla tua macchina e ha registrato strumenti per leggere file, scriverli, eseguire comandi. Quando gli chiedi di correggere una funzione in un file che non ha ancora aperto, succede questo: il modello emette un `tool_use` di lettura, il programma lo esegue sul disco e rimanda il contenuto come `tool_result`, il modello legge, decide la modifica ed emette un secondo `tool_use` di scrittura, che passa dal controllo dei permessi. Due giri, non uno. Ogni volta che qualcosa va storto in un agente, la domanda utile e' sempre la stessa: a quale passo di questo ciclo?",
+    "fonte_primaria": {
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview",
+      "titolo": "Tool use with Claude — Overview",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
     "fonti_extra": [],
-    "domande": [],
+    "domande": [
+      {
+        "q": "Il modello ha bisogno del contenuto di un file per rispondere. Quante richieste all'API servono in totale, e cosa c'e' dentro ciascuna?",
+        "rubrica": "2 = due richieste: nella prima ci sono le definizioni degli strumenti e il messaggio dell'utente, e la risposta torna con stop_reason tool_use e un blocco tool_use; nella seconda ci sono tutti i messaggi precedenti piu' un messaggio user con un blocco tool_result che porta il tool_use_id e il contenuto del file, e la risposta e' il testo finale. 1 = dice due richieste ma non descrive cosa contiene la seconda, o confonde chi mette il tool_result. 0 = dice una sola richiesta, o descrive il modello che 'aspetta' il file dentro la stessa chiamata."
+      },
+      {
+        "q": "Un collega dice: 'il modello legge il file'. Correggilo in modo preciso, e di' in quale caso la frase sarebbe ancora piu' sbagliata.",
+        "rubrica": "2 = il modello emette una richiesta di lettura sotto forma di testo strutturato; e' il programma che la esegue sul disco e rimanda il contenuto come tool_result. Il caso in cui e' ancora piu' sbagliata: gli strumenti server, eseguiti dall'infrastruttura di Anthropic e non dalla macchina locale, dove nemmeno il programma dell'utente e' coinvolto. 1 = corregge bene chi esegue ma non porta nessun caso, o porta un caso generico. 0 = accetta la frase, o dice solo che 'il modello usa un tool'."
+      },
+      {
+        "q": "Scrivi la descrizione di uno strumento e ti accorgi che il modello non lo usa mai, anche quando servirebbe. Dove guardi per primo e perche'?",
+        "rubrica": "2 = alla descrizione e all'input_schema dichiarati in tools: sono l'unica cosa che il modello vede per decidere se quello strumento serve, quindi una descrizione vaga o uno schema che non copre il caso lo rendono invisibile. Non e' un problema del modello ne' dell'esecuzione. 1 = dice di guardare la definizione dello strumento senza spiegare perche' e' li' che si decide. 0 = propone di cambiare modello, di insistere nel prompt, o guarda al codice che esegue lo strumento."
+      }
+    ],
     "peso_skill": {
       "claude-code": 0.14
     },
-    "stato": "bozza",
+    "stato": "pronto",
     "origine": "seed",
     "nuovo": false,
     "creato_il": "2026-09-15",
@@ -240,23 +312,41 @@
   {
     "id": "mod-claude-code-03",
     "course_id": "corso-claude-code",
-    "titolo": "Modulo 3 — Claude Code (in preparazione)",
+    "titolo": "Permessi: cosa Claude Code puo' fare senza chiedertelo",
     "tipo": "teoria",
     "durata_min": 15,
     "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "obiettivo": "Alla fine sai prevedere, per una data azione, se Claude Code ti chiedera' il permesso, e sai dove finisce la regola quando rispondi 'non chiedermelo piu''.",
     "prerequisiti_skill": [
       "fondamenta-llm"
     ],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
+    "prerequisiti_testo": "Serve avere chiaro il ciclo del tool calling: il modello non esegue niente, emette una richiesta di uso strumento e il programma la esegue. Il sistema dei permessi si infila esattamente li', fra la richiesta del modello e l'esecuzione: e' il programma locale a fermarsi e a chiedere, non il modello a trattenersi. Serve anche sapere che Claude Code legge la configurazione da piu' file sovrapposti (di sistema, personale, di progetto, locale) invece che da uno solo.",
+    "sintesi_md": "## Il principio\n\nI permessi non sono una funzione di sicurezza appiccicata sopra: sono il punto in cui il ciclo del tool calling si ferma. Il modello ha gia' deciso di scrivere su un file; e' il programma sulla tua macchina che, prima di eseguire, guarda le regole e decide se chiedertelo.\n\n## Il sistema a livelli\n\nIn modalita' manuale, il comportamento di base dipende dal tipo di strumento:\n\n| Tipo | Chiede? | Se dici \"non chiedermelo piu'\" |\n|---|---|---|\n| Sola lettura (lettura file, grep) | No, dentro la cartella di lavoro | non si pone |\n| Comandi bash | Si', tranne un insieme predefinito di comandi di sola lettura | per sempre, per quella repository e quel comando |\n| Modifica di file (Edit/Write) | Si' | **solo fino a fine sessione** |\n| WebFetch | Si', tranne alcuni domini di documentazione preapprovati | per sempre, per repository e dominio |\n| WebSearch | Si' | per sempre, per repository |\n\nLa riga che sorprende e' la terza: l'approvazione di una modifica di file **non viene salvata su disco**, vale finche' la sessione e' aperta. Le altre approvazioni permanenti finiscono in `.claude/settings.local.json` nella radice della repository, e da li' valgono anche per le sessioni future.\n\n## Allow, ask, deny\n\nCon `/permissions` vedi e modifichi le regole, e per ognuna vedi da quale file di impostazioni arriva. Ci sono tre tipi: **allow** (procedi senza chiedere), **ask** (chiedi sempre), **deny** (non fare). L'ordine di valutazione e' fisso: prima deny, poi ask, poi allow; vince la prima che corrisponde, e la specificita' della regola non cambia l'ordine. Quindi un `deny` batte sempre un `allow`, per quanto preciso sia quest'ultimo.\n\nLe regole si scrivono come `Bash(npm run build)`, `Read(./.env)`, `WebFetch(domain:example.com)`. Gli asterischi contano: `Bash(ls *)` copre `ls -la` ma non `lsof`, mentre `Bash(ls*)` copre entrambi.\n\n## Le modalita'\n\nLa modalita' decide quanto spesso il sistema di sopra ti interpella. `default` (etichettata **Manual**) chiede al primo uso di ogni strumento. `acceptEdits` accetta da sola le modifiche ai file e i comandi di filesystem piu' comuni dentro la cartella di lavoro. `plan` fa esplorare senza toccare i sorgenti. `auto` approva automaticamente, con un classificatore che verifica in sottofondo che l'azione sia coerente con quello che hai chiesto. `dontAsk` nega tutto cio' che chiederebbe. `bypassPermissions` salta i prompt, comprese le scritture su percorsi protetti come `.git` e `.claude`: va usata solo in ambienti isolati.\n\nLa modalita' con cui le sessioni partono si imposta con `defaultMode` nei file di impostazioni.\n\n## Cosa portarsi via\n\nQuando un agente fa qualcosa che non ti aspettavi, la domanda giusta non e' \"perche' ha voluto farlo\" ma \"quale regola glielo ha lasciato fare, e da quale file veniva\".",
+    "fonte_primaria": {
+      "url": "https://code.claude.com/docs/en/permissions",
+      "titolo": "Claude Code — Configure permissions",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
     "fonti_extra": [],
-    "domande": [],
+    "domande": [
+      {
+        "q": "In una sessione approvi 'si', e non chiedermelo piu'' due volte: una su `npm test` e una su una modifica a `src/api.ts`. Il giorno dopo riapri Claude Code nella stessa repository. Cosa ti richiede e cosa no?",
+        "rubrica": "2 = `npm test` non viene piu' chiesto: l'approvazione di un comando bash e' permanente per repository e comando, salvata in .claude/settings.local.json. La modifica al file viene richiesta di nuovo: le approvazioni di modifica valgono solo fino a fine sessione e non vengono salvate. 1 = coglie che una delle due non sopravvive ma non sa quale, o non sa dove finisce la regola salvata. 0 = dice che sopravvivono entrambe o nessuna delle due."
+      },
+      {
+        "q": "Hai una regola `allow` su `Bash(git *)` e una regola `deny` su `Bash(git push *)`. Claude Code prova a fare `git push origin main`. Cosa succede, e perche' non conta che la prima sia piu' generica?",
+        "rubrica": "2 = l'azione viene negata: l'ordine di valutazione e' deny, poi ask, poi allow, e vince la prima regola che corrisponde in quell'ordine; la specificita' non entra nella decisione, quindi un deny batte sempre un allow anche piu' mirato. 1 = dice che viene negata ma spiega con la specificita' della regola invece che con l'ordine. 0 = dice che passa perche' la regola allow e' piu' ampia, o che dipende dalla modalita'."
+      },
+      {
+        "q": "Stai per far girare un agente senza stare davanti allo schermo. Fra `acceptEdits`, `auto` e `bypassPermissions`, quale scegli e cosa stai accettando in ciascun caso?",
+        "rubrica": "2 = distingue i tre: acceptEdits accetta da sola solo modifiche ai file e comandi di filesystem comuni dentro la cartella di lavoro, il resto chiede ancora, quindi da sola si puo' bloccare; auto approva con un classificatore che verifica la coerenza con la richiesta, e resta un controllo; bypassPermissions non controlla niente, comprese le scritture su percorsi protetti come .git e .claude, e va usata solo in ambienti isolati. La scelta deve essere motivata, non solo elencata. 1 = descrive bene una o due modalita' o sceglie senza dire cosa sta accettando. 0 = tratta le tre come equivalenti, o sceglie bypassPermissions perche' 'e' la piu' comoda' senza nominare l'isolamento."
+      }
+    ],
     "peso_skill": {
       "claude-code": 0.14
     },
-    "stato": "bozza",
+    "stato": "pronto",
     "origine": "seed",
     "nuovo": false,
     "creato_il": "2026-09-15",
@@ -266,23 +356,41 @@
   {
     "id": "mod-claude-code-04",
     "course_id": "corso-claude-code",
-    "titolo": "Modulo 4 — Claude Code (in preparazione)",
+    "titolo": "CLAUDE.md e memoria automatica: cosa paghi a ogni sessione",
     "tipo": "teoria",
     "durata_min": 15,
     "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "obiettivo": "Alla fine sai decidere se una certa informazione va in CLAUDE.md, in una regola con percorso, in una skill o in nessuno dei tre, e sai dire quanto costa la scelta.",
     "prerequisiti_skill": [
       "fondamenta-llm"
     ],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
+    "prerequisiti_testo": "Serve sapere che ogni sessione di Claude Code parte con una finestra di contesto vuota: il modello non ricorda niente della sessione di ieri. Serve anche sapere cos'e' la finestra di contesto: tutto il testo che il modello puo' consultare per rispondere, dentro un limite di token. Ogni cosa che ci metti dentro occupa spazio e va rispedita a ogni richiesta, quindi 'aggiungere contesto' non e' mai gratis. Infine: i file di istruzioni vengono concatenati, non si sostituiscono a vicenda.",
+    "sintesi_md": "## Due meccanismi, non uno\n\nClaude Code ha due memorie che sopravvivono alla sessione, e vanno tenute distinte. **CLAUDE.md** lo scrivi tu e contiene istruzioni e regole. La **memoria automatica** la scrive Claude, e contiene quello che ha imparato dalle tue correzioni. Entrambe vengono caricate all'inizio di ogni conversazione.\n\nIl punto che cambia tutto: sono **contesto, non configurazione applicata**. Claude le legge e cerca di seguirle, ma non c'e' garanzia di rispetto. Se una cosa deve succedere per forza, prima di ogni commit o dopo ogni modifica, quella e' un hook, non una riga di CLAUDE.md.\n\n## Dove vivono i CLAUDE.md\n\nIn ordine di caricamento, dal piu' ampio al piu' specifico:\n\n- **Policy aziendale**: su macOS `/Library/Application Support/ClaudeCode/CLAUDE.md`. Non escludibile dalle impostazioni individuali.\n- **Utente**: `~/.claude/CLAUDE.md`, le tue preferenze per tutti i progetti.\n- **Progetto**: `./CLAUDE.md` oppure `./.claude/CLAUDE.md`, condiviso col team via git.\n- **Locale**: `./CLAUDE.local.md`, tue e sole tue, da mettere in `.gitignore`.\n\nVengono caricati dalla cartella di lavoro e da tutte quelle sopra, e **concatenati**: quelli piu' vicini a dove hai lanciato Claude sono letti per ultimi. I CLAUDE.md nelle sottocartelle non si caricano all'avvio, ma quando Claude legge file in quelle cartelle.\n\n## Il costo, detto con precisione\n\nUn CLAUDE.md viene caricato nella finestra di contesto **all'inizio di ogni sessione**, e consuma token accanto alla tua conversazione. Non lo paghi quando serve: lo paghi sempre. La documentazione consiglia di stare **sotto le 200 righe** per file, perche' i file piu' lunghi consumano piu' contesto e riducono l'aderenza alle istruzioni.\n\nAttenzione a un'illusione: spezzare il contenuto in `@path/to/import` aiuta l'organizzazione ma **non riduce il contesto**, perche' i file importati vengono espansi e caricati all'avvio comunque.\n\n## Dove va allora il materiale lungo\n\nLa regola pratica e' questa. In CLAUDE.md vanno i fatti che devono valere in ogni sessione: comandi di build, convenzioni, struttura del progetto, regole del tipo \"fai sempre X\". Se una cosa e' una procedura in piu' passi, o riguarda solo una parte del codice, va altrove:\n\n- **Regole con percorso** in `.claude/rules/`, con un frontmatter `paths:` che le fa caricare solo quando Claude lavora su file che combaciano;\n- **Skill**, che si caricano solo quando le invochi o quando Claude giudica che servano.\n\nE' la differenza fra un costo ricorrente e un costo su richiesta, ed e' questo che rende sbagliata la frase \"metto tutta la documentazione in CLAUDE.md cosi' Claude sa sempre tutto\": la documentazione la pagheresti a ogni sessione, anche nelle novantanove su cento in cui non serve, e piu' il file cresce meno le istruzioni vengono seguite.\n\n## Quando aggiungere qualcosa\n\nLa documentazione da' un criterio concreto: aggiungi a CLAUDE.md quando Claude fa lo stesso errore la seconda volta, quando ti accorgi di riscrivere in chat la stessa correzione della sessione scorsa, o quando un nuovo collega avrebbe bisogno dello stesso contesto. Per vedere cosa e' stato davvero caricato nella sessione in corso, `/context`; per aprire e modificare i file, `/memory`.",
+    "fonte_primaria": {
+      "url": "https://code.claude.com/docs/en/memory",
+      "titolo": "Claude Code — How Claude remembers your project",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
     "fonti_extra": [],
-    "domande": [],
+    "domande": [
+      {
+        "q": "Hai tre cose da far sapere a Claude: il comando per far girare i test, una procedura in sei passi per rilasciare, e una convenzione che vale solo per i file in `src/api/`. Dove metti ciascuna e perche'?",
+        "rubrica": "2 = il comando dei test in CLAUDE.md, perche' e' un fatto stabile che serve in ogni sessione e costa poche righe; la procedura di rilascio in una skill, perche' e' multi-passo e si carica solo quando serve invece di pesare sempre; la convenzione su src/api/ in una regola con frontmatter paths, che entra in contesto solo quando Claude tocca quei file. La motivazione deve poggiare sulla differenza fra costo ricorrente e costo su richiesta. 1 = due collocazioni giuste su tre, o tutte giuste ma motivate con 'e' piu' ordinato'. 0 = mette tutto in CLAUDE.md, o sceglie a caso."
+      },
+      {
+        "q": "Il tuo CLAUDE.md e' arrivato a 600 righe. Lo spezzi in quattro file e li richiami con `@import`. Hai risolto il problema?",
+        "rubrica": "2 = no: i file importati vengono espansi e caricati in contesto all'avvio insieme al CLAUDE.md che li richiama, quindi il costo di token resta identico. L'import aiuta l'organizzazione, non il contesto. Per ridurre davvero servono regole con paths o skill, che si caricano solo quando servono. 1 = dice che non basta ma senza spiegare che gli import si caricano comunque all'avvio. 0 = dice di si', o che dipende da quanti file usi."
+      },
+      {
+        "q": "Metti in CLAUDE.md la riga 'esegui sempre i test prima di ogni commit'. Due volte su dieci Claude committa lo stesso senza eseguirli. E' un bug?",
+        "rubrica": "2 = no: CLAUDE.md e' contesto, non configurazione applicata dal programma. Claude lo legge e cerca di seguirlo ma non c'e' garanzia di rispetto, tanto piu' se il file e' lungo o contiene istruzioni in conflitto. Se una cosa deve accadere a un punto preciso del ciclo va scritta come hook, che e' un comando eseguito dal programma a prescindere da cosa decide il modello. 1 = dice che non e' garantito ma non nomina il meccanismo che invece lo garantirebbe. 0 = dice che e' un bug da segnalare, o che basta scrivere l'istruzione in maiuscolo o ripeterla."
+      }
+    ],
     "peso_skill": {
       "claude-code": 0.14
     },
-    "stato": "bozza",
+    "stato": "pronto",
     "origine": "seed",
     "nuovo": false,
     "creato_il": "2026-09-15",
@@ -292,23 +400,41 @@
   {
     "id": "mod-claude-code-05",
     "course_id": "corso-claude-code",
-    "titolo": "Modulo 5 — Claude Code (in preparazione)",
+    "titolo": "Locale o cloud: dove gira il processo e cosa cambia",
     "tipo": "teoria",
     "durata_min": 15,
     "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "obiettivo": "Alla fine sai dire, per un dato compito, se deve girare sulla tua macchina o nel cloud, e sai prevedere cosa non funzionera' nella scelta sbagliata.",
     "prerequisiti_skill": [
       "fondamenta-llm"
     ],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
+    "prerequisiti_testo": "Serve tenere separate due cose che e' facile confondere: il **modello**, che gira sempre sull'infrastruttura di Anthropic, e il **programma** Claude Code, che gira da qualche parte ed esegue gli strumenti. E' il secondo a cambiare posto. Dal ciclo del tool calling sai che gli strumenti li esegue il programma: quindi 'dove gira il programma' decide su quali file si lavora davvero e cosa e' raggiungibile dalla rete di quella macchina. Serve anche sapere che una sessione cloud lavora su un clone del repository preso da GitHub, non sulla tua copia di lavoro.",
+    "sintesi_md": "## La differenza in una riga\n\nUna sessione cloud e' una sessione di Claude Code che gira su infrastruttura remota invece che sulla tua macchina. Il modello e' lo stesso, il modo di lavorare e' lo stesso: cambia **dove sta il processo che esegue gli strumenti**, e da li' discende tutto il resto.\n\n## Cosa resta uguale\n\nI file di configurazione committati nel repository — CLAUDE.md, le regole, i `settings.json` di progetto — arrivano con il clone e valgono uguale. I sottoagenti definiti in `.claude/agents/` vengono raccolti allo stesso modo. I comandi che producono testo funzionano; `/compact` e `/context` ci sono.\n\n## Cosa cambia davvero\n\n**Su quali file lavori.** Una sessione avviata con `claude --cloud` clona il *remote GitHub* della cartella corrente, al branch corrente: **non la tua copia locale**. Se hai commit non pushati, la sessione cloud non li vede. E' la trappola piu' comune: chiedi di sistemare una funzione che hai appena scritto, e l'agente lavora su una versione precedente senza che niente sembri rotto. Se il repository non ha un remote, o se l'app GitHub non e' installata, Claude Code impacchetta e carica la copia locale — ma i file non tracciati restano comunque fuori.\n\n**Cosa e' raggiungibile.** La sessione gira in una VM isolata, con accesso di rete limitato da un elenco di domini permessi e configurabile per ambiente. Un database che gira sul tuo portatile, un servizio dietro la tua VPN, uno script che dipende da qualcosa installato solo da te: da li' non esistono. Sulla tua macchina invece ci sono, ed e' per quello che certi compiti vanno tenuti locali.\n\n**Cosa serve perche' funzioni.** Le sessioni cloud richiedono una connessione GitHub e l'autenticazione con un account claude.ai; non sono disponibili quando Claude Code e' configurato su un provider terzo.\n\n**Cosa non torna indietro da solo.** Puoi tirare una sessione cloud nel terminale con `--teleport`: Claude verifica che tu sia nella stessa repository, fa il fetch del branch e carica la conversazione. Ma il terminale ne prende una **copia**: il lavoro che fai li' resta locale e non ricompare nella sessione cloud. E il teleport richiede un working directory pulito e il branch gia' pushato.\n\n## Come scegliere\n\nIl criterio pratico: se il compito ha bisogno di qualcosa che esiste **solo sulla tua macchina** — file non committati, servizi locali, la rete di casa o dell'ufficio — resta in locale. Se e' un compito lungo e autonomo su codice gia' pushato, il cloud e' fatto per quello: continua a girare quando chiudi il portatile e puoi lanciarne diversi in parallelo, ognuno nella propria sessione.\n\nUna combinazione che la documentazione consiglia: pianifica in locale in modalita' `plan`, committa e pusha il piano, poi lancia l'esecuzione nel cloud.",
+    "fonte_primaria": {
+      "url": "https://code.claude.com/docs/en/claude-code-on-the-web",
+      "titolo": "Claude Code — Use Claude Code in the cloud",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
     "fonti_extra": [],
-    "domande": [],
+    "domande": [
+      {
+        "q": "Scrivi una funzione, la salvi, non committi niente, e lanci `claude --cloud \"sistema il bug in questa funzione\"`. Cosa succede e perche' non te ne accorgi subito?",
+        "rubrica": "2 = la VM cloud clona il remote GitHub al branch corrente, non la copia locale, quindi lavora su una versione che non contiene la tua funzione appena scritta. Non te ne accorgi perche' non c'e' nessun errore: la sessione parte normalmente e lavora su codice valido, solo vecchio. Il rimedio e' pushare prima. 1 = dice che la sessione non vede le modifiche ma non spiega che il problema e' il clone dal remote, o non coglie perche' e' silenzioso. 0 = dice che la sessione carica sempre i file locali, o che Claude Code avvisa."
+      },
+      {
+        "q": "Elenca due compiti che conviene tenere in locale e due che conviene mandare nel cloud, motivando con dove gira il processo e non con le preferenze.",
+        "rubrica": "2 = locali: qualsiasi cosa che tocchi file non committati o non tracciati, e qualsiasi cosa che debba raggiungere un servizio che vive sulla tua macchina o sulla tua rete, come un database locale o un host dietro VPN, perche' la VM cloud e' isolata e ha accesso di rete limitato a domini permessi. Cloud: compiti lunghi e autonomi su codice gia' pushato, e piu' compiti indipendenti in parallelo, perche' la sessione sopravvive alla chiusura del portatile e ognuna gira per conto suo. 1 = elenca esempi giusti ma motiva con la comodita' invece che con dove gira il processo. 0 = dice che e' indifferente, o che nel cloud cambia il modello."
+      },
+      {
+        "q": "Fai `--teleport` di una sessione cloud nel terminale, lavori un'ora, poi apri la sessione su claude.ai dal telefono. Cosa ti aspetti di trovare?",
+        "rubrica": "2 = la sessione cloud com'era al momento del teleport: il terminale ne ha preso una copia, e il lavoro fatto in locale non risale nella sessione cloud. Per continuare a seguirla dal telefono servirebbe Remote Control sulla sessione locale. 1 = dice che non e' sincronizzata ma non sa che il terminale ne prende una copia o non nomina alcun modo di rimediare. 0 = si aspetta di ritrovare il lavoro fatto in locale."
+      }
+    ],
     "peso_skill": {
       "claude-code": 0.14
     },
-    "stato": "bozza",
+    "stato": "pronto",
     "origine": "seed",
     "nuovo": false,
     "creato_il": "2026-09-15",
@@ -1702,12 +1828,12 @@
     "peso_skill": {
       "integrazioni-personali": 0.25
     },
-    "stato": "pronto",
+    "stato": "completato",
     "origine": "routine-cowork",
     "nuovo": false,
     "creato_il": "2026-09-15",
-    "servito_il": null,
-    "completato_il": null
+    "servito_il": "2026-09-16",
+    "completato_il": "2026-09-16"
   },
   {
     "id": "mod-integrazioni-personali-02",

@@ -19,8 +19,21 @@
       }
     ],
     "nota_libera": "",
-    "stato": "in_attesa",
-    "valutazione": null
+    "stato": "valutata",
+    "valutazione": {
+      "punteggio": 4,
+      "max": 6,
+      "per_domanda": [
+        1,
+        1,
+        2
+      ],
+      "commento": "D1 (1/2): hai visto i file riletti e i turni precedenti, ma la finestra contiene anche il system prompt, le definizioni dei tool e i risultati che i tool restituiscono — e soprattutto manca il motivo del peggioramento: non e' solo che costa di piu', e' che precisione e recall calano al crescere dei token (context rot). \"Creare il contesto giusto\" e' la conclusione, non il ragionamento. D2 (1/2): dire che anche tool e thinking occupano token e' vero e smonta a meta' l'affermazione, ma il punto vero e' che capienza e qualita' del recupero sono due cose diverse: un milione di token non garantisce che il modello usi bene quello che c'e' dentro. D3 (2/2): esatta e per il motivo giusto, l'input rispedisce ogni volta tutta la storia. Il concetto che ti manca e' uno solo, il context rot: e' il cuore del corso su context engineering.",
+      "livello_suggerito": {
+        "fondamenta-llm": 2
+      },
+      "valutata_il": "2026-09-16"
+    }
   },
   {
     "id": "rev-0002",
@@ -42,8 +55,21 @@
       }
     ],
     "nota_libera": "",
-    "stato": "in_attesa",
-    "valutazione": null
+    "stato": "valutata",
+    "valutazione": {
+      "punteggio": 1,
+      "max": 6,
+      "per_domanda": [
+        1,
+        0,
+        0
+      ],
+      "commento": "D1 (1/2): il conteggio dei client e' giusto — uno per connessione — ma la domanda chiedeva anche dove gira ogni pezzo e quale trasporto useresti, e quella parte manca: filesystem locale sulla tua macchina quindi stdio, Sentry sulla loro piattaforma quindi Streamable HTTP con autenticazione. D2 (0/2) e D3 (0/2): \"non so\" onesto, e va bene che tu l'abbia scritto invece di tirare a indovinare — ma sono le due cose che rendono MCP utilizzabile: la distinzione fra tool (azione), resource (dato letto) e prompt (template), e la negoziazione delle capability all'initialize con la notifica list_changed. Ti riporto mcp-protocollo a livello 1: prima servono tool calling e le basi di Claude Code, poi MCP torna affrontabile.",
+      "livello_suggerito": {
+        "mcp-protocollo": 1
+      },
+      "valutata_il": "2026-09-16"
+    }
   },
   {
     "id": "rev-0003",
@@ -62,6 +88,42 @@
       {
         "q": "Un collega ti dice: \"metto tutta la documentazione del progetto in CLAUDE.md, così Claude sa sempre tutto\". Cosa gli rispondi?",
         "risposta": "in CLAUDE.md non ci deve essere la documentazione del progetto, ma le istruzioni per claude in modo tale che capisca come lavorare all'inizio di ogni sessione"
+      }
+    ],
+    "nota_libera": "",
+    "stato": "valutata",
+    "valutazione": {
+      "punteggio": 2,
+      "max": 6,
+      "per_domanda": [
+        1,
+        0,
+        1
+      ],
+      "commento": "D1 (1/2): \"cerca, legge, modifica\" descrive il risultato, non il meccanismo. Il punto e' chi fa cosa: il modello non tocca il disco, emette una richiesta di lettura, e' il programma a eseguirla sulla tua macchina e a restituire il contenuto come testo, poi il modello emette una seconda richiesta per la scrittura, soggetta a permesso. Questo ciclo e' il tool calling, ed e' la cosa da cui dipende tutto il resto. D2 (0/2): la sincronizzazione non e' la differenza. Motore, CLAUDE.md, settings e server MCP restano gli stessi; cambia dove gira il processo, quindi su quali file lavori e cosa e' raggiungibile da li'. D3 (1/2): la prescrizione e' giusta e hai colto che CLAUDE.md viene riletto a ogni sessione, ma non hai chiuso il cerchio: e' un costo di contesto ricorrente, pagato anche quando quel materiale non serve, e il materiale lungo va dove si carica su richiesta.",
+      "livello_suggerito": {
+        "claude-code": 1
+      },
+      "valutata_il": "2026-09-16"
+    }
+  },
+  {
+    "id": "rev-0004",
+    "module_id": "mod-integrazioni-personali-01",
+    "session_id": "ses-0010",
+    "data": "2026-09-16",
+    "risposte": [
+      {
+        "q": "Vuoi che un agente guardi il tuo sonno dell’ultima notte prima di proporti l’allenamento, ogni mattina. Quale strada scegli e cosa devi verificare prima di iniziare?",
+        "risposta": "Devo verificare quali dati sono disponibili e quali può esporre il server. A quel punto conviene usare API o MCP"
+      },
+      {
+        "q": "Perché un server MCP locale che espone `sonno_per_data` è diverso dall’incollare l’export completo nella conversazione? Rispondi in termini di contesto e di dati.",
+        "risposta": "Perchè l'MCP espone dati in modo ordinato e può essere eseguito in una routine senza dover esportare a mano i dati. "
+      },
+      {
+        "q": "Un reel mostra un collegamento Garmin→Claude \"in 3 minuti\". La documentazione ufficiale dice altro. Cosa fai con questa voce, e quale verdetto le daresti?",
+        "risposta": "Forviante"
       }
     ],
     "nota_libera": "",

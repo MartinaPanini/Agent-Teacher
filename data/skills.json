@@ -20,9 +20,9 @@
     "nome": "Claude Code",
     "area": "strumenti",
     "descrizione": "Uso quotidiano di Claude Code come strumento di sviluppo: comandi, file, workflow.",
-    "livello": 2,
-    "livello_fonte": "calibrazione",
-    "livello_aggiornato_il": "2026-09-15",
+    "livello": 1,
+    "livello_fonte": "moduli",
+    "livello_aggiornato_il": "2026-09-16",
     "prerequisiti": [
       "fondamenta-llm"
     ],
@@ -57,8 +57,8 @@
     "nome": "MCP — il protocollo",
     "area": "protocolli",
     "descrizione": "Cos'è il Model Context Protocol, come è fatto un server, come si collega a un client.",
-    "livello": 2,
-    "livello_fonte": "calibrazione",
+    "livello": 1,
+    "livello_fonte": "moduli",
     "livello_aggiornato_il": "2026-09-16",
     "prerequisiti": [
       "fondamenta-llm",
@@ -207,13 +207,13 @@
     "nome": "Integrazioni con i dati personali",
     "area": "applicazioni-personali",
     "descrizione": "Collegare un agente ai propri dati: Apple Health, Garmin, e altre fonti personali.",
-    "livello": 0,
-    "livello_fonte": "calibrazione",
-    "livello_aggiornato_il": null,
+    "livello": 1,
+    "livello_fonte": "moduli",
+    "livello_aggiornato_il": "2026-09-16",
     "prerequisiti": [
       "mcp-protocollo"
     ],
-    "moduli_completati": 0,
+    "moduli_completati": 1,
     "moduli_totali": 4,
     "interesse_osservato": 0.19,
     "utilita_dichiarata": 0.9,

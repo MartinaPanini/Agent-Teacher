@@ -166,5 +166,21 @@
     "stato": "chiusa",
     "aperta_il": "2026-09-16T07:40:50.938Z",
     "chiusa_il": "2026-09-16T07:44:59.914Z"
+  },
+  {
+    "id": "ses-0010",
+    "numero": 10,
+    "data": "2026-09-16",
+    "durata_stimata_min": 15,
+    "items": [
+      {
+        "module_id": "mod-integrazioni-personali-01",
+        "ruolo": "principale"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "chiusa",
+    "aperta_il": "2026-09-16T12:39:38.700Z",
+    "chiusa_il": "2026-09-16T12:54:13.638Z"
   }
 ]
