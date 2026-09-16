@@ -123,4 +123,21 @@ describe("aggiornaLivelloSkill", () => {
     const aggiornata = aggiornaLivelloSkill(s, modules, []);
     expect(aggiornata.livello).toBe(2);
   });
+
+  it("il calcolo dai moduli non fa mai regredire il livello da calibrazione (pavimento che sale)", () => {
+    const s = skill("skill-x", { livello: 2, livello_fonte: "calibrazione" });
+    // round(4 * 0.20) = 1, sotto al livello 2 da calibrazione: non deve scendere
+    const modules = [modulo("m1", "skill-x", 0.2)];
+    const aggiornata = aggiornaLivelloSkill(s, modules, []);
+    expect(aggiornata.livello).toBe(2);
+    expect(aggiornata.livello_fonte).toBe("calibrazione");
+  });
+
+  it("una review valutata può comunque correggere verso il basso il pavimento da calibrazione", () => {
+    const s = skill("skill-x", { livello: 2, livello_fonte: "calibrazione" });
+    const modules = [modulo("m1", "skill-x", 0.2)];
+    const reviews = [review("r1", "skill-x", 1)];
+    const aggiornata = aggiornaLivelloSkill(s, modules, reviews);
+    expect(aggiornata.livello).toBe(1);
+  });
 });

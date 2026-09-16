@@ -30,14 +30,28 @@ function livelloSuggeritoPiuRecente(skillId: string, reviews: Review[]): number 
   return ultima.valutazione!.livello_suggerito[skillId] ?? null;
 }
 
+/**
+ * Il calcolo dai moduli completati è un pavimento che sale, mai una sostituzione: il
+ * livello da calibrazione (o da una fonte precedente) non deve mai scendere per il solo
+ * effetto di ricalcolare i moduli completati. La valutazione di una review resta l'unica
+ * cosa che può ancora correggere il livello verso il basso, e si applica dopo il pavimento.
+ */
 export function aggiornaLivelloSkill(skill: Skill, modules: Module[], reviews: Review[]): Skill {
-  const livelloCalcolato = livelloDaModuliCompletati(skill.id, modules);
+  const livelloDaModuli = livelloDaModuliCompletati(skill.id, modules);
+  const livelloPavimento = Math.max(skill.livello, livelloDaModuli);
+  const fonte = livelloDaModuli > skill.livello ? "moduli" : skill.livello_fonte;
+
   const livelloSuggerito = livelloSuggeritoPiuRecente(skill.id, reviews);
-  const livello = applicaValutazione(livelloCalcolato, livelloSuggerito);
+  const livello = applicaValutazione(livelloPavimento, livelloSuggerito);
+
+  if (livello === skill.livello && fonte === skill.livello_fonte) {
+    return skill;
+  }
+
   return {
     ...skill,
     livello,
-    livello_fonte: "moduli",
+    livello_fonte: fonte,
     livello_aggiornato_il: new Date().toISOString().slice(0, 10),
   };
 }
