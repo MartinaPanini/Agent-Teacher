@@ -68,6 +68,8 @@ Compila sempre `voci_inbox` con gli id delle voci che hanno contribuito, e porta
 
 Scegli quali moduli in stato `bozza` trasformare in `pronto` usando lo stesso criterio del sito: gate dei prerequisiti prima, poi il punteggio di priorità (specifica §4). Non generare moduli che non potrei ancora affrontare.
 
+**La forma dei testi e' vincolata da `docs/STILE.md`.** Prima di scrivere in `data/`, passa la checklist del capitolo 9 di quel documento, voce per voce. Un modulo che non la passa non va in stato `pronto`.
+
 Per ogni modulo scrivi:
 
 - **`obiettivo`**: una frase sola, verificabile. "Alla fine sai distinguere un tool call da una chiamata di funzione normale", non "introduzione ai tool call"
@@ -102,6 +104,7 @@ Scrivi un riassunto di massimo 10 righe: quante review valutate e con che esito,
 ## Cosa non fare
 
 - Non toccare il codice del sito, solo `data/`
+- Non lasciare un paragrafo in inglese dentro una sintesi, e non scrivere `perche'` al posto di `perché`
 - Non generare moduli i cui prerequisiti sono sotto livello 2
 - Non dare per buono un claim trovato su un social senza risalire alla fonte
 - Non alzare un livello per incoraggiarmi
