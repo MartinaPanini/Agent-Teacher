@@ -1,1 +1,74 @@
-[]
+[
+  {
+    "id": "ses-0001",
+    "numero": 1,
+    "data": "2026-09-16",
+    "durata_stimata_min": 20,
+    "items": [
+      {
+        "module_id": "mod-claude-code-01",
+        "ruolo": "principale"
+      },
+      {
+        "module_id": "mod-integrazioni-personali-01",
+        "ruolo": "scoperta"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "aperta",
+    "aperta_il": "2026-09-16T06:29:12.468Z",
+    "chiusa_il": null
+  },
+  {
+    "id": "ses-0002",
+    "numero": 2,
+    "data": "2026-09-16",
+    "durata_stimata_min": 20,
+    "items": [
+      {
+        "module_id": "mod-llm-01",
+        "ruolo": "principale"
+      },
+      {
+        "module_id": "mod-second-brain-01",
+        "ruolo": "scoperta"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "aperta",
+    "aperta_il": "2026-09-16T06:29:38.571Z",
+    "chiusa_il": null
+  },
+  {
+    "id": "ses-0003",
+    "numero": 3,
+    "data": "2026-09-16",
+    "durata_stimata_min": 15,
+    "items": [
+      {
+        "module_id": "mod-mcp-05",
+        "ruolo": "principale"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "chiusa",
+    "aperta_il": "2026-09-16T06:40:00.036Z",
+    "chiusa_il": "2026-09-16T06:46:19.333Z"
+  },
+  {
+    "id": "ses-0004",
+    "numero": 4,
+    "data": "2026-09-16",
+    "durata_stimata_min": 15,
+    "items": [
+      {
+        "module_id": "mod-claude-skills-01",
+        "ruolo": "principale"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "aperta",
+    "aperta_il": "2026-09-16T06:46:46.871Z",
+    "chiusa_il": null
+  }
+]

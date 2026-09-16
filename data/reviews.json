@@ -1,1 +1,48 @@
-[]
+[
+  {
+    "id": "rev-0001",
+    "module_id": "mod-llm-01",
+    "session_id": "ses-0002",
+    "data": "2026-09-16",
+    "risposte": [
+      {
+        "q": "Una sessione con un agente che legge file rallenta e peggiora dopo un’ora, senza che tu abbia cambiato modello. Elenca cosa sta occupando la finestra e di’ quale rimedio ha senso e quale no.",
+        "risposta": "La finestra viene occupata dalla rilettura dei file ad ogni richiesta, oltre che da input e output delle richieste precedenti. Il rimedio è creare il contesto giusto."
+      },
+      {
+        "q": "Un post dice: \"con la finestra da 1 milione di token puoi caricare tutto il codebase e smettere di preoccuparti del contesto\". Dove sbaglia?",
+        "risposta": "I token dipendono anche dagli strumenti che il modello usa e dal thinking"
+      },
+      {
+        "q": "Nella stessa conversazione fai due domande identiche, a dieci turni di distanza. Il conto dei token di input è lo stesso? Perché?",
+        "risposta": "No, perchè i token di input considerano tutti gli input/output delle richieste intermedie"
+      }
+    ],
+    "nota_libera": "",
+    "stato": "in_attesa",
+    "valutazione": null
+  },
+  {
+    "id": "rev-0002",
+    "module_id": "mod-mcp-05",
+    "session_id": "ses-0003",
+    "data": "2026-09-16",
+    "risposte": [
+      {
+        "q": "Claude Desktop è collegato a due server: il filesystem locale e Sentry. Quanti client MCP esistono, dove gira ogni pezzo e quale trasporto useresti per ciascuno? Motiva.",
+        "risposta": "Esistono due MCP client. "
+      },
+      {
+        "q": "Stai scrivendo un server MCP per il tuo archivio di note. Vuoi esporre: la ricerca full-text, il contenuto di una nota specifica, e un modo ripetibile per chiedere il riassunto settimanale. Assegna ognuna a tool, resource o prompt e spiega perché.",
+        "risposta": "Non so"
+      },
+      {
+        "q": "Un server aggiunge un tool mentre la sessione è già aperta. Come fa il client ad accorgersene, e quale condizione doveva essere soddisfatta all'inizio?",
+        "risposta": "Non so"
+      }
+    ],
+    "nota_libera": "",
+    "stato": "in_attesa",
+    "valutazione": null
+  }
+]

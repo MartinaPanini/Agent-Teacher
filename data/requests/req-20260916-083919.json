@@ -1,0 +1,9 @@
+{
+  "id": "req-20260916-083919",
+  "tipo": "valuta_review",
+  "payload": {
+    "review_id": "rev-0001"
+  },
+  "creato_il": "2026-09-16T06:39:19.426Z",
+  "stato": "in_attesa"
+}
