@@ -204,11 +204,11 @@
     "peso_skill": {
       "claude-code": 0.14
     },
-    "stato": "servito",
+    "stato": "pronto",
     "origine": "routine-cowork",
     "nuovo": false,
     "creato_il": "2026-09-15",
-    "servito_il": "2026-09-16",
+    "servito_il": null,
     "completato_il": null
   },
   {
@@ -818,11 +818,11 @@
     "peso_skill": {
       "claude-skills": 0.2
     },
-    "stato": "servito",
+    "stato": "pronto",
     "origine": "routine-cowork",
     "nuovo": false,
     "creato_il": "2026-09-15",
-    "servito_il": "2026-09-16",
+    "servito_il": null,
     "completato_il": null
   },
   {
@@ -983,11 +983,11 @@
     "peso_skill": {
       "second-brain": 0.2
     },
-    "stato": "servito",
+    "stato": "pronto",
     "origine": "routine-cowork",
     "nuovo": false,
     "creato_il": "2026-09-15",
-    "servito_il": "2026-09-16",
+    "servito_il": null,
     "completato_il": null
   },
   {
@@ -1702,11 +1702,11 @@
     "peso_skill": {
       "integrazioni-personali": 0.25
     },
-    "stato": "servito",
+    "stato": "pronto",
     "origine": "routine-cowork",
     "nuovo": false,
     "creato_il": "2026-09-15",
-    "servito_il": "2026-09-16",
+    "servito_il": null,
     "completato_il": null
   },
   {
