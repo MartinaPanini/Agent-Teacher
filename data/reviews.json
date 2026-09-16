@@ -127,7 +127,20 @@
       }
     ],
     "nota_libera": "",
-    "stato": "in_attesa",
-    "valutazione": null
+    "stato": "valutata",
+    "valutazione": {
+      "punteggio": 2,
+      "max": 6,
+      "per_domanda": [
+        1,
+        0,
+        1
+      ],
+      "commento": "D1 (1/2): la strada e' quella giusta — API ufficiale o server MCP, non l'export a mano, perche' il dato ti serve aggiornato ogni mattina. Ma la verifica che nomini e' quella facile: quali dati esistono. Quella che ti blocca il progetto e' un'altra, e viene prima di scrivere codice: a quali condizioni Garmin ti da' accesso — approvazione, ambiente di valutazione, licenza per l'uso commerciale e per i dati battito-battito. D2 (0/2): \"in modo ordinato\" e \"senza esportare a mano\" sono veri ma sono un terzo punto, non i due che la domanda chiedeva. Contesto: dal server escono solo i record che hai chiesto, non l'intero file, quindi la finestra non si riempie di dati inutili. Dati: il file resta sul tuo disco, il modello vede solo la risposta del tool, e sei tu a decidere quali tool esistono. D3 (1/2): \"fuorviante\" e' il giudizio giusto ma si ferma li'. Il verdetto si chiama `verifica`: il claim resta sospeso finche' non lo trovi alla fonte, e il reel resta come puntatore al tema, non come base di studio. Nota importante: questo modulo richiedeva mcp-protocollo a livello 2 e lo hai studiato mentre quel livello scendeva a 1. Non e' colpa tua, ma spiega perche' e' risultato in salita.",
+      "livello_suggerito": {
+        "integrazioni-personali": 1
+      },
+      "valutata_il": "2026-09-16"
+    }
   }
 ]
