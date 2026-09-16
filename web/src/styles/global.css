@@ -189,8 +189,105 @@ body {
 }
 
 .module-card-sintesi {
-  white-space: pre-wrap;
   margin-bottom: 0.75rem;
+}
+
+/* Testo lungo reso da markdown: sintesi delle lezioni, prerequisiti. */
+.prosa {
+  line-height: 1.6;
+}
+
+.prosa > *:first-child {
+  margin-top: 0;
+}
+
+.prosa > *:last-child {
+  margin-bottom: 0;
+}
+
+.prosa p {
+  margin: 0 0 0.85rem;
+}
+
+.prosa h3 {
+  font-size: 1.02rem;
+  line-height: 1.35;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.prosa h4 {
+  font-size: 0.95rem;
+  margin: 1.25rem 0 0.4rem;
+}
+
+.prosa ul,
+.prosa ol {
+  margin: 0 0 0.85rem;
+  padding-left: 1.3rem;
+}
+
+.prosa li {
+  margin-bottom: 0.3rem;
+}
+
+.prosa blockquote {
+  margin: 0 0 0.85rem;
+  padding-left: 0.9rem;
+  border-left: 3px solid #e2ddd4;
+  color: #55524d;
+}
+
+.prosa code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.88em;
+  background: #f0ece4;
+  border-radius: 4px;
+  padding: 0.1em 0.32em;
+}
+
+.prosa pre {
+  margin: 0 0 0.85rem;
+  padding: 0.8rem 0.9rem;
+  background: #f0ece4;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.prosa pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.prosa a {
+  color: #1c1b1a;
+}
+
+.prosa table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 0.85rem;
+  font-size: 0.93rem;
+}
+
+.prosa th,
+.prosa td {
+  border-bottom: 1px solid #e2ddd4;
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.prosa th {
+  font-weight: 600;
+  color: #55524d;
+}
+
+.prosa hr {
+  border: none;
+  border-top: 1px solid #e2ddd4;
+  margin: 1.25rem 0;
 }
 
 .module-card-fonte {

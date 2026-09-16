@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { Module } from "@shared/schema";
+import Markdown from "./Markdown";
 
 const ETICHETTA_RUOLO: Record<string, string> = {
   principale: "Modulo principale",
@@ -27,11 +28,11 @@ export default function ModuleCard({ modulo, ruolo, motivazione, compatta, child
       {modulo.prerequisiti_testo && (
         <details className="module-card-prereq">
           <summary>Prerequisiti</summary>
-          <p>{modulo.prerequisiti_testo}</p>
+          <Markdown testo={modulo.prerequisiti_testo} />
         </details>
       )}
 
-      {modulo.sintesi_md && <div className="module-card-sintesi">{modulo.sintesi_md}</div>}
+      <Markdown testo={modulo.sintesi_md} className="module-card-sintesi" />
 
       {modulo.fonte_primaria && (
         <p className="module-card-fonte">
