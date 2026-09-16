@@ -44,5 +44,28 @@
     "nota_libera": "",
     "stato": "in_attesa",
     "valutazione": null
+  },
+  {
+    "id": "rev-0003",
+    "module_id": "mod-claude-code-01",
+    "session_id": "ses-0008",
+    "data": "2026-09-16",
+    "risposte": [
+      {
+        "q": "Claude Code deve correggere una funzione in un file che in questa sessione non ha ancora aperto. Racconta cosa succede dal tuo messaggio alla riga cambiata sul disco.",
+        "risposta": "cerca il file, lo legge, modifica la riga"
+      },
+      {
+        "q": "Lavori sullo stesso repo dal terminale e poi dal web. Cosa resta identico e cosa cambia? Fai un esempio in cui la differenza ti si ritorce contro.",
+        "risposta": "le modifiche devono essere sincronizzate tra terminale e web"
+      },
+      {
+        "q": "Un collega ti dice: \"metto tutta la documentazione del progetto in CLAUDE.md, così Claude sa sempre tutto\". Cosa gli rispondi?",
+        "risposta": "in CLAUDE.md non ci deve essere la documentazione del progetto, ma le istruzioni per claude in modo tale che capisca come lavorare all'inizio di ogni sessione"
+      }
+    ],
+    "nota_libera": "",
+    "stato": "in_attesa",
+    "valutazione": null
   }
 ]

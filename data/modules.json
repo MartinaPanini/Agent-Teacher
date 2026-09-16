@@ -204,12 +204,12 @@
     "peso_skill": {
       "claude-code": 0.14
     },
-    "stato": "pronto",
+    "stato": "completato",
     "origine": "routine-cowork",
     "nuovo": false,
     "creato_il": "2026-09-15",
-    "servito_il": null,
-    "completato_il": null
+    "servito_il": "2026-09-16",
+    "completato_il": "2026-09-16"
   },
   {
     "id": "mod-claude-code-02",

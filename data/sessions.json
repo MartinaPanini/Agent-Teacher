@@ -90,5 +90,81 @@
     "stato": "chiusa",
     "aperta_il": "2026-09-16T07:25:55.104Z",
     "chiusa_il": "2026-09-16T07:27:57.738Z"
+  },
+  {
+    "id": "ses-0006",
+    "numero": 6,
+    "data": "2026-09-16",
+    "durata_stimata_min": 20,
+    "items": [
+      {
+        "module_id": "mod-claude-code-01",
+        "ruolo": "principale"
+      },
+      {
+        "module_id": "mod-integrazioni-personali-01",
+        "ruolo": "scoperta"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "chiusa",
+    "aperta_il": "2026-09-16T07:36:03.836Z",
+    "chiusa_il": "2026-09-16T07:36:05.994Z"
+  },
+  {
+    "id": "ses-0007",
+    "numero": 7,
+    "data": "2026-09-16",
+    "durata_stimata_min": 20,
+    "items": [
+      {
+        "module_id": "mod-claude-code-01",
+        "ruolo": "principale"
+      },
+      {
+        "module_id": "mod-integrazioni-personali-01",
+        "ruolo": "scoperta"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "chiusa",
+    "aperta_il": "2026-09-16T07:36:09.331Z",
+    "chiusa_il": "2026-09-16T07:36:11.825Z"
+  },
+  {
+    "id": "ses-0008",
+    "numero": 8,
+    "data": "2026-09-16",
+    "durata_stimata_min": 20,
+    "items": [
+      {
+        "module_id": "mod-claude-code-01",
+        "ruolo": "principale"
+      },
+      {
+        "module_id": "mod-second-brain-01",
+        "ruolo": "scoperta"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "chiusa",
+    "aperta_il": "2026-09-16T07:36:19.718Z",
+    "chiusa_il": "2026-09-16T07:40:28.493Z"
+  },
+  {
+    "id": "ses-0009",
+    "numero": 9,
+    "data": "2026-09-16",
+    "durata_stimata_min": 15,
+    "items": [
+      {
+        "module_id": "mod-integrazioni-personali-01",
+        "ruolo": "principale"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "chiusa",
+    "aperta_il": "2026-09-16T07:40:50.938Z",
+    "chiusa_il": "2026-09-16T07:44:59.914Z"
   }
 ]
