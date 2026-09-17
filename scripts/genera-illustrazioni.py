@@ -19,10 +19,15 @@ OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                    "data", "illustrations")
 
 
+def esc(t):
+    """Il testo mostrato puo' contenere <, > e &: in SVG vanno sempre escapati."""
+    return (str(t).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
+
+
 def svg(w, h, alt, body):
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" '
-            f'role="img" aria-label="{alt}">\n'
-            f'<title>{alt}</title>\n'
+            f'role="img" aria-label="{esc(alt)}">\n'
+            f'<title>{esc(alt)}</title>\n'
             f'<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" '
             f'markerWidth="6" markerHeight="6" orient="auto">'
             f'<path d="M0 0 L10 5 L0 10 Z" fill="{ACC}"/></marker></defs>\n'
@@ -33,15 +38,19 @@ def box(x, y, w, h, label, sub=None, kind="ink", dashed=False):
     fill, stroke, tc, sc = PAPER, INK, INK, MUTE
     if kind == "sys":
         fill, stroke, tc, sc = SYSBG, SYS, "#1F3B39", SYS
+    if kind == "acc":
+        fill, stroke, tc, sc = "#F7EDE9", ACC, ACC, ACC
+    if kind == "mute":
+        fill, stroke, tc, sc = "#EFECE7", "#A9A497", MUTE, MUTE
     d = ' stroke-dasharray="6 5"' if dashed else ""
     o = (f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="10" fill="{fill}" '
          f'stroke="{stroke}" stroke-width="2"{d}/>')
     ty = y + (28 if sub else h / 2 + 5)
     o += (f'<text x="{x+17}" y="{ty}" font-family="{MONO}" font-size="13" '
-          f'fill="{tc}">{label}</text>')
+          f'fill="{tc}">{esc(label)}</text>')
     if sub:
         o += (f'<text x="{x+17}" y="{ty+17}" font-family="{SANS}" font-size="11.5" '
-              f'fill="{sc}">{sub}</text>')
+              f'fill="{sc}">{esc(sub)}</text>')
     return o
 
 
@@ -62,7 +71,7 @@ def varrow(x, y1, y2, dashed=False):
 
 def cap(x, y, t, anchor="start", size=11.5, fill=MUTE, font=SANS):
     return (f'<text x="{x}" y="{y}" text-anchor="{anchor}" font-family="{font}" '
-            f'font-size="{size}" fill="{fill}">{t}</text>')
+            f'font-size="{size}" fill="{fill}">{esc(t)}</text>')
 
 
 def stack(items, w=266, x=46, h=62, gap=49, top=8):
@@ -503,6 +512,131 @@ IMG["usage-json"] = svg(600, 30 + max(180, 88 + 6 * 16) + 12,
     "Il blocco usage di una risposta: input_tokens vale 214, ma "
     "cache_read_input_tokens ne conta 18.432, e i token di input veri sono la "
     "somma dei tre campi", b)
+
+# --- mod-claude-code-06: hook -----------------------------------------------
+b = (box(14, 24, 292, 92, "CLAUDE.md", "contesto", "ink") +
+     cap(30, 86, "il modello lo legge e prova a seguirlo", size=11.5) +
+     cap(30, 102, "otto volte su dieci funziona", size=11.5, fill=MUTE) +
+     box(14, 168, 292, 92, "hook", "configurazione", "sys") +
+     cap(30, 230, "il programma lo esegue da sé, sempre", size=11.5, fill=SYS) +
+     cap(30, 246, "il modello non viene consultato", size=11.5, fill=SYS) +
+     cap(160, 142, "le istruzioni guidano, gli hook impongono", "middle", 12, ACC) +
+     cap(160, 286, "«e se il modello decidesse di no?»", "middle", 12, INK) +
+     cap(160, 302, "Se «non è accettabile», è un hook.", "middle", 12, INK))
+IMG["contesto-vs-hook"] = svg(320, 318,
+    "CLAUDE.md è contesto: il modello lo legge e prova a seguirlo. Un hook è "
+    "configurazione: il programma lo esegue da sé, senza consultare il modello", b)
+
+b = (cap(300, 22, "gli eventi lungo il ciclo di vita di una sessione", "middle", 12.5, INK) +
+     f'<line x1="30" y1="86" x2="570" y2="86" stroke="{RULE}" stroke-width="3"/>')
+ev = [("SessionStart", 40, False), ("UserPromptSubmit", 160, True),
+      ("PreToolUse", 300, True), ("PostToolUse", 410, False),
+      ("Stop", 500, True), ("SessionEnd", 562, False)]
+for nome, x, blocca in ev:
+    col = ACC if blocca else MUTE
+    b += (f'<circle cx="{x}" cy="86" r="{7 if blocca else 5}" fill="{col}"/>' +
+          cap(x, 68, nome, "middle", 10.5, col, MONO))
+    if blocca:
+        b += cap(x, 112, "può bloccare", "middle", 10, ACC)
+b += (cap(300, 160, "Un hook di tipo command riceve un JSON su stdin e risponde con il codice",
+          "middle", 12, INK) +
+      cap(300, 178, "di uscita. Zero: nessuna decisione. Due: errore bloccante.", "middle",
+          12, INK) +
+      box(150, 200, 300, 44, "", None, "sys") +
+      cap(300, 227, "L'uscita 2 blocca l'azione, JSON o non JSON.", "middle", 12, "#1F3B39"))
+IMG["hook-eventi-ciclo"] = svg(600, 260,
+    "Gli eventi degli hook lungo una sessione: SessionStart, UserPromptSubmit, "
+    "PreToolUse, PostToolUse, Stop e SessionEnd. Tre di questi possono bloccare "
+    "l'azione con il codice di uscita 2", b)
+
+b = vscode("settings.json", [
+    [P("{")],
+    [ind(2), K('"hooks"'), P(": {")],
+    [ind(4), K('"PreToolUse"'), P(": [")],
+    [ind(6), P("{")],
+    [ind(8), K('"matcher"'), P(": "), S('"Bash"'), P(",")],
+    [ind(8), K('"hooks"'), P(": [")],
+    [ind(10), P("{ "), K('"type"'), P(": "), S('"command"'), P(",")],
+    [ind(12), K('"command"'), P(": "), S('"./scripts/blocca-force-push.sh"'), P(" }")],
+    [ind(8), P("]")],
+    [ind(6), P("}")],
+    [ind(4), P("]")],
+    [ind(2), P("}")],
+    [P("}")],
+], badges=((1, 2), (2, 4), (3, 7)))
+IMG["hook-settings-json"] = svg(600, 30 + max(180, 88 + 13 * 16) + 12,
+    "La configurazione di un hook in settings.json: l'evento PreToolUse, un "
+    "matcher che seleziona lo strumento Bash, e il comando da eseguire", b)
+
+b = cap(160, 22, "dove va scritta una regola", "middle", 12.5, INK)
+for k, (dom, dove, kind) in enumerate([
+        ("una convenzione o una preferenza", "CLAUDE.md", "ink"),
+        ("una procedura lunga, ogni tanto", "una skill", "ink"),
+        ("deve accadere sempre, in un punto preciso", "un hook", "sys")]):
+    y = 40 + k * 78
+    b += (box(14, y, 292, 62, "", None, kind) +
+          cap(30, y + 26, dom, size=11.5) +
+          cap(30, y + 46, dove, size=13,
+              fill=(SYS if kind == "sys" else INK), font=MONO))
+b += cap(160, 292, "Se deve valere anche quando il modello si distrae, è un hook.", "middle", 10.5, ACC)
+IMG["smistamento-hook"] = svg(320, 306,
+    "Dove va scritta una regola: una convenzione in CLAUDE.md, una procedura "
+    "lunga in una skill, una cosa che deve accadere sempre in un hook", b)
+
+# --- mod-context-economy-01: memoria ----------------------------------------
+b = cap(300, 22, "cosa entra in finestra, e quando", "middle", 12.5, INK)
+for k, t in enumerate(["CLAUDE.md della cartella e di quelle sopra",
+                       "regole senza paths",
+                       "indice dell'auto memory, primo pezzo"]):
+    b += box(14, 62 + k * 56, 272, 46, "", None, "acc") + cap(30, 90 + k * 56, t, size=11.5, fill=ACC)
+for k, t in enumerate(["regole con paths", "skill",
+                       "file per argomento dell'auto memory",
+                       "CLAUDE.md nelle sottocartelle"]):
+    b += box(314, 62 + k * 56, 272, 46, "", None, "sys", True) + cap(330, 90 + k * 56, t, size=11.5, fill=SYS)
+b += (cap(150, 52, "costo ricorrente, a ogni avvio", "middle", 11.5, ACC) +
+      cap(450, 52, "costo su richiesta, quando serve", "middle", 11.5, SYS) +
+      cap(300, 292, "Cinque file markdown caricati sempre non sono memoria:", "middle", 12, INK) +
+      cap(300, 310, "sono cinque file di contesto che paghi tutte le volte.", "middle", 12, INK))
+IMG["cosa-entra-all-avvio"] = svg(600, 326,
+    "A sinistra quello che entra in finestra a ogni avvio: CLAUDE.md, regole "
+    "senza paths, indice dell'auto memory. A destra quello che si carica solo "
+    "quando serve: regole con paths, skill, file per argomento, CLAUDE.md delle "
+    "sottocartelle", b)
+
+b = cap(160, 22, "quali CLAUDE.md si caricano", "middle", 12.5, INK)
+liv = [("/", 20, True), ("/Users/tu", 44, True), ("~/progetto", 68, True),
+       ("~/progetto/src", 92, False), ("~/progetto/src/api", 116, False)]
+for k, (nome, x, carica) in enumerate(liv):
+    y = 52 + k * 42
+    col = ACC if carica else MUTE
+    b += (cap(x, y + 14, nome, size=12, fill=INK, font=MONO) +
+          f'<circle cx="{x-12}" cy="{y+10}" r="5" fill="{col}"/>')
+    if carica:
+        b += cap(306, y + 14, "caricato all'avvio", "end", 11, ACC)
+    else:
+        b += cap(306, y + 14, "solo su richiesta", "end", 11, MUTE)
+b += (cap(160, 284, "Si concatenano dalla radice verso il basso: le istruzioni", "middle", 11.5, INK) +
+      cap(160, 300, "più vicine a te sono le ultime lette.", "middle", 11.5, INK))
+IMG["claude-md-concatenazione"] = svg(320, 316,
+    "I file CLAUDE.md della cartella di lavoro e di tutte quelle sopra si "
+    "caricano all'avvio, concatenati dalla radice verso il basso; quelli nelle "
+    "sottocartelle entrano solo quando Claude apre un file lì", b)
+
+b = (cap(160, 22, "~/.claude/projects/<progetto>/memory/", "middle", 11.5, MUTE, MONO) +
+     box(14, 44, 292, 74, "MEMORY.md", "l'indice", "acc") +
+     cap(30, 100, "caricato all'avvio, ma solo le prime", size=11, fill=ACC))
+b = b.replace('caricato all\'avvio, ma solo le prime', 'caricato, ma solo le prime 200 righe o 25 KB')
+for k, t in enumerate(["decisioni-architettura.md", "convenzioni-test.md", "note-deploy.md"]):
+    b += (box(14, 138 + k * 52, 292, 42, "", None, "ink", True) +
+          cap(30, 164 + k * 52, t, size=11.5, font=MONO, fill=MUTE))
+b += (cap(160, 310, "I file per argomento non si caricano da soli.", "middle", 12, INK) +
+      cap(160, 326, "Claude li apre quando gli servono.", "middle", 12, INK) +
+      cap(160, 350, "Quello che sta oltre la soglia dell'indice", "middle", 11.5, ACC) +
+      cap(160, 366, "non viene caricato, e non te lo dice nessuno.", "middle", 11.5, ACC))
+IMG["auto-memory-cosa-si-carica"] = svg(320, 382,
+    "Nella cartella dell'auto memory solo MEMORY.md, l'indice, viene caricato "
+    "all'avvio, e solo per le prime 200 righe o 25 KB; i file per argomento "
+    "vengono aperti solo quando servono", b)
 os.makedirs(OUT, exist_ok=True)
 for name, content in IMG.items():
     with open(os.path.join(OUT, name + ".svg"), "w", encoding="utf-8") as f:

@@ -624,3 +624,260 @@ Le due cose si sommano: prima togli quello che non serve, poi metti in cache que
   ],
   "punti_stile": "elenco", "approfondimento": None, "immagine": None},
 ]
+
+
+MODULO["mod-claude-code-06"] = {"prerequisiti_testo": """Serve sapere cos'è CLAUDE.md: il file di istruzioni che Claude Code carica all'avvio dalla cartella di lavoro e da quelle sopra.
+
+Serve sapere che il modello non esegue niente da solo. Chiede di usare uno strumento, e il programma decide se lasciarglielo fare.
+
+Non serve saper scrivere script shell. Basta sapere che un comando restituisce un codice di uscita, e che zero vuol dire «è andata bene»."""}
+
+SLIDES["mod-claude-code-06"] = [
+ {"tipo": "apertura",
+  "titolo": "Prima di partire",
+  "corpo": """Alla fine sai dire quando un'istruzione va scritta come hook invece che in CLAUDE.md. E sai qual è il meccanismo dell'hook che blocca davvero un'azione.
+
+Il punto di partenza è una scena che conosci. Hai scritto in CLAUDE.md «esegui sempre i test prima di ogni commit» e otto volte su dieci funziona.
+
+Le altre due no. Non è un bug, ed è il momento di capire perché.
+
+La differenza fra «quasi sempre» e «sempre» qui non è una sfumatura. Per una regola di sicurezza è tutta la differenza che conta.""",
+  "punti": [], "punti_stile": "elenco", "approfondimento": None, "immagine": None},
+
+ {"tipo": "concetto",
+  "titolo": "Contesto contro configurazione",
+  "corpo": """CLAUDE.md è contesto. Viene consegnato al modello come un messaggio dopo il system prompt, il modello lo legge e prova a seguirlo.
+
+Non c'è niente, nel programma, che lo faccia rispettare. Un file lungo, o due istruzioni che si contraddicono, e l'aderenza cala.
+
+Un hook è l'altra cosa. È un comando che il programma esegue da sé in un punto fisso del ciclo di vita, senza chiedere niente al modello.
+
+Non è una versione più forte dell'istruzione. È un pezzo di programma, e gira anche se il modello non ha letto niente.""",
+  "punti": [
+    "La documentazione lo dice quasi con queste parole: CLAUDE.md è contesto, non configurazione imposta.",
+    "Per bloccare un'azione a prescindere da cosa decide il modello, rimanda agli hook.",
+    "La riga che riassume tutto: «instructions guide; hooks enforce».",
+  ],
+  "punti_stile": "elenco", "approfondimento": None,
+  "immagine": img("contesto-vs-hook", "B", "spot",
+    "CLAUDE.md è contesto: il modello lo legge e prova a seguirlo. Un hook è configurazione: il programma lo esegue da sé, senza consultare il modello")},
+
+ {"tipo": "concetto",
+  "titolo": "Dove si attaccano gli hook",
+  "corpo": """Gli eventi coprono tre livelli. La sessione, il turno e ogni singola chiamata di strumento.
+
+Non tutti gli eventi possono bloccare. Quelli che contano per imporre una regola sono pochi, e vale la pena saperli a memoria.
+
+Gli altri servono per osservare: registrare cosa è successo, avvisare, tenere un diario della sessione.""",
+  "punti": [
+    "Sulla sessione: `SessionStart` e `SessionEnd`.",
+    "Sul turno: `UserPromptSubmit` e `Stop`.",
+    "Su ogni strumento: `PreToolUse`, `PostToolUse`, `PermissionRequest`, `PermissionDenied`.",
+    "Più una coda di eventi su compattazione, cambio di modello e file modificati.",
+  ],
+  "punti_stile": "elenco",
+  "approfondimento": ap("Come è fatta la configurazione",
+    """Gli hook stanno nei file di settings, con tre livelli di annidamento. L'evento, un gruppo con un `matcher` che seleziona a quali strumenti applicarlo, e la lista dei gestori.
+
+Ogni gestore ha un `type` e un `command`. Oltre al comando shell, un hook può essere un endpoint HTTP, una chiamata a un tool MCP, un prompt o un subagent."""),
+  "immagine": img("hook-eventi-ciclo", "B", "wide",
+    "Gli eventi degli hook lungo una sessione: SessionStart, UserPromptSubmit, PreToolUse, PostToolUse, Stop e SessionEnd. Tre di questi possono bloccare l'azione con il codice di uscita 2")},
+
+ {"tipo": "esempio",
+  "titolo": "Un hook che dice di no",
+  "corpo": """Questo blocca un `git push --force` prima che parta. Tre righe di configurazione e uno script che decide.
+
+Il matcher seleziona lo strumento, non il comando. Il filtro fine lo fa lo script, che riceve i dettagli su stdin.
+
+Vale la pena tenere lo script corto. Un hook lento si fa sentire, perché gira prima di ogni comando che corrisponde al matcher.""",
+  "punti": [
+    "L'evento è `PreToolUse`: scatta prima dell'esecuzione, che è l'unico momento in cui bloccare serve.",
+    "Il `matcher` vale `Bash`, quindi lo script viene chiamato per ogni comando di shell.",
+    "Il `command` è il tuo script. Se esce con 2, il comando non parte.",
+  ],
+  "punti_stile": "numerato", "approfondimento": None,
+  "immagine": img("hook-settings-json", "A", "wide",
+    "La configurazione di un hook in settings.json: l'evento PreToolUse, un matcher che seleziona lo strumento Bash, e il comando da eseguire")},
+
+ {"tipo": "concetto",
+  "titolo": "Come un hook dice di no",
+  "corpo": """È il pezzo che conta davvero. Un hook di tipo `command` riceve un JSON su stdin e comunica con il codice di uscita.
+
+Zero vuol dire nessuna decisione: il flusso normale dei permessi va avanti. Due vuol dire errore bloccante.
+
+Sugli eventi che possono bloccare, l'uscita 2 impedisce l'azione, e lo fa che tu stampi JSON o no.
+
+Su chi vince, la documentazione è netta. Il blocco dell'uscita 2 è l'unico esito che il JSON non può ribaltare.
+
+Qualunque altro codice diverso da zero e da due è un errore non bloccante: lo vedi nei log, l'azione parte lo stesso.""",
+  "punti": [], "punti_stile": "elenco",
+  "approfondimento": ap("Quando serve il JSON invece del codice 2",
+    """L'alternativa più fine è restituire JSON con `hookSpecificOutput.permissionDecision` valorizzato a `allow` o `deny`, più un `permissionDecisionReason` che spiega.
+
+Serve quando vuoi decidere caso per caso invece che spegnere tutto. Su `PermissionRequest` è l'unica strada, perché lì l'uscita 2 non viene onorata."""),
+  "immagine": None},
+
+ {"tipo": "trappola",
+  "titolo": "La regola scritta nel posto sbagliato",
+  "corpo": """Il sintomo è quello dell'apertura: funziona quasi sempre. Quasi sempre, per una regola di sicurezza, vuol dire non funziona.
+
+La reazione tipica è riscrivere l'istruzione in CLAUDE.md, più in grande, con più maiuscole. Non cambia niente, perché il meccanismo è lo stesso.""",
+  "punti": [
+    "Se l'istruzione deve valere anche quando il modello si distrae, non è contesto.",
+    "Se deve valere anche quando il modello non c'entra, a maggior ragione.",
+    "Scriverla due volte in CLAUDE.md non la rende più vincolante: allunga il file e basta.",
+  ],
+  "punti_stile": "elenco", "approfondimento": None, "immagine": None},
+
+ {"tipo": "concetto",
+  "titolo": "Dove va scritta una regola",
+  "corpo": """La regola di smistamento è la cosa da portarsi via. Tre destinazioni, e si scelgono con una domanda sola.
+
+Il test è secco. Se alla domanda «e se il modello decidesse di no?» la risposta è «non è accettabile», allora non è contesto: è un hook.""",
+  "punti": [
+    "Una convenzione, una preferenza, un pezzo di architettura da conoscere: CLAUDE.md, o una regola con `paths`.",
+    "Una procedura lunga che serve ogni tanto: una skill.",
+    "Una cosa che deve accadere in un punto preciso del ciclo, tutte le volte: un hook.",
+  ],
+  "punti_stile": "elenco", "approfondimento": None,
+  "immagine": img("smistamento-hook", "B", "spot",
+    "Dove va scritta una regola: una convenzione in CLAUDE.md, una procedura lunga in una skill, una cosa che deve accadere sempre in un hook")},
+
+ {"tipo": "chiusura",
+  "titolo": "Tre frasi da ricordare",
+  "corpo": """Gli hook sono l'unico posto in cui una regola smette di dipendere dal modello. Tutto il resto è persuasione, ben scritta finché vuoi.
+
+Questo non toglie valore a CLAUDE.md. Toglie a CLAUDE.md un lavoro che non è mai stato il suo.""",
+  "punti": [
+    "CLAUDE.md guida, gli hook impongono.",
+    "Un hook gira nel programma, in un punto fisso, senza consultare il modello.",
+    "Sugli eventi bloccanti, l'uscita 2 impedisce l'azione e nessun JSON la annulla.",
+  ],
+  "punti_stile": "elenco", "approfondimento": None, "immagine": None},
+]
+
+
+MODULO["mod-context-economy-01"] = {"prerequisiti_testo": """Serve sapere che ogni sessione parte con una finestra di contesto vuota. Il modello non ricorda niente della sessione precedente.
+
+Serve sapere cos'è CLAUDE.md: il file di istruzioni che Claude Code carica all'avvio.
+
+Serve infine avere presente che tutto quello che entra in finestra si paga a ogni richiesta di quella sessione, non una volta sola."""}
+
+SLIDES["mod-context-economy-01"] = [
+ {"tipo": "apertura",
+  "titolo": "Prima di partire",
+  "corpo": """Alla fine sai dire, per ogni file di memoria di Claude Code, se entra in contesto a ogni avvio o solo su richiesta. E sai stimare cosa ti costa aggiungerci una riga.
+
+Gira un metodo, sui social, che promette memoria persistente per un agente con cinque file markdown. Uno per le regole, uno per le competenze, uno per le decisioni passate, uno per lo stato, uno per le istruzioni.
+
+Alla fonte il quadro è diverso, e la differenza sta tutta nel costo.
+
+Non è una questione di quale metodo è più elegante. È che due di quei file li paghi a ogni avvio e tre no, e il metodo non lo dice.""",
+  "punti": [], "punti_stile": "elenco", "approfondimento": None, "immagine": None},
+
+ {"tipo": "concetto",
+  "titolo": "Due meccanismi, non cinque",
+  "corpo": """Ogni sessione parte con una finestra vuota. Due meccanismi portano dentro qualcosa dalla sessione precedente, e sono solo due.
+
+Il primo sono i file CLAUDE.md, che scrivi tu. Il secondo è l'auto memory, che Claude scrive da sé a partire dalle tue correzioni.
+
+Tutto il resto, comprese le cinque sigle del metodo che gira, è uno di questi due sotto un altro nome.
+
+Sapere quale dei due è, per ogni file che aggiungi, basta a rispondere alla domanda del costo.""",
+  "punti": [
+    "Quello che scrivi tu lo controlli, e lo paghi a ogni avvio.",
+    "Quello che scrive Claude si accumula, e ha una regola di caricamento tutta sua.",
+  ],
+  "punti_stile": "elenco", "approfondimento": None, "immagine": None},
+
+ {"tipo": "concetto",
+  "titolo": "Quali CLAUDE.md si caricano",
+  "corpo": """I file CLAUDE.md vengono caricati dalla directory di lavoro e da tutte quelle sopra. Si concatenano dalla radice del filesystem verso il basso.
+
+Le istruzioni più vicine a dove hai lanciato Claude sono quindi le ultime lette.
+
+I file nelle sottocartelle non si caricano all'avvio. Entrano quando Claude legge un file di quella sottocartella.""",
+  "punti": [
+    "La documentazione dà un bersaglio: sotto le 200 righe per file.",
+    "Il motivo è dichiarato: «longer files consume more context and reduce adherence».",
+    "Un file lungo non costa solo token. Costa anche aderenza, cioè la cosa per cui l'avevi scritto.",
+  ],
+  "punti_stile": "elenco",
+  "approfondimento": ap("Gli import non risparmiano niente",
+    """È l'equivoco più diffuso. Gli import `@path` vengono espansi e caricati in contesto all'avvio, esattamente come se avessi incollato il testo.
+
+Spezzare un file da 600 righe in quattro e richiamarli con `@` organizza meglio, ma non risparmia un token. La profondità massima degli import è di quattro salti."""),
+  "immagine": img("claude-md-concatenazione", "B", "spot",
+    "I file CLAUDE.md della cartella di lavoro e di tutte quelle sopra si caricano all'avvio, concatenati dalla radice verso il basso; quelli nelle sottocartelle entrano solo quando Claude apre un file lì")},
+
+ {"tipo": "concetto",
+  "titolo": "L'auto memory e la sua soglia",
+  "corpo": """L'auto memory vive in una cartella per repository. Dentro c'è un `MEMORY.md` che fa da indice, più un file per argomento.
+
+Qui sta la risposta alla domanda del costo. All'avvio si carica solo l'indice, e solo le prime 200 righe o i primi 25 KB, quello che viene prima.
+
+I file per argomento no. Claude li legge su richiesta con gli strumenti normali, quando gli servono.""",
+  "punti": [
+    "Quello che sta oltre la soglia dell'indice non viene caricato.",
+    "E non te lo dice nessuno: non c'è un avviso, non c'è un errore.",
+    "Un indice che cresce senza controllo perde le voci in fondo, in silenzio.",
+  ],
+  "punti_stile": "elenco", "approfondimento": None,
+  "immagine": img("auto-memory-cosa-si-carica", "B", "spot",
+    "Nella cartella dell'auto memory solo MEMORY.md, l'indice, viene caricato all'avvio, e solo per le prime 200 righe o 25 KB; i file per argomento vengono aperti solo quando servono")},
+
+ {"tipo": "trappola",
+  "titolo": "Il file che Claude non legge",
+  "corpo": """Su AGENTS.md la fonte è secca: Claude Code legge `CLAUDE.md`, non `AGENTS.md`.
+
+Se il repository ne ha già uno per altri agenti, si crea un CLAUDE.md che lo importa. E quell'import, come tutti, si espande all'avvio.
+
+Vale la pena controllarlo, perché è un errore silenzioso. Nessuno ti avvisa che il file non viene letto: le istruzioni semplicemente non hanno effetto.
+
+Il sintomo è lo stesso di un'istruzione ignorata, e ti manda a caccia nel posto sbagliato.""",
+  "punti": [], "punti_stile": "elenco", "approfondimento": None, "immagine": None},
+
+ {"tipo": "concetto",
+  "titolo": "Il meccanismo che nessuno nomina",
+  "corpo": """Il metodo dei cinque file non nomina proprio quello che risolve il problema. Sono le regole con `paths`, in `.claude/rules/`.
+
+Hanno un frontmatter che elenca i pattern dei file a cui si applicano. Entrano in contesto solo quando Claude tocca un file che corrisponde.
+
+Le skill funzionano allo stesso modo: si caricano solo quando servono.
+
+La differenza con CLAUDE.md non è nel contenuto. È in quando quel contenuto entra in finestra.""",
+  "punti": [
+    "Una convenzione sui test entra in finestra solo quando apri un file di test.",
+    "Una regola sul frontend non pesa niente in una sessione di backend.",
+    "È lo stesso contenuto di prima, spostato da costo ricorrente a costo su richiesta.",
+  ],
+  "punti_stile": "elenco", "approfondimento": None, "immagine": None},
+
+ {"tipo": "concetto",
+  "titolo": "Lo schema che vale sempre",
+  "corpo": """Questo schema vale per qualunque cosa tu voglia rendere persistente. Da una parte quello che entra a ogni avvio, dall'altra quello che si carica quando serve.
+
+Cinque file markdown caricati sempre non sono memoria. Sono cinque file di contesto che paghi tutte le volte.""",
+  "punti": [
+    "Costo ricorrente: CLAUDE.md, regole senza `paths`, indice dell'auto memory.",
+    "Costo su richiesta: regole con `paths`, skill, file per argomento, CLAUDE.md delle sottocartelle.",
+    "La domanda da farsi è sempre la stessa: questo entra a ogni avvio, o solo quando serve?",
+  ],
+  "punti_stile": "elenco",
+  "approfondimento": ap("Lo stesso metro sugli indicizzatori",
+    """Gira anche la promessa degli indicizzatori: un tool che costruisce un grafo del progetto con un parser del codice.
+
+Non dà memoria a Claude. Gli dà un modo di cercare senza leggere tutto, che è di nuovo costo su richiesta al posto di costo ricorrente. Va valutato con la stessa domanda, non con la parola «memoria»."""),
+  "immagine": img("cosa-entra-all-avvio", "B", "wide",
+    "A sinistra quello che entra in finestra a ogni avvio: CLAUDE.md, regole senza paths, indice dell'auto memory. A destra quello che si carica solo quando serve: regole con paths, skill, file per argomento, CLAUDE.md delle sottocartelle")},
+
+ {"tipo": "chiusura",
+  "titolo": "Tre frasi da ricordare",
+  "corpo": """La parola «memoria» non dice niente sul costo. La domanda su cosa entra in finestra sì, ed è l'unica che serve per decidere.""",
+  "punti": [
+    "I meccanismi che portano qualcosa dentro sono due: CLAUDE.md e auto memory.",
+    "Dell'auto memory all'avvio entra solo l'indice, e solo il suo primo pezzo.",
+    "Le regole con `paths` e le skill spostano il contenuto da costo fisso a costo su richiesta.",
+  ],
+  "punti_stile": "elenco", "approfondimento": None, "immagine": None},
+]
