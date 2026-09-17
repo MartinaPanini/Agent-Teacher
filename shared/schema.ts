@@ -181,6 +181,8 @@ export const SessionStatoSchema = z.enum(["aperta", "chiusa"]);
 export const SessionItemSchema = z.object({
   module_id: z.string(),
   ruolo: SessionRuoloSchema,
+  /** indice della slide mostrata per ultima in questo modulo, per riprendere da lì */
+  slide_corrente: z.number().int().nonnegative().optional(),
 });
 
 export const SessionSchema = z.object({

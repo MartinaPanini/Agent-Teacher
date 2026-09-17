@@ -286,4 +286,65 @@ describe("API Express (in-process)", () => {
     const digerisci = richieste.filter((r) => r.tipo === "digerisci_inbox");
     expect(digerisci).toHaveLength(1); // non duplicata anche con più inserimenti oltre soglia
   });
+
+  it("GET /api/illustrazioni/:id.svg serve un SVG esistente, dà 404 su uno inesistente e 400 su un id sospetto", async () => {
+    fs.mkdirSync(path.join(tmpDir, "illustrations"), { recursive: true });
+    fs.writeFileSync(path.join(tmpDir, "illustrations", "prova.svg"), "<svg></svg>");
+
+    const okRes = await fetch(`${baseUrl}/illustrazioni/prova.svg`);
+    expect(okRes.status).toBe(200);
+    expect(okRes.headers.get("content-type")).toContain("image/svg+xml");
+    expect(await okRes.text()).toBe("<svg></svg>");
+
+    const mancanteRes = await fetch(`${baseUrl}/illustrazioni/non-esiste.svg`);
+    expect(mancanteRes.status).toBe(404);
+
+    const traversalRes = await fetch(`${baseUrl}/illustrazioni/${encodeURIComponent("../secret")}.svg`);
+    expect(traversalRes.status).toBe(400);
+
+    const maiuscoloRes = await fetch(`${baseUrl}/illustrazioni/Prova.svg`);
+    expect(maiuscoloRes.status).toBe(400);
+  });
+
+  it("PATCH /api/sessions/:id/progresso scrive slide_corrente sull'item giusto e non tocca il resto", async () => {
+    fs.writeFileSync(
+      path.join(tmpDir, "modules.json"),
+      JSON.stringify(schema.ModulesFileSchema.parse(modulesConUnoPronto), null, 2),
+    );
+    fs.writeFileSync(path.join(tmpDir, "sessions.json"), JSON.stringify([]));
+
+    const nextRes = await fetch(`${baseUrl}/session/next`);
+    const next = (await nextRes.json()) as { items: Array<{ module_id: string; ruolo: string }> };
+    const apriRes = await fetch(`${baseUrl}/session/apri`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ items: next.items, qualifica_inbox: [] }),
+    });
+    const sessione = (await apriRes.json()) as { id: string; items: Array<{ module_id: string; ruolo: string }> };
+    const principale = sessione.items.find((i) => i.ruolo === "principale")!;
+
+    const progressoRes = await fetch(`${baseUrl}/sessions/${sessione.id}/progresso`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ module_id: principale.module_id, slide_corrente: 3 }),
+    });
+    expect(progressoRes.status).toBe(200);
+    const sessioneAggiornata = (await progressoRes.json()) as {
+      items: Array<{ module_id: string; ruolo: string; slide_corrente?: number }>;
+    };
+    const itemAggiornato = sessioneAggiornata.items.find((i) => i.module_id === principale.module_id)!;
+    expect(itemAggiornato.slide_corrente).toBe(3);
+    // gli altri item della sessione restano invariati
+    const altriItems = sessioneAggiornata.items.filter((i) => i.module_id !== principale.module_id);
+    expect(altriItems.every((i) => i.slide_corrente === undefined)).toBe(true);
+
+    const modulo404Res = await fetch(`${baseUrl}/sessions/${sessione.id}/progresso`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ module_id: "mod-non-esiste", slide_corrente: 0 }),
+    });
+    expect(modulo404Res.status).toBe(404);
+
+    await fetch(`${baseUrl}/session/${sessione.id}/chiudi`, { method: "POST" });
+  });
 });

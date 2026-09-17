@@ -63,6 +63,7 @@ export function scopertaFeedback(id: string, feedback: "interessante" | "non_fa_
 export interface SessionItemEspanso {
   module_id: string;
   ruolo: "principale" | "scoperta" | "ripasso";
+  slide_corrente?: number;
   modulo: Module | null;
   motivazione: string | null;
 }
@@ -97,6 +98,13 @@ export function apriSessione(
 
 export function chiudiSessione(id: string): Promise<{ id: string }> {
   return request(`/session/${id}/chiudi`, { method: "POST" });
+}
+
+export function salvaProgresso(sessionId: string, moduleId: string, slideCorrente: number): Promise<unknown> {
+  return request(`/sessions/${sessionId}/progresso`, {
+    method: "PATCH",
+    body: JSON.stringify({ module_id: moduleId, slide_corrente: slideCorrente }),
+  });
 }
 
 // per l'uscita a metà sessione (tab chiusa, navigazione via): fetch non è affidabile

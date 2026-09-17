@@ -6,6 +6,7 @@ import { coursesRouter } from "./routes/courses.js";
 import { modulesRouter } from "./routes/modules.js";
 import { sessionsRouter } from "./routes/sessions.js";
 import { inboxRouter } from "./routes/inbox.js";
+import { illustrazioniRouter } from "./routes/illustrazioni.js";
 
 export function createApp(): express.Express {
   const app = express();
@@ -22,6 +23,7 @@ export function createApp(): express.Express {
   app.use("/api", modulesRouter);
   app.use("/api", sessionsRouter);
   app.use("/api", inboxRouter);
+  app.use("/api", illustrazioniRouter);
 
   app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
     console.error(err);

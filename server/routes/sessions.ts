@@ -159,6 +159,40 @@ sessionsRouter.post("/session/apri", (req, res) => {
   res.json(sessione);
 });
 
+const ProgressoBodySchema = z.object({
+  module_id: z.string(),
+  slide_corrente: z.number().int().nonnegative(),
+});
+
+sessionsRouter.patch("/sessions/:id/progresso", (req, res) => {
+  const parsed = ProgressoBodySchema.safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ error: parsed.error.message });
+    return;
+  }
+
+  const sessions = readSessions();
+  const idx = sessions.findIndex((s) => s.id === req.params.id);
+  if (idx === -1) {
+    res.status(404).json({ error: `sessione "${req.params.id}" non trovata` });
+    return;
+  }
+  const sessione = sessions[idx]!;
+  const itemIdx = sessione.items.findIndex((it) => it.module_id === parsed.data.module_id);
+  if (itemIdx === -1) {
+    res.status(404).json({ error: `modulo "${parsed.data.module_id}" non è in questa sessione` });
+    return;
+  }
+
+  const itemsAggiornati = sessione.items.map((it, i) =>
+    i === itemIdx ? { ...it, slide_corrente: parsed.data.slide_corrente } : it,
+  );
+  const sessioneAggiornata = { ...sessione, items: itemsAggiornati };
+  writeSessions(sessions.map((s) => (s.id === sessioneAggiornata.id ? sessioneAggiornata : s)));
+
+  res.json(sessioneAggiornata);
+});
+
 sessionsRouter.post("/session/:id/chiudi", (req, res) => {
   const sessions = readSessions();
   const idx = sessions.findIndex((s) => s.id === req.params.id);
