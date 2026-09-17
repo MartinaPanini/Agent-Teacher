@@ -1,0 +1,10 @@
+{
+  "id": "req-20260917-095323",
+  "tipo": "valuta_review",
+  "payload": {
+    "review_id": "rev-0008"
+  },
+  "creato_il": "2026-09-17T07:53:23.454Z",
+  "stato": "evasa",
+  "evasa_il": "2026-09-17T10:05:00+02:00"
+}

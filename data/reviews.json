@@ -163,8 +163,22 @@
       }
     ],
     "nota_libera": "",
-    "stato": "in_attesa",
-    "valutazione": null
+    "stato": "valutata",
+    "valutazione": {
+      "punteggio": 2,
+      "max": 6,
+      "per_domanda": [
+        0,
+        1,
+        1
+      ],
+      "commento": "D1 (0/2): la domanda chiedeva quante richieste all'API servono e cosa c'e' dentro ciascuna, e la risposta parla di strumenti da usare: non e' una risposta parziale, e' un'altra domanda. Le richieste sono due. Nella prima ci sono le definizioni degli strumenti e il tuo messaggio, e torna indietro stop_reason tool_use con un blocco tool_use. Nella seconda ci sono tutti i messaggi di prima piu' un messaggio con ruolo user che porta un blocco tool_result con il tool_use_id e il contenuto del file. Nessuno strumento \"apre\" e un altro \"legge\": e' un giro solo, e va contato. D2 (1/2): \"non e' il modello a leggerlo ma il tool che richiama\" sposta l'esecuzione nel posto giusto, ma resta vaga su chi esegue davvero — non lo strumento, il programma che sta girando sulla tua macchina — e non porta il caso che la domanda chiedeva: i server tool, eseguiti dall'infrastruttura di Anthropic, dove nemmeno il tuo programma e' coinvolto. D3 (1/2): guardare alla definizione dello strumento e' il posto giusto, ma \"i casi d'uso definiti\" non dice perche' e' li' che si decide. Il motivo e' che description e input_schema sono l'unica cosa che il modello vede al momento della scelta: non vede il codice, non prova. Il modulo mcp-01 riapre esattamente questo punto, il mcp-02 il conteggio delle richieste.",
+      "livello_suggerito": {
+        "claude-code": 2,
+        "tool-calling": 1
+      },
+      "valutata_il": "2026-09-17"
+    }
   },
   {
     "id": "rev-0006",
@@ -186,8 +200,21 @@
       }
     ],
     "nota_libera": "",
-    "stato": "in_attesa",
-    "valutazione": null
+    "stato": "valutata",
+    "valutazione": {
+      "punteggio": 1,
+      "max": 6,
+      "per_domanda": [
+        0,
+        1,
+        0
+      ],
+      "commento": "D1 (0/2): le due approvazioni non sopravvivono allo stesso modo, ed e' il punto della domanda. L'approvazione di un comando bash e' permanente per repository e comando, e finisce scritta in .claude/settings.local.json: npm test non te lo chiede piu'. L'approvazione di una modifica a un file vale solo fino a fine sessione e non viene salvata da nessuna parte: su src/api.ts te lo richiede. Dire che nessuna delle due viene richiesta e' la risposta che porta a fidarsi di un permesso che non c'e'. D2 (1/2): l'esito e' giusto, viene negata, ma \"deny batte allow\" e' la conclusione senza il meccanismo. Le regole si valutano in ordine — prima deny, poi ask, poi allow — e vince la prima che corrisponde in quell'ordine. La specificita' non entra proprio nella decisione, ed e' per questo che non conta che l'allow sia piu' generico. D3 (0/2): bypassPermissions perche' non chiede niente e' la risposta che la domanda voleva escludere. Quella modalita' non controlla nulla, comprese le scritture su percorsi protetti come .git e .claude, e va usata solo in ambienti isolati. Per un agente che gira senza di te davanti, acceptEdits accetta da sola le modifiche ai file dentro la cartella di lavoro e per il resto si ferma; auto approva con un classificatore che verifica la coerenza con la richiesta, quindi un controllo resta. Questa e' la risposta piu' preoccupante delle quattro, e non per il punteggio.",
+      "livello_suggerito": {
+        "claude-code": 2
+      },
+      "valutata_il": "2026-09-17"
+    }
   },
   {
     "id": "rev-0007",
@@ -209,7 +236,56 @@
       }
     ],
     "nota_libera": "",
-    "stato": "in_attesa",
-    "valutazione": null
+    "stato": "valutata",
+    "valutazione": {
+      "punteggio": 3,
+      "max": 6,
+      "per_domanda": [
+        1,
+        2,
+        0
+      ],
+      "commento": "D1 (1/2): il comando dei test in CLAUDE.md e' giusto. La convenzione su src/api/ in un CLAUDE.md annidato funziona davvero — i file nelle sottocartelle entrano quando Claude legge file di quella sottocartella — ma la collocazione che la domanda cercava e' una regola in .claude/rules/ con frontmatter paths, che e' il meccanismo pensato per questo. La procedura di rilascio in sei passi in CLAUDE.md invece e' sbagliata: e' multi-passo e serve di rado, quindi va in una skill, che si carica solo quando serve. E manca del tutto la motivazione: non hai mai nominato la differenza fra costo ricorrente e costo su richiesta, che e' il criterio con cui si decide. D2 (2/2): esatta e per il motivo giusto. Gli import si espandono e si caricano all'avvio insieme al file che li richiama, quindi i token sono gli stessi. E' l'unica risposta piena delle dodici di questo giro. D3 (0/2): \"forse il file e' nel folder sbagliato\" tratta il problema come un errore di configurazione, ed e' proprio l'equivoco da smontare. Il file e' nel posto giusto e viene letto: CLAUDE.md e' contesto, non configurazione applicata dal programma, quindi non c'e' nessuna garanzia di rispetto. Se una cosa deve accadere a un punto preciso del ciclo si scrive come hook, che il programma esegue a prescindere da cosa decide il modello. Il modulo claude-code-06, appena messo in coda, e' su questo.",
+      "livello_suggerito": {
+        "claude-code": 2
+      },
+      "valutata_il": "2026-09-17"
+    }
+  },
+  {
+    "id": "rev-0008",
+    "module_id": "mod-claude-code-05",
+    "session_id": "ses-0018",
+    "data": "2026-09-17",
+    "risposte": [
+      {
+        "q": "Scrivi una funzione, la salvi, non committi niente, e lanci `claude --cloud \"sistema il bug in questa funzione\"`. Cosa succede e perché non te ne accorgi subito?",
+        "risposta": "Claude non vede quella funzione poiché quando chiamo claude --cloud vede solo ciò che è stato pushato nella repo"
+      },
+      {
+        "q": "Elenca due compiti che conviene tenere in locale e due che conviene mandare nel cloud, motivando con dove gira il processo e non con le preferenze.",
+        "risposta": "non lo so"
+      },
+      {
+        "q": "Fai `--teleport` di una sessione cloud nel terminale, lavori un'ora, poi apri la sessione su claude.ai dal telefono. Cosa ti aspetti di trovare?",
+        "risposta": "non ho capito cosa fa --teleport"
+      }
+    ],
+    "nota_libera": "",
+    "stato": "valutata",
+    "valutazione": {
+      "punteggio": 1,
+      "max": 6,
+      "per_domanda": [
+        1,
+        0,
+        0
+      ],
+      "commento": "D1 (1/2): il fatto e' giusto, la VM cloud vede solo cio' che e' stato pushato. Manca la meta' che la domanda chiedeva: perche' non te ne accorgi. Perche' non c'e' nessun errore — la VM clona il remote al branch corrente, la sessione parte normalmente e lavora su codice valido, solo vecchio. E' un guasto silenzioso, e il rimedio e' pushare prima. D2 (0/2): \"non lo so\". In locale va tutto cio' che tocca file non committati e tutto cio' che deve raggiungere qualcosa che vive sulla tua macchina o sulla tua rete, perche' la VM cloud e' isolata e ha rete limitata a domini permessi. Nel cloud vanno i compiti lunghi e autonomi su codice gia' pushato e piu' compiti indipendenti in parallelo, perche' la sessione sopravvive alla chiusura del portatile. D3 (0/2): --teleport porta una sessione cloud nel terminale prendendone una copia. Il lavoro che fai in locale da quel momento non risale nella sessione cloud, quindi dal telefono ritrovi la sessione com'era al teleport. Due \"non lo so\" onesti valgono piu' di due risposte inventate, ma restano due terzi del modulo. Questo modulo lo hai studiato mentre il livello su claude-code era a 3: non lo era.",
+      "livello_suggerito": {
+        "claude-code": 2
+      },
+      "valutata_il": "2026-09-17"
+    }
   }
 ]

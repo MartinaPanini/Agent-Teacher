@@ -78,11 +78,11 @@
     "peso_skill": {
       "fondamenta-llm": 0.17
     },
-    "stato": "pronto",
+    "stato": "servito",
     "origine": "seed",
     "nuovo": false,
     "creato_il": "2026-09-15",
-    "servito_il": null,
+    "servito_il": "2026-09-17",
     "completato_il": null
   },
   {
@@ -434,36 +434,54 @@
     "peso_skill": {
       "claude-code": 0.14
     },
-    "stato": "pronto",
+    "stato": "completato",
     "origine": "seed",
     "nuovo": false,
     "creato_il": "2026-09-15",
-    "servito_il": null,
-    "completato_il": null
+    "servito_il": "2026-09-17",
+    "completato_il": "2026-09-17"
   },
   {
     "id": "mod-claude-code-06",
     "course_id": "corso-claude-code",
-    "titolo": "Modulo 6 — Claude Code (in preparazione)",
+    "titolo": "Hook: quando una cosa deve succedere a prescindere dal modello",
     "tipo": "teoria",
     "durata_min": 15,
     "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "obiettivo": "Alla fine sai dire quando un'istruzione va scritta come hook invece che in CLAUDE.md, e sai qual è il meccanismo dell'hook che blocca davvero un'azione.",
     "prerequisiti_skill": [
       "fondamenta-llm"
     ],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
+    "prerequisiti_testo": "Ti serve sapere cos'è CLAUDE.md: un file markdown che Claude Code legge all'avvio della sessione e consegna al modello come contesto, cioè come testo da leggere, non come configurazione che il programma applica. Ti serve sapere come funzionano i permessi: prima di eseguire uno strumento Claude Code controlla le regole in `permissions`, valutate nell'ordine deny, poi ask, poi allow, e vince la prima che corrisponde; se nessuna corrisponde, chiede a te. Ti serve sapere che le impostazioni vivono in file JSON a più livelli — `~/.claude/settings.json` per te, `.claude/settings.json` per il progetto, `.claude/settings.local.json` per le cose tue in quel progetto. Ti serve infine sapere cos'è una skill: una cartella di istruzioni che si carica solo quando serve, invece di pesare a ogni avvio.",
+    "sintesi_md": "Hai scritto in CLAUDE.md «esegui sempre i test prima di ogni commit» e otto volte su dieci funziona. Le altre due no. Non è un bug, ed è il momento di capire perché.\n\nCLAUDE.md è **contesto**. Viene consegnato al modello come un messaggio dopo il system prompt, il modello lo legge e prova a seguirlo. Non c'è niente, nel programma, che lo faccia rispettare. Un file lungo, o due istruzioni che si contraddicono, e l'aderenza cala. La documentazione lo dice esplicitamente: Claude Code tratta CLAUDE.md e l'auto memory «as context, not enforced configuration», e per bloccare un'azione a prescindere da cosa decide il modello rimanda agli hook.\n\nUn **hook** è l'altra cosa. È un comando shell, un endpoint HTTP, una chiamata a un tool MCP, un prompt o un subagent che il programma esegue da sé in un punto fisso del ciclo di vita, senza chiedere niente al modello. La riga che riassume tutto: *instructions guide; hooks enforce*.\n\nSi configurano nei file di settings, con tre livelli di annidamento: l'evento, un gruppo con un `matcher` che seleziona a quali strumenti applicarlo, e la lista dei gestori con il loro `type` e `command`. Gli eventi coprono la sessione (`SessionStart`, `SessionEnd`), il turno (`UserPromptSubmit`, `Stop`) e ogni singola chiamata di strumento (`PreToolUse`, `PostToolUse`, `PermissionRequest`, `PermissionDenied`), più una coda lunga di eventi su compattazione, cambio di modello, file modificati.\n\nIl pezzo che conta davvero è **come un hook dice di no**. Un hook di tipo `command` riceve un JSON su stdin e comunica con il codice di uscita. Zero: nessuna decisione, il flusso normale dei permessi va avanti. Due: errore bloccante. Sugli eventi che possono bloccare — `PreToolUse`, `UserPromptSubmit` e altri — l'uscita 2 impedisce l'azione, e lo fa «whether or not you print JSON». Su chi vince la documentazione è netta: «Exit 2's block is the one outcome JSON can't override.»\n\nL'alternativa più fine è restituire JSON con `hookSpecificOutput.permissionDecision` valorizzato a `allow` o `deny`, più un `permissionDecisionReason` che spiega. Serve quando vuoi decidere caso per caso invece che spegnere tutto, e su `PermissionRequest` è l'unica strada, perché lì l'uscita 2 non viene onorata.\n\nQuindi la regola di smistamento, che è la cosa da portarsi via. Una convenzione, una preferenza, un pezzo di architettura da conoscere: CLAUDE.md, o una regola con `paths`. Una procedura lunga che serve ogni tanto: una skill. Una cosa che deve accadere in un punto preciso del ciclo, tutte le volte, anche quando il modello si distrae e anche quando il modello non c'entra: hook. Il test è secco — se alla domanda «e se il modello decidesse di no?» la risposta è «non è accettabile», allora non è contesto, è un hook.",
+    "fonte_primaria": {
+      "url": "https://code.claude.com/docs/en/hooks",
+      "titolo": "Claude Code — Hooks (documentazione ufficiale)",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-17"
+    },
     "fonti_extra": [],
-    "domande": [],
+    "domande": [
+      {
+        "q": "Scrivi in CLAUDE.md «non toccare mai i file in `migrations/`». Un collega ti dice che è sufficiente. Dove ha ragione, dove ha torto, e cosa scrivi al posto suo?",
+        "rubrica": "2 = ha ragione nel senso che l'istruzione viene letta e nella gran parte dei casi seguita; ha torto perché CLAUDE.md è contesto e non configurazione applicata dal programma, quindi non c'è garanzia, tanto più con file lunghi o istruzioni in conflitto. Al posto suo: un hook `PreToolUse` che ispeziona il percorso del file e blocca, oppure una regola `permissions.deny`; l'hook è ciò che il programma esegue a prescindere dalla decisione del modello. 1 = coglie che non è garantito ma non propone il meccanismo che invece lo garantisce, o lo nomina senza dire perché funziona. 0 = dice che basta così, o propone di ripetere l'istruzione, scriverla in maiuscolo, o metterla anche in un secondo file."
+      },
+      {
+        "q": "Un hook su `PreToolUse` stampa un JSON con `permissionDecision: \"allow\"` e poi esce con codice 2. Cosa succede?",
+        "rubrica": "2 = l'azione viene bloccata: su un evento che può bloccare, l'uscita 2 blocca a prescindere dal JSON stampato, ed è l'unico esito che il JSON non può ribaltare. Il JSON conta solo quando l'uscita è 0. 1 = dice che viene bloccata ma senza sapere che è l'uscita 2 a prevalere sul JSON. 0 = dice che l'azione passa perché il JSON dice `allow`, o che il comportamento è indefinito."
+      },
+      {
+        "q": "Devi garantire che il linter giri dopo ogni modifica a un file `.ts`, e vuoi anche che Claude sappia che il progetto usa due spazi di indentazione. Quante cose stai configurando, e dove le metti?",
+        "rubrica": "2 = due cose di natura diversa. Il linter è un'azione che deve accadere a un punto fisso del ciclo indipendentemente dal modello: hook `PostToolUse` con un `matcher` sugli strumenti di scrittura. L'indentazione è un fatto che il modello deve conoscere mentre scrive: CLAUDE.md, o una regola con `paths` su `**/*.ts`. La motivazione deve poggiare sulla distinzione fra ciò che si esegue e ciò che si legge. 1 = colloca le due cose nel posto giusto ma motiva con l'ordine o la comodità invece che con esecuzione contro contesto. 0 = mette entrambe in CLAUDE.md, o entrambe in un hook."
+      }
+    ],
     "peso_skill": {
       "claude-code": 0.14
     },
-    "stato": "bozza",
-    "origine": "seed",
+    "stato": "pronto",
+    "origine": "routine-cowork",
     "nuovo": false,
-    "creato_il": "2026-09-15",
+    "creato_il": "2026-09-17",
     "servito_il": null,
     "completato_il": null
   },
@@ -496,54 +514,90 @@
   {
     "id": "mod-mcp-01",
     "course_id": "corso-mcp",
-    "titolo": "Modulo 1 — Tool calling (in preparazione)",
+    "titolo": "Cosa vede il modello di uno strumento",
     "tipo": "teoria",
     "durata_min": 15,
     "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "obiettivo": "Alla fine sai dire quali sono le tre parti di una definizione di strumento, e quale delle tre decide se il modello quello strumento lo userà o lo ignorerà.",
     "prerequisiti_skill": [
       "fondamenta-llm",
       "claude-code"
     ],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
+    "prerequisiti_testo": "Ti serve sapere che un modello linguistico non esegue niente: produce testo. Quando si dice «Claude ha letto un file», quello che è successo è che il modello ha prodotto un pezzo di testo strutturato che dice «voglio leggere questo file», e un programma esterno — Claude Code, il tuo script, la piattaforma — ha letto il file e gli ha rimandato il contenuto come nuovo testo in ingresso. Ti serve sapere cos'è la finestra di contesto: tutto ciò che il modello ha davanti in un dato momento è una lista di messaggi che gli viene rispedita per intero a ogni richiesta, e le definizioni degli strumenti stanno dentro quella lista, quindi occupano token come tutto il resto. Ti serve infine un'idea minima di JSON Schema: un oggetto che descrive che forma deve avere un dato — quali campi esistono, di che tipo sono, quali sono obbligatori.",
+    "sintesi_md": "Un modello che «usa uno strumento» non sa niente di quello strumento oltre a quello che gli scrivi tu in due campi di testo. È il punto da cui parte tutto il resto, ed è il primo che si dimentica.\n\nUna definizione di strumento ha esattamente tre parti obbligatorie. `name` è l'identificatore, e deve rispettare `^[a-zA-Z0-9_-]{1,128}$`. `description` è prosa in chiaro che dice cosa fa lo strumento, quando va usato e quando no, cosa significa ogni parametro e quali sono i limiti. `input_schema` è un oggetto JSON Schema che descrive la forma dell'input: quali proprietà, di che tipo, quali obbligatorie.\n\nLa documentazione su questo non è tiepida: «Provide extremely detailed descriptions. This is by far the most important factor in tool performance.» E dà una misura: almeno tre o quattro frasi per strumento, di più se lo strumento è complicato.\n\nIl motivo è meccanico, non stilistico. Il modello non vede il codice che esegue lo strumento. Non vede cosa succede dentro. Non ha modo di provare. Al momento di decidere se quello strumento serve, ha davanti soltanto `description` e `input_schema`. Se la descrizione dice «cerca cose», lo strumento è di fatto invisibile: il modello non ha modo di sapere che la tua richiesta rientra in «cose». Se lo schema non prevede il campo che servirebbe al tuo caso, lo strumento è inutilizzabile in quel caso, e viene saltato.\n\nDa qui la conseguenza pratica, che è l'unica cosa da ricordare se ne ricordi una sola. Quando uno strumento non viene mai chiamato, la prima cosa da guardare non è il modello, non è il prompt e non è il codice che lo esegue: è la coppia descrizione più schema. Sono l'unica superficie di contatto che esiste.\n\nCon `tool_choice` al valore predefinito `{\"type\": \"auto\"}` il modello decide turno per turno. La documentazione dice che chiama uno strumento «when the request maps to that tool's described capability and the answer isn't already in context», e risponde direttamente per conoscenza stabile, compiti creativi e turni di conversazione. *Described* capability: di nuovo la descrizione, non la capacità reale. Se serve forzare una chiamata si usa `tool_choice` con `any` o con il nome di uno strumento preciso; una riga nel system prompt tipo «usa gli strumenti prima di rispondere» sposta la probabilità ma non garantisce niente.\n\nUltima distinzione, che conta perché cambia chi lavora. I **client tool** — i tuoi, più quelli di Anthropic come `bash` e `text_editor` — girano nel tuo codice: il modello si ferma con `stop_reason: \"tool_use\"`, esegui tu, rimandi tu il risultato. I **server tool** — `web_search`, `web_fetch`, `code_execution` — girano sull'infrastruttura di Anthropic: i risultati arrivano già fatti e tu non gestisci nessuna esecuzione. Stessa forma nella definizione, due posti diversi in cui il lavoro accade davvero.",
+    "fonte_primaria": {
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview",
+      "titolo": "Tool use with Claude — panoramica (documentazione ufficiale Claude)",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-17"
+    },
     "fonti_extra": [],
-    "domande": [],
+    "domande": [
+      {
+        "q": "Hai due strumenti: `search_docs` con descrizione «cerca nella documentazione» e `search_docs_v2` con quattro frasi che spiegano quali documenti copre, quando usarlo e quando no. Il modello chiama sempre il secondo. Spiega perché, senza usare la parola «meglio».",
+        "rubrica": "2 = perché la descrizione è l'unica cosa su cui il modello decide: la prima non gli dice se la richiesta ricade nel raggio d'azione dello strumento, la seconda sì, e al momento della scelta non esiste nessun'altra informazione — né il codice né una prova. 1 = dice che la descrizione conta o che è più dettagliata, senza spiegare che è l'unica superficie su cui la decisione si prende. 0 = attribuisce la scelta al nome, all'ordine nella lista, o a una preferenza del modello."
+      },
+      {
+        "q": "Uno strumento che scrive su database viene chiamato anche quando l'utente chiede solo di leggere. Dove intervieni, e perché non basta scriverlo nel system prompt?",
+        "rubrica": "2 = nella `description` dello strumento, che deve dire esplicitamente anche quando NON va usato, e nell'`input_schema` se la forma dell'input non distingue lettura da scrittura. Il system prompt sposta la probabilità, ma la decisione turno per turno si prende sulla capacità descritta nello strumento: una descrizione che non esclude il caso continua a renderlo un candidato valido. 1 = dice di sistemare la descrizione senza spiegare perché il system prompt non è il posto giusto, o viceversa. 0 = propone di cambiare modello, di forzare `tool_choice`, o di gestire il caso nel codice che esegue lo strumento."
+      },
+      {
+        "q": "Il tuo agente ha `web_search` e uno strumento tuo che legge un file locale. In un solo turno il modello li chiama tutti e due. Cosa devi eseguire tu e cosa no?",
+        "rubrica": "2 = solo il tuo: è un client tool, gira nel tuo codice, quindi ricevi `stop_reason: \"tool_use\"`, esegui la lettura e rimandi il risultato. `web_search` è un server tool, lo esegue l'infrastruttura di Anthropic e il risultato arriva già prodotto senza che tu faccia niente. 1 = distingue i due tipi ma non dice quale dei due tocca a lei, o non nomina dove gira ciascuno. 0 = dice che li esegue entrambi lei, o entrambi Anthropic, o che dipende dal modello."
+      }
+    ],
     "peso_skill": {
       "tool-calling": 0.25
     },
-    "stato": "bozza",
-    "origine": "seed",
+    "stato": "pronto",
+    "origine": "routine-cowork",
     "nuovo": false,
-    "creato_il": "2026-09-15",
+    "creato_il": "2026-09-17",
     "servito_il": null,
     "completato_il": null
   },
   {
     "id": "mod-mcp-02",
     "course_id": "corso-mcp",
-    "titolo": "Modulo 2 — Tool calling (in preparazione)",
+    "titolo": "Due richieste e un identificatore: il giro completo di una chiamata",
     "tipo": "teoria",
     "durata_min": 15,
     "voci_inbox": [],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "obiettivo": "Alla fine sai contare quante richieste all'API servono perché il modello risponda usando uno strumento, e sai dire cosa c'è dentro ciascuna e chi la scrive.",
     "prerequisiti_skill": [
       "fondamenta-llm",
       "claude-code"
     ],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
+    "prerequisiti_testo": "Ti serve sapere che una definizione di strumento ha tre parti — `name`, `description`, `input_schema` — e che il modello non esegue niente: produce un pezzo di testo strutturato che chiede un'operazione, e qualcun altro la esegue. Ti serve sapere che una conversazione con l'API non ha memoria propria: non c'è una sessione aperta dall'altra parte. Ogni richiesta è indipendente e contiene l'intera lista dei messaggi fino a quel momento, più le definizioni degli strumenti; è per questo che i token di input crescono a ogni turno. Ti serve infine sapere che ogni risposta del modello porta uno `stop_reason` che dice perché il modello ha smesso di scrivere: `end_turn` quando ha finito di rispondere, `tool_use` quando si è fermato perché vuole uno strumento.",
+    "sintesi_md": "La domanda «quante richieste servono» ha una risposta secca, ed è due. Non una. Non «dipende». Due, per una singola chiamata a uno strumento; tre per due chiamate in sequenza, e così via: una richiesta in più per ogni giro.\n\n**Prima richiesta.** Ci metti dentro due cose: l'array `tools` con le definizioni complete di tutti gli strumenti disponibili, e l'array `messages` con il messaggio dell'utente. La risposta che torna non è testo finale. Ha `stop_reason: \"tool_use\"`, e il suo `content` contiene uno o più blocchi: tipicamente un blocco `text` con quello che il modello sta dicendo a voce alta («controllo il meteo»), e poi un blocco `tool_use` fatto di tre campi — `id` (qualcosa come `toolu_01A09q90qw90lq917835lq9`), `name` (quale strumento) e `input` (i parametri, nella forma dichiarata dallo schema).\n\nA questo punto il modello ha finito il suo turno. Non sta aspettando niente e non è in pausa: la richiesta HTTP è chiusa. Se non fai nient'altro, non succede nient'altro. È la differenza fra una chiamata a uno strumento e una chiamata di funzione normale, ed è tutta qui.\n\n**In mezzo.** Tu — il tuo programma, Claude Code, la libreria che stai usando — leggi il blocco `tool_use`, esegui davvero l'operazione, e ti ritrovi in mano un risultato.\n\n**Seconda richiesta.** Rispedisci tutto: gli stessi `tools`, gli stessi messaggi di prima, più il messaggio assistant che il modello ti ha appena mandato (quello che contiene il `tool_use`), più un messaggio nuovo. E qui c'è il dettaglio che si sbaglia sempre: quel messaggio nuovo ha `role: \"user\"`. Non `tool`, non `assistant`. È un messaggio utente il cui `content` contiene un blocco `tool_result` con tre campi: `tool_use_id`, che riporta esattamente l'`id` del blocco `tool_use` di prima; `content`, cioè il risultato; e `is_error`, un booleano che dice se l'esecuzione è fallita.\n\n`tool_use_id` è quello che tiene insieme la coppia. Se il modello ha chiesto tre strumenti in parallelo in un solo turno, i tre risultati tornano indietro tutti insieme dentro un unico messaggio user, e l'unico modo di sapere quale risultato appartiene a quale richiesta è quell'identificatore. Non l'ordine.\n\nLa risposta a questa seconda richiesta è il testo che leggi, con `stop_reason: \"end_turn\"`.\n\nDue conseguenze che si vedono solo se hai contato le richieste. La prima è il costo: nella seconda richiesta stai rimandando tutto — definizioni degli strumenti comprese — più il contenuto che lo strumento ha restituito. Un file letto entra nella finestra e ci resta per tutti i turni successivi. La seconda è che una descrizione di strumento lunga la paghi a ogni singola richiesta della conversazione, non una volta sola.",
+    "fonte_primaria": {
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/implement-tool-use",
+      "titolo": "Implement tool use — documentazione ufficiale Claude",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-17"
+    },
     "fonti_extra": [],
-    "domande": [],
+    "domande": [
+      {
+        "q": "Il modello chiama tre strumenti nello stesso turno. Quanti messaggi `user` mandi indietro, e come fa il modello a non confondere i risultati?",
+        "rubrica": "2 = un solo messaggio user, il cui `content` contiene tre blocchi `tool_result`; l'appaiamento lo fa `tool_use_id`, che in ogni blocco riporta l'`id` del corrispondente blocco `tool_use`, quindi l'ordine e il numero dei messaggi non c'entrano. 1 = dice un solo messaggio ma non nomina `tool_use_id` come meccanismo di appaiamento, oppure nomina `tool_use_id` ma manda tre messaggi separati. 0 = dice tre messaggi con ruolo `tool`, o che il modello li appaia dall'ordine in cui arrivano."
+      },
+      {
+        "q": "Qual è il `role` del messaggio che porta il `tool_result`, e perché quella scelta è meno strana di quanto sembri?",
+        "rubrica": "2 = `user`: per l'API tutto ciò che non è prodotto dal modello è input, e il risultato di uno strumento è input esattamente come il testo che digiti tu; l'alternanza dei ruoli resta assistant/user, e il modello distingue il risultato dal testo umano dal tipo del blocco (`tool_result`), non dal ruolo del messaggio. 1 = dice `user` senza saper spiegare perché, o costruisce il ragionamento giusto ma sbaglia il ruolo. 0 = dice `tool`, `assistant` o `system`."
+      },
+      {
+        "q": "Un agente fa dieci letture di file in sequenza dentro una sola conversazione. Quante richieste all'API sono state fatte, e cosa succede al conto dei token di input dalla prima all'ultima?",
+        "rubrica": "2 = undici: una iniziale più una per ogni risultato restituito. I token di input crescono a ogni richiesta perché ogni volta si rispedisce l'intera lista dei messaggi, che ormai contiene tutti i blocchi `tool_use` e tutto il contenuto dei file già letti, più le definizioni degli strumenti che ci sono sempre. L'ultima richiesta è di gran lunga la più cara. 1 = conta le richieste giuste ma non spiega la crescita, oppure spiega la crescita ma sbaglia il conto. 0 = dice dieci o una, o dice che i token di input restano costanti."
+      }
+    ],
     "peso_skill": {
       "tool-calling": 0.25
     },
-    "stato": "bozza",
-    "origine": "seed",
+    "stato": "pronto",
+    "origine": "routine-cowork",
     "nuovo": false,
-    "creato_il": "2026-09-15",
+    "creato_il": "2026-09-17",
     "servito_il": null,
     "completato_il": null
   },
@@ -774,29 +828,47 @@
   {
     "id": "mod-context-economy-01",
     "course_id": "corso-context-economy",
-    "titolo": "Modulo 1 — Context engineering e memoria (in preparazione)",
+    "titolo": "Cosa sopravvive fra una sessione e l'altra, e cosa lo paghi",
     "tipo": "teoria",
     "durata_min": 15,
     "voci_inbox": [
       "DY4m74jCfgp",
       "DYy9cowis3l"
     ],
-    "obiettivo": "Da definire dalla routine Cowork insieme al contenuto.",
+    "obiettivo": "Alla fine sai dire, per ogni file di memoria di Claude Code, se entra in contesto a ogni avvio o solo su richiesta, e sai stimare cosa ti costa aggiungerci una riga.",
     "prerequisiti_skill": [
       "claude-code"
     ],
-    "prerequisiti_testo": "Da generare dalla routine Cowork insieme al contenuto.",
-    "sintesi_md": "",
-    "fonte_primaria": null,
+    "prerequisiti_testo": "Ti serve sapere che ogni sessione di Claude Code parte con una finestra di contesto vuota: non c'è niente che sopravviva da solo da una sessione all'altra. Ti serve sapere che tutto ciò che entra in quella finestra all'avvio viene rispedito al modello a ogni richiesta successiva della sessione, quindi una riga caricata all'avvio non si paga una volta, si paga tante volte quanti sono i turni. Ti serve sapere cos'è CLAUDE.md — un file markdown di istruzioni che scrivi tu e che Claude legge come contesto — e cos'è una skill, cioè una cartella di istruzioni che si carica solo quando serve. Ti serve infine una nozione minima di frontmatter: le righe YAML in testa a un file markdown, fra due righe di tre trattini, che descrivono il file a chi lo carica.",
+    "sintesi_md": "Gira un metodo, sui social, che promette «memoria persistente» per un agente con cinque file markdown: AGENTS.md per le regole, SKILLS.md per le competenze, MEMORY.md per le decisioni passate, CONTEXT.md per lo stato della sessione, CLAUDE.md per le istruzioni. Alla fonte — la documentazione di Claude Code — il quadro è diverso, e vale la pena guardarlo perché la differenza sta tutta nel costo.\n\nOgni sessione parte con una finestra vuota. Due meccanismi portano dentro qualcosa dalla sessione precedente, e sono solo due.\n\nIl primo sono i **file CLAUDE.md**, che scrivi tu. Vengono caricati dalla directory di lavoro e da tutte quelle sopra, concatenati dalla radice del filesystem verso il basso, quindi le istruzioni più vicine a dove hai lanciato Claude sono le ultime lette. I file nelle sottocartelle non si caricano all'avvio: entrano quando Claude legge file di quella sottocartella. La documentazione dà un bersaglio, sotto le 200 righe per file, perché «longer files consume more context and reduce adherence». E chiarisce l'equivoco più diffuso: gli import `@path` «are expanded and loaded into context at launch», quindi spezzare un file da 600 righe in quattro e richiamarli con `@` organizza meglio ma non risparmia un token. La profondità massima degli import è quattro salti.\n\nIl secondo è l'**auto memory**, che scrive Claude da sé a partire dalle tue correzioni. Vive in `~/.claude/projects/<progetto>/memory/`, una cartella per repository. Dentro c'è un `MEMORY.md` che fa da indice, più un file per argomento. E qui sta la risposta alla domanda del costo: all'avvio si carica **solo l'indice, e solo le prime 200 righe o i primi 25KB**, quello che viene prima. I file per argomento no: Claude li legge su richiesta con gli strumenti normali, quando gli servono. Quello che sta oltre la soglia dell'indice non viene caricato, e non te lo dice nessuno.\n\nSu AGENTS.md la fonte è secca: «Claude Code reads `CLAUDE.md`, not `AGENTS.md`». Se il repository ne ha già uno per altri agenti, si crea un CLAUDE.md che lo importa — e quell'import, come tutti, si espande all'avvio.\n\nIl meccanismo che il metodo dei cinque file non nomina è proprio quello che risolve il problema: le **regole con `paths`** in `.claude/rules/`, con un frontmatter che elenca i pattern dei file a cui si applicano. Entrano in contesto solo quando Claude tocca un file che corrisponde. E le **skill**, che si caricano solo quando servono.\n\nLo schema finale è questo, e vale per qualunque cosa tu voglia rendere persistente. Costo ricorrente per ciò che entra a ogni avvio: CLAUDE.md, regole senza `paths`, indice dell'auto memory. Costo su richiesta per ciò che si carica quando serve: regole con `paths`, skill, file per argomento dell'auto memory, CLAUDE.md nelle sottocartelle. Cinque file markdown caricati sempre non sono memoria: sono cinque file di contesto che paghi tutte le volte.\n\nLo stesso metro smonta l'altra promessa che gira, quella degli indicizzatori: un tool che costruisce un grafo del progetto con un parser AST non dà memoria a Claude, gli dà un modo di cercare senza leggere tutto. È di nuovo costo su richiesta al posto di costo ricorrente, e va valutato con la stessa domanda: cosa entra in finestra a ogni avvio, e cosa solo quando serve.",
+    "fonte_primaria": {
+      "url": "https://code.claude.com/docs/en/memory",
+      "titolo": "Claude Code — How Claude remembers your project (documentazione ufficiale)",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-17"
+    },
     "fonti_extra": [],
-    "domande": [],
+    "domande": [
+      {
+        "q": "Il tuo CLAUDE.md è arrivato a 600 righe. Lo spezzi in quattro file da 150 e li richiami con `@`. Poi sposti due dei quattro in `.claude/rules/` con un frontmatter `paths`. Quanto contesto hai risparmiato a ogni avvio, nei due passaggi?",
+        "rubrica": "2 = primo passaggio zero: gli import si espandono e si caricano all'avvio insieme al file che li richiama, quindi il conto dei token è identico e cambia solo l'organizzazione. Secondo passaggio: risparmi le righe dei due file spostati in ogni sessione che non tocca file corrispondenti ai pattern, perché una regola con `paths` entra in contesto solo quando Claude legge un file che corrisponde. 1 = coglie uno dei due passaggi e sbaglia o salta l'altro. 0 = dice che già gli import risparmiano contesto."
+      },
+      {
+        "q": "L'auto memory di un progetto ha un `MEMORY.md` da 400 righe e sei file per argomento. Cosa entra nella finestra quando apri una sessione nuova, e cosa succede alle righe dalla 201 in poi?",
+        "rubrica": "2 = entrano solo le prime 200 righe di `MEMORY.md`, o i primi 25KB se arrivano prima; i sei file per argomento non si caricano all'avvio, Claude li legge su richiesta con gli strumenti normali. Le righe dalla 201 in poi non vengono caricate: esistono su disco ma non entrano in contesto, quindi un indice troppo lungo perde in silenzio la parte finale. 1 = sa che si carica solo l'indice ma non conosce il limite, o non dice cosa succede oltre. 0 = dice che si carica tutta la cartella, o che non si carica niente."
+      },
+      {
+        "q": "Un metodo che gira in rete dice di creare AGENTS.md, SKILLS.md, MEMORY.md, CONTEXT.md e CLAUDE.md nella radice del progetto. Senza giudicare il metodo, di' quali di quei file Claude Code carica davvero da solo, e cosa ti costerebbe il resto.",
+        "rubrica": "2 = di quei cinque Claude Code carica da solo CLAUDE.md. AGENTS.md non lo legge affatto, a meno che un CLAUDE.md non lo importi con `@`, e in quel caso si espande all'avvio come il resto. Gli altri tre sono file markdown qualunque: o li importi, e allora li paghi a ogni sessione, o non li importi, e allora Claude non li vede finché non glieli fai leggere esplicitamente. Il nome del file non fa succedere niente da solo. 1 = individua che AGENTS.md non viene letto ma non spiega cosa succede agli altri tre, o viceversa. 0 = dà per buono che i cinque file vengano caricati, o liquida il metodo senza dire perché."
+      }
+    ],
     "peso_skill": {
       "context-economy": 0.2
     },
-    "stato": "bozza",
-    "origine": "seed",
+    "stato": "pronto",
+    "origine": "routine-cowork",
     "nuovo": false,
-    "creato_il": "2026-09-15",
+    "creato_il": "2026-09-17",
     "servito_il": null,
     "completato_il": null
   },

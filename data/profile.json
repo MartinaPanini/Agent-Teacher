@@ -8,7 +8,7 @@
   "soglia_ripasso_giorni": 10,
   "obiettivi": [
     "Scrivere un MCP server mio",
-    "Collegare Claude ai miei dati personali (Apple Health, Garmin)",
+    "Collegare Claude ai miei dati personali (Apple Health)",
     "Costruire un second brain con Obsidian e un agente"
   ],
   "calibrazione": {
@@ -48,6 +48,6 @@
       }
     ]
   },
-  "ultima_sessione_il": "2026-09-16",
-  "sessioni_totali": 17
+  "ultima_sessione_il": "2026-09-17",
+  "sessioni_totali": 19
 }

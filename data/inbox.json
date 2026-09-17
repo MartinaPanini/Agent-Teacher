@@ -126,7 +126,7 @@
     ],
     "fonte_primaria": null,
     "verdetto": "studia",
-    "motivo": "Metodo in 5 step per usare NotebookLM come memoria di ricerca: un notebook per progetto, prompt per estrarre domanda/metodo/limiti, confronto tra paper, ricerca di gap, outline della review.",
+    "motivo": "Metodo in 5 step per usare NotebookLM come memoria di ricerca: un notebook per progetto, prompt per estrarre domanda/metodo/limiti, confronto tra paper, ricerca di gap, outline della review. — Nessuna skill della mappa copre NotebookLM e nessuna fonte primaria e' risolvibile dalla sola didascalia: resta come segnale, non genera modulo.",
     "skill_toccate": [],
     "modulo_generato": null,
     "nota_utente": ""
@@ -1135,9 +1135,12 @@
       "Claude",
       "C2PA"
     ],
-    "fonte_primaria": null,
+    "fonte_primaria": {
+      "url": "https://support.claude.com/en/articles/16266773-how-claude-marks-ai-generated-content",
+      "tipo": "documentazione"
+    },
     "verdetto": "studia",
-    "motivo": "Dal 2 agosto 2026 i nuovi modelli Claude marcano l'output: invisibile nel testo, dato di provenienza C2PA nei file. Il marchio dice solo che il testo e' passato da Claude, non chi l'ha pensato.",
+    "motivo": "Claim verificato alla fonte il 2026-09-17 e sostanzialmente confermato, con due precisazioni che il reel lascia cadere: il 2 agosto 2026 riguarda i modelli lanciati nell'UE da quella data in poi, mentre i modelli precedenti hanno tempo fino al 2 dicembre 2026; e i dati di provenienza C2PA firmati riguardano i file immagine generati (PNG, JPEG), non i file in generale. Confermato invece il punto centrale: il marchio e' un segnale, non una prova, e dice solo che il contenuto e' passato da Claude.",
     "skill_toccate": [
       "provenienza-sicurezza"
     ],

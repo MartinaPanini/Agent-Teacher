@@ -22,25 +22,25 @@
     "descrizione": "Uso quotidiano di Claude Code come strumento di sviluppo: comandi, file, workflow.",
     "livello": 2,
     "livello_fonte": "moduli",
-    "livello_aggiornato_il": "2026-09-16",
+    "livello_aggiornato_il": "2026-09-17",
     "prerequisiti": [
       "fondamenta-llm"
     ],
-    "moduli_completati": 4,
+    "moduli_completati": 5,
     "moduli_totali": 7,
     "interesse_osservato": 1,
     "utilita_dichiarata": 0.5,
     "peso_scoperta": 1,
-    "note": ""
+    "note": "Livello riportato a 2 dalla routine del 2026-09-17: 9 punti su 30 sulle cinque review del corso (rev-0003..0008). Sa seguire, non sa ancora fare da sola: permessi e ciclo del tool calling ancora sbagliati."
   },
   {
     "id": "tool-calling",
     "nome": "Tool calling",
     "area": "fondamenta",
     "descrizione": "Come un modello chiama funzioni esterne e ne usa il risultato: la base di ogni agente.",
-    "livello": 2,
-    "livello_fonte": "calibrazione",
-    "livello_aggiornato_il": "2026-09-15",
+    "livello": 1,
+    "livello_fonte": "moduli",
+    "livello_aggiornato_il": "2026-09-17",
     "prerequisiti": [
       "fondamenta-llm",
       "claude-code"
@@ -50,7 +50,7 @@
     "interesse_osservato": 0,
     "utilita_dichiarata": 0.7,
     "peso_scoperta": 1,
-    "note": ""
+    "note": "Livello riportato a 1 dalla routine del 2026-09-17: il 2 veniva dalla calibrazione con zero moduli fatti, e rev-0005 D1 (0/2) mostra che il ciclo richiesta/risposta non c'e'. Blocca mod-mcp-06..09 finche' non risale."
   },
   {
     "id": "mcp-protocollo",
