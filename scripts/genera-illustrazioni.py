@@ -637,6 +637,173 @@ IMG["auto-memory-cosa-si-carica"] = svg(320, 382,
     "Nella cartella dell'auto memory solo MEMORY.md, l'indice, viene caricato "
     "all'avvio, e solo per le prime 200 righe o 25 KB; i file per argomento "
     "vengono aperti solo quando servono", b)
+
+# --- mod-claude-skills-01 ---------------------------------------------------
+b = cap(300, 22, "tre livelli, tre momenti diversi", "middle", 12.5, INK)
+liv = [("le description di tutte le skill", "sempre in contesto, poche righe", "acc", 1),
+       ("il corpo della skill", "entra quando la skill viene invocata", "sys", 2),
+       ("i file di riferimento che cita", "si aprono solo se servono davvero", "ink", 3)]
+for k, (t, sub, kind, n) in enumerate(liv):
+    y = 48 + k * 66
+    b += (box(46, y, 508, 52, "", None, kind, kind == "ink") +
+          cap(64, y + 22, t, size=12.5,
+              fill=(ACC if kind == "acc" else SYS if kind == "sys" else INK)) +
+          cap(64, y + 40, sub, size=11) + badge(28, y + 26, n))
+b += (cap(300, 262, "Materiale di riferimento lungo non costa quasi niente finché non serve.",
+          "middle", 12, INK) +
+      cap(300, 282, "Ma una skill caricata resta in contesto fino a fine sessione.",
+          "middle", 12, ACC))
+IMG["skill-progressive-disclosure"] = svg(600, 298,
+    "Tre livelli: le description di tutte le skill stanno sempre in contesto, il "
+    "corpo entra quando la skill viene invocata, i file di riferimento si aprono "
+    "solo se servono", b)
+
+b = vscode("SKILL.md", [
+    [P("---")],
+    [K("name"), P(": "), S("summarize-changes")],
+    [K("description"), P(": "), S("Riassume le modifiche non committate e segnala")],
+    [ind(2), S("quelle rischiose. Usala quando l'utente chiede cosa è")],
+    [ind(2), S("cambiato o vuole un messaggio di commit.")],
+    [P("---")],
+    [P("")],
+    [("## Modifiche correnti", VSC["com"])],
+    [P("")],
+    [("!`git diff HEAD`", "#D97757")],
+    [P("")],
+    [("## Istruzioni", VSC["com"])],
+    [P("")],
+    [P("Riassumi le modifiche in due o tre punti, poi elenca i rischi.")],
+], badges=((1, 2), (2, 9)))
+IMG["skill-md-vscode"] = svg(600, 30 + max(180, 88 + 14 * 16) + 12,
+    "Un file SKILL.md in Visual Studio Code: il frontmatter con name e "
+    "description, e nel corpo l'injection che esegue git diff e ne mette "
+    "l'output al suo posto", b)
+
+b = cap(160, 22, "ogni quanto serve?", "middle", 12.5, INK)
+for k, (dom, dove, kind) in enumerate([
+        ("un fatto stabile, vale per ogni sessione", "CLAUDE.md", "acc"),
+        ("una procedura lunga, ogni tanto", "una skill", "sys")]):
+    y = 44 + k * 96
+    b += (box(14, y, 292, 76, "", None, kind) +
+          cap(30, y + 28, dom, size=11.5, fill=(ACC if kind == "acc" else SYS)) +
+          cap(30, y + 52, dove, size=14, fill=INK, font=MONO))
+b += (cap(160, 244, "«questo progetto usa pnpm» sta in CLAUDE.md.", "middle", 11.5) +
+      cap(160, 262, "«come si prepara una release» sta in una skill.", "middle", 11.5) +
+      cap(160, 290, "Il segnale per crearne una: ti accorgi di", "middle", 11.5, ACC) +
+      cap(160, 306, "reincollare le stesse istruzioni.", "middle", 11.5, ACC))
+IMG["claude-md-o-skill"] = svg(320, 322,
+    "Un fatto stabile che vale per ogni sessione sta in CLAUDE.md; una procedura "
+    "lunga che serve ogni tanto sta in una skill", b)
+
+# --- mod-second-brain-01 ----------------------------------------------------
+b = (cap(160, 22, "un vault, dal filesystem", "middle", 12.5, INK) +
+     box(14, 40, 292, 190, "", None, "ink"))
+voci = [("il-mio-vault/", 70, MONO, INK, 30),
+        ("fisica.md", 96, MONO, MUTE, 46),
+        ("appunti-2026-09.md", 120, MONO, MUTE, 46),
+        ("allegati/", 144, MONO, MUTE, 46),
+        ("schema.png", 168, MONO, MUTE, 62),
+        (".obsidian/", 198, MONO, SYS, 46)]
+for t, y, f, c, x in voci:
+    b += cap(x, y, t, size=12, fill=c, font=f)
+b += (cap(180, 198, "la configurazione", size=11, fill=SYS) +
+      cap(160, 254, "Nessun database. Nessun backend. Nessuna API.", "middle", 12, INK) +
+      cap(160, 280, "Qualunque cosa sappia leggere una cartella", "middle", 11.5, ACC) +
+      cap(160, 296, "sa leggere il tuo second brain.", "middle", 11.5, ACC))
+IMG["vault-e-una-cartella"] = svg(320, 312,
+    "Un vault Obsidian è una cartella sul filesystem: file markdown, una "
+    "sottocartella di allegati e una sottocartella .obsidian con la "
+    "configurazione. Nessun database e nessuna API", b)
+
+b = (cap(300, 22, "il grafo sta dentro il testo", "middle", 12.5, INK) +
+     box(14, 40, 250, 104, "fisica.md", "una nota qualsiasi", "ink") +
+     cap(30, 104, "Vedi [[Tre leggi del moto]]", size=11.5, font=MONO, fill=ACC) +
+     cap(30, 126, "e [[Attrito#Statico]].", size=11.5, font=MONO, fill=ACC) +
+     box(336, 30, 250, 46, "Tre leggi del moto", None, "sys") +
+     box(336, 108, 250, 46, "Attrito", None, "sys") +
+     f'<line x1="270" y1="86" x2="330" y2="56" stroke="{ACC}" stroke-width="2.5" '
+     f'marker-end="url(#ar)"/>'
+     f'<line x1="270" y1="110" x2="330" y2="128" stroke="{ACC}" stroke-width="2.5" '
+     f'marker-end="url(#ar)"/>' +
+     cap(300, 186, "I link sono dati leggibili: una regex su [[...]] ricostruisce",
+         "middle", 12, INK) +
+     cap(300, 204, "il grafo delle relazioni senza aprire Obsidian.", "middle", 12, INK) +
+     box(90, 224, 420, 50, "", None, "acc") +
+     cap(300, 246, "Rinominando da dentro Obsidian i link si aggiornano.", "middle", 11.5, ACC) +
+     cap(300, 263, "Un agente che rinomina da fuori li rompe in silenzio.", "middle", 11.5, ACC))
+IMG["link-come-dati"] = svg(600, 290,
+    "I collegamenti fra note sono scritti dentro il testo con le doppie "
+    "parentesi quadre: una regex ricostruisce il grafo senza aprire Obsidian, ma "
+    "un agente che rinomina un file da fuori rompe i riferimenti", b)
+
+b = (cap(160, 22, "lo stesso metodo, due scale", "middle", 12.5, INK) +
+     box(14, 44, 292, 80, "venti note", "dagliele tutte: funziona", "sys") +
+     box(14, 148, 292, 80, "duemila note", "dagliele tutte: peggiora", "ink", True) +
+     cap(30, 206, "la finestra si riempie di materiale irrilevante", size=11, fill=MUTE) +
+     cap(160, 260, "Il second brain utile non è «l'agente legge tutto».", "middle", 12, INK) +
+     cap(160, 284, "È «l'agente cerca, apre tre note e cita quelle».", "middle", 12, ACC))
+IMG["dove-si-rompe"] = svg(320, 300,
+    "Su venti note dare tutto all'agente funziona; su duemila la finestra si "
+    "riempie di materiale irrilevante e le risposte peggiorano mentre il vault "
+    "cresce", b)
+
+# --- mod-orchestrazione-01 --------------------------------------------------
+b = (cap(300, 22, "cosa attraversa il confine", "middle", 12.5, INK) +
+     box(14, 48, 230, 180, "conversazione", "principale", "ink") +
+     box(356, 48, 230, 180, "subagent", "finestra isolata", "sys"))
+for k, t in enumerate(["il compito", "i file CLAUDE.md", "lo stato di git",
+                       "le skill precaricate"]):
+    b += cap(30, 108 + k * 22, t, size=11)
+for k, t in enumerate(["un system prompt suo", "permessi propri",
+                       "nessuna cronologia", "nessuna memoria di sessione"]):
+    b += cap(372, 108 + k * 22, t, size=11, fill=(SYS if k < 2 else MUTE))
+b += (f'<line x1="250" y1="96" x2="350" y2="96" stroke="{ACC}" stroke-width="2.5" '
+      f'marker-end="url(#ar)"/>'
+      f'<path d="M350 200 L250 200" fill="none" stroke="{ACC}" stroke-width="2.5" '
+      f'stroke-dasharray="7 6" marker-end="url(#ar)"/>' +
+      cap(300, 88, "va", "middle", 11, ACC) +
+      cap(300, 192, "torna", "middle", 11, ACC) +
+      cap(300, 252, "Quello che torna è un riassunto. Non i file che ha letto,",
+          "middle", 12, INK) +
+      cap(300, 270, "non i passaggi intermedi. Quel dettaglio non c'è più.",
+          "middle", 12, ACC))
+IMG["subagent-cosa-riceve"] = svg(600, 288,
+    "Verso il subagent passano il compito, i file CLAUDE.md, lo stato di git e "
+    "le skill; non passano la cronologia né la memoria di sessione. Indietro "
+    "torna solo un riassunto", b)
+
+b = cap(160, 22, "delegare o tenere", "middle", 12.5, INK)
+for k, t in enumerate(["output verboso che non rileggerai",
+                       "compito che si chiude con un riassunto",
+                       "rami indipendenti in parallelo"]):
+    b += box(14, 44 + k * 46, 292, 36, "", None, "sys") + cap(30, 67 + k * 46, t, size=11, fill=SYS)
+for k, t in enumerate(["serve avanti e indietro con te",
+                       "le fasi condividono contesto",
+                       "modifica piccola, o conta la latenza"]):
+    b += box(14, 200 + k * 46, 292, 36, "", None, "ink", True) + cap(30, 223 + k * 46, t, size=11, fill=MUTE)
+b += (cap(160, 196, "non delegare quando", "middle", 11.5, MUTE) +
+      cap(160, 38, "delega quando", "middle", 11.5, SYS) +
+      cap(160, 358, "La domanda: quale pezzo di lavoro sporcherebbe", "middle", 11.5, ACC) +
+      cap(160, 374, "la finestra di qualcun altro?", "middle", 11.5, ACC))
+IMG["delegare-o-no"] = svg(320, 390,
+    "Delega quando il compito produce output verboso, si chiude con un riassunto "
+    "o corre in parallelo; non delegare quando serve avanti e indietro, quando "
+    "le fasi condividono contesto o quando conta la latenza", b)
+
+b = vscode("code-improver.md", [
+    [P("---")],
+    [K("name"), P(": "), S("code-improver")],
+    [K("description"), P(": "), S("Legge i file indicati e propone miglioramenti")],
+    [K("tools"), P(": "), S("Read, Grep, Glob")],
+    [K("model"), P(": "), S("sonnet")],
+    [P("---")],
+    [P("")],
+    [P("Sei un revisore. Leggi i file indicati e proponi")],
+    [P("miglioramenti concreti, senza modificarli.")],
+], badges=((1, 2), (2, 3)))
+IMG["agent-md-vscode"] = svg(600, 30 + max(180, 88 + 9 * 16) + 12,
+    "Un subagent definito in un file markdown: il frontmatter con name, "
+    "description, tools e model, e nel corpo il system prompt", b)
 os.makedirs(OUT, exist_ok=True)
 for name, content in IMG.items():
     with open(os.path.join(OUT, name + ".svg"), "w", encoding="utf-8") as f:

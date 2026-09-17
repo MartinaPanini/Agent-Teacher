@@ -1846,7 +1846,7 @@
     "course_id": "corso-claude-skills",
     "titolo": "Cos’è una Skill e perché non è un altro CLAUDE.md",
     "tipo": "teoria",
-    "durata_min": 15,
+    "durata_min": 10,
     "voci_inbox": [
       "DZrtCPZDBAG",
       "DcwB81VAMdh"
@@ -1855,8 +1855,8 @@
     "prerequisiti_skill": [
       "claude-code"
     ],
-    "prerequisiti_testo": "Due cose, per esteso.\n\n**CLAUDE.md.** Un file markdown nella radice del progetto che Claude Code legge all’inizio di ogni sessione: standard di codice, scelte di architettura, comandi di test. Sta nel repo, quindi è versionato e condiviso con chi ci lavora. Costo: viene caricato **sempre**, anche nelle sessioni in cui non serve.\n\n**Finestra di contesto.** Tutto ciò che il modello guarda mentre risponde — istruzioni, conversazione, file, risultati dei tool — si accumula turno dopo turno e ha un tetto; più si riempie, più precisione e recall calano. Quindi ogni riga caricata sempre è un costo pagato sempre.",
-    "sintesi_md": "Una **skill** è una cartella con dentro un file `SKILL.md`: frontmatter YAML più istruzioni in markdown. Claude la usa quando la ritiene pertinente, oppure la invochi tu con `/nome-skill`.\n\n```yaml\n---\nname: summarize-changes\ndescription: Riassume le modifiche non committate e segnala quelle rischiose. Usala quando l'utente chiede cosa è cambiato o vuole un messaggio di commit.\n---\n\n## Modifiche correnti\n\n!`git diff HEAD`\n\n## Istruzioni\n\nRiassumi le modifiche in due o tre punti, poi elenca i rischi.\n```\n\n## Perché non è un altro CLAUDE.md\n\nLa differenza sta in quando il testo entra nel contesto. Le `description` di tutte le skill ci stanno sempre: sono poche righe e servono a Claude per sapere che cosa esiste. Il corpo entra solo quando la skill viene invocata. È il **progressive disclosure**: materiale di riferimento lungo non costa quasi niente finché non serve.\n\nDa lì in poi però ci resta. Una skill caricata rimane in contesto per i turni successivi, quindi ogni sua riga diventa un costo ricorrente fino a fine sessione.\n\nQuindi il criterio non è dove sta più ordinato, è ogni quanto serve. Un fatto stabile che vale per ogni sessione — questo progetto usa pnpm — sta in CLAUDE.md. Una procedura lunga che serve ogni tanto — come si prepara una release, la checklist di code review — sta in una skill. Il segnale per crearne una: ti accorgi di reincollare le stesse istruzioni, o una sezione di CLAUDE.md è diventata una procedura invece che un fatto.\n\n## I campi che contano\n\n- `name` e `description`: la `description` è l'unica cosa su cui Claude decide se caricare la skill. Scritta male, la skill non parte mai. Deve dire che cosa fa e quando si usa.\n- `disable-model-invocation: true`: può invocarla solo tu. Da mettere su tutto ciò che è irreversibile, come deploy e commit.\n- `user-invocable: false`: la usa solo Claude, per conoscenza di sfondo.\n- `allowed-tools`: strumenti preapprovati, senza richiesta di permesso.\n- `context: fork`: la esegue in un sottoagente isolato.\n\n## Injection dinamica, e dove si installano\n\nLa sintassi `` !`comando` `` esegue il comando prima che il contenuto arrivi a Claude e ne mette l'output al suo posto. Nell'esempio sopra Claude non riceve la riga `git diff HEAD`: riceve il diff vero. La skill smette di essere un testo e diventa un contesto già riempito.\n\nLe skill vivono in `~/.claude/skills/<nome>/SKILL.md` per tutti i progetti, in `.claude/skills/<nome>/SKILL.md` per un repository, o dentro un plugin. Tieni `SKILL.md` sotto le 500 righe e sposta il materiale di riferimento in file separati che la skill cita: si aprono solo se servono.\n\n## Sulle raccolte di skill pronte\n\nL'inbox ne ha due: una repo \"Awesome Claude Skills\" e una lista di otto repository con skill già fatte. Come esempi di frontmatter scritto bene sono utili.\n\nPerò una skill è testo che entra nel tuo contesto e può portarsi dietro `allowed-tools` preapprovati. Una skill scaricata va letta riga per riga prima di installarla, esattamente come uno script trovato su Internet.",
+    "prerequisiti_testo": "Serve sapere che CLAUDE.md viene caricato all'avvio e resta in contesto per tutta la sessione.\n\nServe sapere cos'è il frontmatter YAML: le righe fra due `---` in cima a un file markdown, che ne descrivono i metadati.\n\nNon serve aver mai scritto una skill. Serve solo tenere presente che tutto quello che entra in finestra si paga a ogni richiesta successiva.",
+    "sintesi_md": "## Prima di partire\n\nAlla fine sai decidere se un'istruzione ricorrente va in CLAUDE.md o in una skill. E sai scrivere il frontmatter che fa caricare la skill al momento giusto.\n\nUna skill è una cartella con dentro un file `SKILL.md`: frontmatter YAML più istruzioni in markdown.\n\nClaude la usa quando la ritiene pertinente, oppure la invochi tu con `/nome-skill`.\n\nLa domanda vera non è come si scrive. È quando conviene scriverne una invece di aggiungere tre righe a CLAUDE.md, e la risposta dipende da come funziona il caricamento.\n\n## Perché non è un altro CLAUDE.md\n\nLa differenza sta in quando il testo entra nel contesto. Non in dove sta più ordinato.\n\nLe `description` di tutte le skill ci stanno sempre. Sono poche righe e servono a Claude per sapere che cosa esiste.\n\nIl corpo entra solo quando la skill viene invocata. Si chiama progressive disclosure, e vuol dire che materiale di riferimento lungo non costa quasi niente finché non serve.\n\n- Da lì in poi però ci resta: una skill caricata rimane in contesto per i turni successivi.\n- Ogni sua riga diventa un costo ricorrente fino a fine sessione.\n- Non è gratis, è differito. È una differenza grossa, ma va detta per intero.\n\n## Il criterio è la frequenza\n\nIl criterio non è dove sta più ordinato. È ogni quanto serve.\n\nUn fatto stabile che vale per ogni sessione sta in CLAUDE.md. Una procedura lunga che serve ogni tanto sta in una skill.\n\nMessa così sembra ovvia, ma quasi tutti sbagliano nella stessa direzione. Mettono in CLAUDE.md le procedure, perché lì «si trovano subito».\n\n- «Questo progetto usa pnpm» è un fatto: CLAUDE.md.\n- «Come si prepara una release» è una procedura: skill.\n- Il segnale per crearne una: ti accorgi di reincollare le stesse istruzioni.\n- Oppure una sezione di CLAUDE.md è diventata una procedura invece che un fatto.\n\n## Un SKILL.md vero\n\nFrontmatter e corpo, in un file solo. La riga con il punto esclamativo è la parte che sorprende di più.\n\nLa sintassi con il punto esclamativo e i backtick esegue il comando prima che il contenuto arrivi a Claude. Al suo posto ci finisce l'output.\n\n1. Claude non riceve la riga `git diff HEAD`: riceve il diff vero.\n2. La skill smette di essere un testo e diventa un contesto già riempito.\n\n## I campi che contano\n\nSono cinque, e il primo pesa più di tutti gli altri messi insieme.\n\nGli altri quattro servono a limitare cosa la skill può fare e chi può invocarla. Vale la pena impostarli presto, perché una skill che può già fare tutto è difficile da restringere dopo.\n\n- `description`: è l'unica cosa su cui Claude decide se caricare la skill. Scritta male, la skill non parte mai.\n- `disable-model-invocation`: può invocarla solo tu. Da mettere su tutto ciò che è irreversibile.\n- `user-invocable: false`: la usa solo Claude, per conoscenza di sfondo.\n- `allowed-tools`: strumenti preapprovati, senza richiesta di permesso.\n- `context: fork`: la esegue in un sottoagente isolato.\n\n> **Approfondimento — Dove si installano, e quanto lunghe.** Le skill vivono in `~/.claude/skills/<nome>/SKILL.md` per tutti i progetti, in `.claude/skills/<nome>/SKILL.md` per un repository, oppure dentro un plugin. Tieni `SKILL.md` sotto le 500 righe. Il materiale di riferimento va in file separati che la skill cita: si aprono solo se servono, ed è di nuovo lo stesso principio.\n\n## Le skill scaricate da altri\n\nGirano raccolte di skill già fatte, e come esempi di frontmatter scritto bene sono utili.\n\nMa una skill è testo che entra nel tuo contesto, e può portarsi dietro `allowed-tools` preapprovati. Vuol dire strumenti che girano senza chiederti niente.\n\n- Una skill scaricata va letta riga per riga prima di installarla.\n- Esattamente come uno script trovato su Internet, perché è la stessa cosa.\n- Il campo da guardare per primo è `allowed-tools`, poi il corpo.\n- Se una skill scaricata non spiega perché le servono certi strumenti, è già un motivo per non installarla.\n\n## Come si scrive una description\n\nÈ il campo che decide tutto, e si scrive con lo stesso criterio della descrizione di uno strumento.\n\nDeve dire che cosa fa la skill e quando si usa. La seconda metà è quella che viene omessa quasi sempre, ed è quella che fa partire la skill al momento giusto.\n\nUna description come «aiuta con i commit» non dice a Claude quando la tua richiesta ricade lì dentro. Nomina le parole che useresti tu quando ti serve.\n\n> **Approfondimento — Il parallelo con gli strumenti.** La regola è la stessa del modulo su cosa vede il modello di uno strumento. Il modello non vede il corpo della skill finché non la carica, quindi decide solo sulla description. Se una skill non parte mai, il posto da guardare è quello. Non il corpo, non il nome, non il modello.\n\n## Tre frasi da ricordare\n\nLe skill non sono un modo più elegante di scrivere CLAUDE.md. Sono un modo diverso di pagarlo.\n\nIl corso continua sulle skill: come si struttura il materiale di riferimento, e come si scrive una description che parte quando deve.\n\n- Delle skill sta sempre in contesto solo la description. Il corpo entra quando servono.\n- Una volta caricata, però, la skill resta fino a fine sessione.\n- Fatto stabile: CLAUDE.md. Procedura che serve ogni tanto: skill.\n",
     "fonte_primaria": {
       "url": "https://code.claude.com/docs/en/skills",
       "titolo": "Claude Code — Agent Skills (documentazione ufficiale)",
@@ -1886,7 +1886,129 @@
     "nuovo": false,
     "creato_il": "2026-09-15",
     "servito_il": null,
-    "completato_il": null
+    "completato_il": null,
+    "slide": [
+      {
+        "tipo": "apertura",
+        "titolo": "Prima di partire",
+        "corpo": "Alla fine sai decidere se un'istruzione ricorrente va in CLAUDE.md o in una skill. E sai scrivere il frontmatter che fa caricare la skill al momento giusto.\n\nUna skill è una cartella con dentro un file `SKILL.md`: frontmatter YAML più istruzioni in markdown.\n\nClaude la usa quando la ritiene pertinente, oppure la invochi tu con `/nome-skill`.\n\nLa domanda vera non è come si scrive. È quando conviene scriverne una invece di aggiungere tre righe a CLAUDE.md, e la risposta dipende da come funziona il caricamento.",
+        "punti": [],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Perché non è un altro CLAUDE.md",
+        "corpo": "La differenza sta in quando il testo entra nel contesto. Non in dove sta più ordinato.\n\nLe `description` di tutte le skill ci stanno sempre. Sono poche righe e servono a Claude per sapere che cosa esiste.\n\nIl corpo entra solo quando la skill viene invocata. Si chiama progressive disclosure, e vuol dire che materiale di riferimento lungo non costa quasi niente finché non serve.",
+        "punti": [
+          "Da lì in poi però ci resta: una skill caricata rimane in contesto per i turni successivi.",
+          "Ogni sua riga diventa un costo ricorrente fino a fine sessione.",
+          "Non è gratis, è differito. È una differenza grossa, ma va detta per intero."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": {
+          "id": "skill-progressive-disclosure",
+          "stile": "B",
+          "larghezza": "wide",
+          "alt": "Tre livelli: le description di tutte le skill stanno sempre in contesto, il corpo entra quando la skill viene invocata, i file di riferimento si aprono solo se servono"
+        }
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Il criterio è la frequenza",
+        "corpo": "Il criterio non è dove sta più ordinato. È ogni quanto serve.\n\nUn fatto stabile che vale per ogni sessione sta in CLAUDE.md. Una procedura lunga che serve ogni tanto sta in una skill.\n\nMessa così sembra ovvia, ma quasi tutti sbagliano nella stessa direzione. Mettono in CLAUDE.md le procedure, perché lì «si trovano subito».",
+        "punti": [
+          "«Questo progetto usa pnpm» è un fatto: CLAUDE.md.",
+          "«Come si prepara una release» è una procedura: skill.",
+          "Il segnale per crearne una: ti accorgi di reincollare le stesse istruzioni.",
+          "Oppure una sezione di CLAUDE.md è diventata una procedura invece che un fatto."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": {
+          "id": "claude-md-o-skill",
+          "stile": "B",
+          "larghezza": "spot",
+          "alt": "Un fatto stabile che vale per ogni sessione sta in CLAUDE.md; una procedura lunga che serve ogni tanto sta in una skill"
+        }
+      },
+      {
+        "tipo": "esempio",
+        "titolo": "Un SKILL.md vero",
+        "corpo": "Frontmatter e corpo, in un file solo. La riga con il punto esclamativo è la parte che sorprende di più.\n\nLa sintassi con il punto esclamativo e i backtick esegue il comando prima che il contenuto arrivi a Claude. Al suo posto ci finisce l'output.",
+        "punti": [
+          "Claude non riceve la riga `git diff HEAD`: riceve il diff vero.",
+          "La skill smette di essere un testo e diventa un contesto già riempito."
+        ],
+        "punti_stile": "numerato",
+        "approfondimento": null,
+        "immagine": {
+          "id": "skill-md-vscode",
+          "stile": "A",
+          "larghezza": "wide",
+          "alt": "Un file SKILL.md in Visual Studio Code: il frontmatter con name e description, e nel corpo l'injection che esegue git diff e ne mette l'output al suo posto"
+        }
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "I campi che contano",
+        "corpo": "Sono cinque, e il primo pesa più di tutti gli altri messi insieme.\n\nGli altri quattro servono a limitare cosa la skill può fare e chi può invocarla. Vale la pena impostarli presto, perché una skill che può già fare tutto è difficile da restringere dopo.",
+        "punti": [
+          "`description`: è l'unica cosa su cui Claude decide se caricare la skill. Scritta male, la skill non parte mai.",
+          "`disable-model-invocation`: può invocarla solo tu. Da mettere su tutto ciò che è irreversibile.",
+          "`user-invocable: false`: la usa solo Claude, per conoscenza di sfondo.",
+          "`allowed-tools`: strumenti preapprovati, senza richiesta di permesso.",
+          "`context: fork`: la esegue in un sottoagente isolato."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": {
+          "titolo": "Dove si installano, e quanto lunghe",
+          "testo": "Le skill vivono in `~/.claude/skills/<nome>/SKILL.md` per tutti i progetti, in `.claude/skills/<nome>/SKILL.md` per un repository, oppure dentro un plugin.\n\nTieni `SKILL.md` sotto le 500 righe. Il materiale di riferimento va in file separati che la skill cita: si aprono solo se servono, ed è di nuovo lo stesso principio."
+        },
+        "immagine": null
+      },
+      {
+        "tipo": "trappola",
+        "titolo": "Le skill scaricate da altri",
+        "corpo": "Girano raccolte di skill già fatte, e come esempi di frontmatter scritto bene sono utili.\n\nMa una skill è testo che entra nel tuo contesto, e può portarsi dietro `allowed-tools` preapprovati. Vuol dire strumenti che girano senza chiederti niente.",
+        "punti": [
+          "Una skill scaricata va letta riga per riga prima di installarla.",
+          "Esattamente come uno script trovato su Internet, perché è la stessa cosa.",
+          "Il campo da guardare per primo è `allowed-tools`, poi il corpo.",
+          "Se una skill scaricata non spiega perché le servono certi strumenti, è già un motivo per non installarla."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Come si scrive una description",
+        "corpo": "È il campo che decide tutto, e si scrive con lo stesso criterio della descrizione di uno strumento.\n\nDeve dire che cosa fa la skill e quando si usa. La seconda metà è quella che viene omessa quasi sempre, ed è quella che fa partire la skill al momento giusto.\n\nUna description come «aiuta con i commit» non dice a Claude quando la tua richiesta ricade lì dentro. Nomina le parole che useresti tu quando ti serve.",
+        "punti": [],
+        "punti_stile": "elenco",
+        "approfondimento": {
+          "titolo": "Il parallelo con gli strumenti",
+          "testo": "La regola è la stessa del modulo su cosa vede il modello di uno strumento. Il modello non vede il corpo della skill finché non la carica, quindi decide solo sulla description.\n\nSe una skill non parte mai, il posto da guardare è quello. Non il corpo, non il nome, non il modello."
+        },
+        "immagine": null
+      },
+      {
+        "tipo": "chiusura",
+        "titolo": "Tre frasi da ricordare",
+        "corpo": "Le skill non sono un modo più elegante di scrivere CLAUDE.md. Sono un modo diverso di pagarlo.\n\nIl corso continua sulle skill: come si struttura il materiale di riferimento, e come si scrive una description che parte quando deve.",
+        "punti": [
+          "Delle skill sta sempre in contesto solo la description. Il corpo entra quando servono.",
+          "Una volta caricata, però, la skill resta fino a fine sessione.",
+          "Fatto stabile: CLAUDE.md. Procedura che serve ogni tanto: skill."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      }
+    ]
   },
   {
     "id": "mod-claude-skills-02",
@@ -1997,7 +2119,7 @@
     "course_id": "corso-second-brain",
     "titolo": "Un vault Obsidian visto da un agente",
     "tipo": "teoria",
-    "durata_min": 15,
+    "durata_min": 10,
     "voci_inbox": [
       "DZDbfeNoXSZ",
       "DZdCb6wIV_d"
@@ -2007,8 +2129,8 @@
       "mcp-protocollo",
       "context-economy"
     ],
-    "prerequisiti_testo": "Due cose, per esteso.\n\n**Server MCP.** Un programma che espone a un’applicazione AI dei *tools* (funzioni eseguibili: cerca, leggi, scrivi) e delle *resources* (dati leggibili). Può girare in locale sulla tua macchina, parlando sullo standard input/output. Il modello scopre cosa esiste e lo chiama quando serve, invece di ricevere tutto in blocco.\n\n**Finestra di contesto.** Tutto il testo che il modello può guardare mentre risponde: istruzioni, conversazione, file letti, risultati dei tool, e la risposta stessa. Si accumula turno dopo turno e ha un tetto. Soprattutto: più si riempie, più precisione e capacità di ritrovare le cose peggiorano — il *context rot*. Quindi \"dare all’agente tutte le note\" non è un obiettivo: è il problema.",
-    "sintesi_md": "Su Obsidian va capita una cosa sola, ed è anche il motivo per cui è il caso più semplice di second brain: un vault è una cartella sul tuo filesystem, dove Obsidian tiene le note.\n\nNon c'è un database, non c'è un backend, non c'è un'API da chiamare. C'è una cartella con dentro file `.md`, gli allegati — immagini, audio, video, PDF, file `.canvas` — e una sottocartella `.obsidian` con la configurazione. Obsidian è un'interfaccia sopra file di testo. Quindi **qualunque cosa sappia leggere una cartella sa leggere il tuo second brain**: `grep`, uno script, un agente con gli strumenti di lettura file, o un server MCP che espone ricerca e lettura.\n\n## Il grafo è dentro il testo\n\nLa struttura non sta in un indice separato: sta nelle note, sotto forma di link. Obsidian ne supporta due formati equivalenti, `[[Tre leggi del moto]]` e la forma markdown classica, e genera il primo perché è più corto. Puoi puntare a una sezione con `[[Nota#Titolo]]` o a un blocco con `[[2023-01-01#^37066d]]`; con `|` cambi il testo mostrato, con `!` davanti incorpori il contenuto.\n\nPer un agente ne seguono due cose. I link sono **dati leggibili**: una regex su `[[...]]` ricostruisce il grafo delle relazioni senza aprire Obsidian. E quando rinomini un file dentro Obsidian, i link si aggiornano da soli; un agente che rinomina da fuori non lo fa, e rompe i riferimenti in silenzio. È la prima regola di sicurezza da fissare prima di dargli il permesso di scrittura.\n\n## Dove si rompe\n\nSu venti note funziona tutto, anche l'approccio ingenuo di darle in pasto tutte insieme. Su duemila no: la finestra si riempie di materiale irrilevante e le risposte peggiorano proprio mentre il vault cresce.\n\nIl second brain utile non è \"l'agente legge tutto\". È **l'agente cerca, apre tre note e risponde citando quelle**. Da qui in avanti il corso è tutto su questo: come si cerca, che cosa si espone, che cosa si lascia sul disco.\n\n## Sui tool che hai salvato\n\nL'inbox contiene due contenuti sul tema: un confronto fra Obsidian e Graphify per costruire un second brain dentro Claude Code, e il framework LLM-Wiki attribuito a Karpathy. Sono segnalazioni, non fonti. Nessuno dei due cambia quello che hai letto qui, perché partono dallo stesso fatto — file markdown su disco — e cambiano solo il modo di organizzarli e interrogarli. Quando li valuterai, la domanda giusta non è quale sia più bello, ma **che cosa fanno entrare nel contesto, e quanto**.\n\nUna cosa da fare prima di tutte le altre: se dai a un agente il permesso di scrivere nel vault vero, fai prima una copia. Non per prudenza generica, ma perché un rinomina fatto da fuori ti lascia i link rotti e te ne accorgi settimane dopo.",
+    "prerequisiti_testo": "Serve sapere cos'è un file markdown: testo normale, con qualche simbolo per titoli, elenchi e link.\n\nServe sapere che un agente può avere strumenti che leggono e scrivono file su disco.\n\nNon serve aver mai usato Obsidian. Il modulo parte proprio da cos'è un vault, e da lì non serve altro.",
+    "sintesi_md": "## Prima di partire\n\nAlla fine sai spiegare perché un agente può lavorare su un vault Obsidian senza API né database. E sai dire dove si rompe quando le note sono duemila.\n\nSu Obsidian va capita una cosa sola, ed è anche il motivo per cui è il caso più semplice di second brain.\n\nUn vault è una cartella sul tuo filesystem, dove Obsidian tiene le note. Tutto il resto del modulo discende da questa frase.\n\nÈ anche il motivo per cui conviene partire da qui e non da un tool. Quello che impari su un vault vale per qualunque raccolta di note su disco.\n\n## Un vault è una cartella\n\nNon c'è un database, non c'è un backend, non c'è un'API da chiamare.\n\nC'è una cartella con dentro file `.md`, gli allegati e una sottocartella `.obsidian` con la configurazione. Obsidian è un'interfaccia sopra file di testo.\n\nNe segue la cosa che conta per un agente. Qualunque cosa sappia leggere una cartella sa leggere il tuo second brain.\n\nNon è un dettaglio implementativo. Vuol dire che non dipendi da nessuno per accedere alle tue note, oggi e fra cinque anni.\n\n- Va bene `grep`, va bene uno script, va bene un agente con gli strumenti di lettura file.\n- Va bene anche un server MCP che espone ricerca e lettura, se vuoi darlo a Claude Desktop.\n- Non c'è un formato da imparare né un'autenticazione da gestire.\n\n## Il grafo sta dentro il testo\n\nLa struttura non sta in un indice separato. Sta nelle note, sotto forma di link.\n\nObsidian ne supporta due formati equivalenti, le doppie parentesi quadre e la forma markdown classica, e genera il primo perché è più corto.\n\nPuoi puntare a una sezione o a un blocco preciso. Con la barra verticale cambi il testo mostrato, con il punto esclamativo davanti incorpori il contenuto.\n\n- I link sono dati leggibili: una regex ricostruisce il grafo delle relazioni senza aprire Obsidian.\n- Non serve un parser: è testo, e il formato è sempre lo stesso.\n\n> **Approfondimento — Cosa ci fai con il grafo.** Ricostruire le relazioni serve a due cose concrete. Trovare le note orfane, che nessuno cita e che quindi non ritroverai mai navigando. E trovare i nodi centrali: le note citate da molte altre, che sono quasi sempre quelle che conviene tenere in ordine per prime.\n\n## Rinominare da fuori rompe tutto\n\nQuando rinomini un file dentro Obsidian, i link si aggiornano da soli. È l'interfaccia che se ne occupa.\n\nUn agente che rinomina da fuori non lo fa. Rompe i riferimenti, e li rompe in silenzio: nessun errore, nessun avviso.\n\nÈ la prima regola di sicurezza da fissare prima di dargli il permesso di scrittura.\n\n- Se dai a un agente il permesso di scrivere nel vault vero, fai prima una copia.\n- Non per prudenza generica: un rinomina fatto da fuori te ne accorgi settimane dopo.\n- Se proprio deve rinominare, deve anche aggiornare i link che puntano a quel file.\n- La stessa cautela vale per spostare un file fra cartelle: cambia il percorso, non il nome.\n\n## Dove si rompe il metodo\n\nSu venti note funziona tutto, anche l'approccio ingenuo di darle in pasto tutte insieme.\n\nSu duemila no. La finestra si riempie di materiale irrilevante e le risposte peggiorano proprio mentre il vault cresce.\n\nÈ lo stesso fenomeno del modulo sul context rot, visto da un'altra parte. Non è il vault a essere troppo grande: è la finestra a essere piena di cose che non servono.\n\n## Cosa vuol dire second brain utile\n\nIl second brain utile non è «l'agente legge tutto». È «l'agente cerca, apre tre note e risponde citando quelle».\n\nLa differenza non è di efficienza. È di qualità della risposta, perché tre note pertinenti battono duemila note diluite.\n\nDa qui in avanti il corso è tutto su questo: come si cerca, che cosa si espone, che cosa si lascia sul disco.\n\n> **Approfondimento — Perché citare le note cambia tutto.** Un agente che risponde citando le note che ha aperto ti dà due cose in più. Puoi verificare, e puoi correggere la nota se la risposta era giusta ma la fonte era vecchia. Un agente che ha letto tutto e risponde senza citare non ti lascia nessuna delle due.\n\n## I tool che promettono memoria\n\nGirano confronti fra strumenti che costruiscono un second brain sopra le tue note, e framework che promettono una wiki generata dall'agente.\n\nSono segnalazioni, non fonti. Nessuna cambia il fatto di partenza: sono file markdown su disco.\n\nCambiano solo il modo di organizzarli e di interrogarli.\n\nVale la pena guardarli, ma con la lente giusta. Un tool che ti fa risparmiare mezz'ora di configurazione e ti costa metà finestra a ogni domanda non è un affare.\n\n- La domanda giusta non è quale sia più bello.\n- È: che cosa fa entrare nel contesto, e quanto.\n- Un tool che carica tutto all'avvio ha lo stesso problema di prima, con un nome nuovo.\n\n## Tre frasi da ricordare\n\nIl vantaggio di Obsidian non è una funzione. È l'assenza di uno strato: fra l'agente e le tue note non c'è niente.\n\n- Un vault è una cartella di file markdown. Niente database, niente API.\n- Il grafo sta dentro il testo, quindi si legge con una regex.\n- Prima di dare permesso di scrittura, fai una copia: i link rotti non fanno rumore.\n",
     "fonte_primaria": {
       "url": "https://obsidian.md/help/vault",
       "titolo": "Obsidian Help — Vault",
@@ -2051,7 +2173,122 @@
     "nuovo": false,
     "creato_il": "2026-09-15",
     "servito_il": null,
-    "completato_il": null
+    "completato_il": null,
+    "slide": [
+      {
+        "tipo": "apertura",
+        "titolo": "Prima di partire",
+        "corpo": "Alla fine sai spiegare perché un agente può lavorare su un vault Obsidian senza API né database. E sai dire dove si rompe quando le note sono duemila.\n\nSu Obsidian va capita una cosa sola, ed è anche il motivo per cui è il caso più semplice di second brain.\n\nUn vault è una cartella sul tuo filesystem, dove Obsidian tiene le note. Tutto il resto del modulo discende da questa frase.\n\nÈ anche il motivo per cui conviene partire da qui e non da un tool. Quello che impari su un vault vale per qualunque raccolta di note su disco.",
+        "punti": [],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Un vault è una cartella",
+        "corpo": "Non c'è un database, non c'è un backend, non c'è un'API da chiamare.\n\nC'è una cartella con dentro file `.md`, gli allegati e una sottocartella `.obsidian` con la configurazione. Obsidian è un'interfaccia sopra file di testo.\n\nNe segue la cosa che conta per un agente. Qualunque cosa sappia leggere una cartella sa leggere il tuo second brain.\n\nNon è un dettaglio implementativo. Vuol dire che non dipendi da nessuno per accedere alle tue note, oggi e fra cinque anni.",
+        "punti": [
+          "Va bene `grep`, va bene uno script, va bene un agente con gli strumenti di lettura file.",
+          "Va bene anche un server MCP che espone ricerca e lettura, se vuoi darlo a Claude Desktop.",
+          "Non c'è un formato da imparare né un'autenticazione da gestire."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": {
+          "id": "vault-e-una-cartella",
+          "stile": "B",
+          "larghezza": "spot",
+          "alt": "Un vault Obsidian è una cartella sul filesystem: file markdown, una sottocartella di allegati e una sottocartella .obsidian con la configurazione. Nessun database e nessuna API"
+        }
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Il grafo sta dentro il testo",
+        "corpo": "La struttura non sta in un indice separato. Sta nelle note, sotto forma di link.\n\nObsidian ne supporta due formati equivalenti, le doppie parentesi quadre e la forma markdown classica, e genera il primo perché è più corto.\n\nPuoi puntare a una sezione o a un blocco preciso. Con la barra verticale cambi il testo mostrato, con il punto esclamativo davanti incorpori il contenuto.",
+        "punti": [
+          "I link sono dati leggibili: una regex ricostruisce il grafo delle relazioni senza aprire Obsidian.",
+          "Non serve un parser: è testo, e il formato è sempre lo stesso."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": {
+          "titolo": "Cosa ci fai con il grafo",
+          "testo": "Ricostruire le relazioni serve a due cose concrete. Trovare le note orfane, che nessuno cita e che quindi non ritroverai mai navigando.\n\nE trovare i nodi centrali: le note citate da molte altre, che sono quasi sempre quelle che conviene tenere in ordine per prime."
+        },
+        "immagine": {
+          "id": "link-come-dati",
+          "stile": "B",
+          "larghezza": "wide",
+          "alt": "I collegamenti fra note sono scritti dentro il testo con le doppie parentesi quadre: una regex ricostruisce il grafo senza aprire Obsidian, ma un agente che rinomina un file da fuori rompe i riferimenti"
+        }
+      },
+      {
+        "tipo": "trappola",
+        "titolo": "Rinominare da fuori rompe tutto",
+        "corpo": "Quando rinomini un file dentro Obsidian, i link si aggiornano da soli. È l'interfaccia che se ne occupa.\n\nUn agente che rinomina da fuori non lo fa. Rompe i riferimenti, e li rompe in silenzio: nessun errore, nessun avviso.\n\nÈ la prima regola di sicurezza da fissare prima di dargli il permesso di scrittura.",
+        "punti": [
+          "Se dai a un agente il permesso di scrivere nel vault vero, fai prima una copia.",
+          "Non per prudenza generica: un rinomina fatto da fuori te ne accorgi settimane dopo.",
+          "Se proprio deve rinominare, deve anche aggiornare i link che puntano a quel file.",
+          "La stessa cautela vale per spostare un file fra cartelle: cambia il percorso, non il nome."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Dove si rompe il metodo",
+        "corpo": "Su venti note funziona tutto, anche l'approccio ingenuo di darle in pasto tutte insieme.\n\nSu duemila no. La finestra si riempie di materiale irrilevante e le risposte peggiorano proprio mentre il vault cresce.\n\nÈ lo stesso fenomeno del modulo sul context rot, visto da un'altra parte. Non è il vault a essere troppo grande: è la finestra a essere piena di cose che non servono.",
+        "punti": [],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": {
+          "id": "dove-si-rompe",
+          "stile": "B",
+          "larghezza": "spot",
+          "alt": "Su venti note dare tutto all'agente funziona; su duemila la finestra si riempie di materiale irrilevante e le risposte peggiorano mentre il vault cresce"
+        }
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Cosa vuol dire second brain utile",
+        "corpo": "Il second brain utile non è «l'agente legge tutto». È «l'agente cerca, apre tre note e risponde citando quelle».\n\nLa differenza non è di efficienza. È di qualità della risposta, perché tre note pertinenti battono duemila note diluite.\n\nDa qui in avanti il corso è tutto su questo: come si cerca, che cosa si espone, che cosa si lascia sul disco.",
+        "punti": [],
+        "punti_stile": "elenco",
+        "approfondimento": {
+          "titolo": "Perché citare le note cambia tutto",
+          "testo": "Un agente che risponde citando le note che ha aperto ti dà due cose in più. Puoi verificare, e puoi correggere la nota se la risposta era giusta ma la fonte era vecchia.\n\nUn agente che ha letto tutto e risponde senza citare non ti lascia nessuna delle due."
+        },
+        "immagine": null
+      },
+      {
+        "tipo": "trappola",
+        "titolo": "I tool che promettono memoria",
+        "corpo": "Girano confronti fra strumenti che costruiscono un second brain sopra le tue note, e framework che promettono una wiki generata dall'agente.\n\nSono segnalazioni, non fonti. Nessuna cambia il fatto di partenza: sono file markdown su disco.\n\nCambiano solo il modo di organizzarli e di interrogarli.\n\nVale la pena guardarli, ma con la lente giusta. Un tool che ti fa risparmiare mezz'ora di configurazione e ti costa metà finestra a ogni domanda non è un affare.",
+        "punti": [
+          "La domanda giusta non è quale sia più bello.",
+          "È: che cosa fa entrare nel contesto, e quanto.",
+          "Un tool che carica tutto all'avvio ha lo stesso problema di prima, con un nome nuovo."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      },
+      {
+        "tipo": "chiusura",
+        "titolo": "Tre frasi da ricordare",
+        "corpo": "Il vantaggio di Obsidian non è una funzione. È l'assenza di uno strato: fra l'agente e le tue note non c'è niente.",
+        "punti": [
+          "Un vault è una cartella di file markdown. Niente database, niente API.",
+          "Il grafo sta dentro il testo, quindi si legge con una regex.",
+          "Prima di dare permesso di scrittura, fai una copia: i link rotti non fanno rumore."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      }
+    ]
   },
   {
     "id": "mod-second-brain-02",
@@ -2166,7 +2403,7 @@
     "course_id": "corso-orchestrazione",
     "titolo": "Quando conviene un secondo agente (e quando no)",
     "tipo": "teoria",
-    "durata_min": 15,
+    "durata_min": 10,
     "voci_inbox": [
       "DZVTkBhES1K",
       "Dc3mnUViCgW"
@@ -2176,8 +2413,8 @@
       "mcp-protocollo",
       "claude-skills"
     ],
-    "prerequisiti_testo": "Tre cose, per esteso.\n\n**Finestra di contesto.** Tutto ciò che il modello può guardare mentre risponde: istruzioni, messaggi, file letti, risultati dei tool, output suo. Si accumula a ogni turno e ha un tetto; più si riempie, più precisione e recall calano.\n\n**Tool call.** Il modello non agisce: emette richieste strutturate (leggi, cerca, esegui) che il programma esegue davvero, restituendo il risultato come testo che finisce nel contesto.\n\n**Skill.** Un file `SKILL.md` con istruzioni riutilizzabili; la descrizione sta sempre in contesto, il corpo si carica solo quando serve. Un subagent può riceverne alcune precaricate.\n\nIl punto di partenza dell’orchestrazione è questo: il collo di bottiglia di un agente non è l’intelligenza, è lo spazio nella finestra.",
-    "sintesi_md": "Un **subagent** è un assistente specializzato che lavora in una finestra di contesto isolata. La documentazione dice quando serve: ne usi uno quando un compito laterale riempirebbe la conversazione principale di risultati di ricerca, log o contenuti di file che non rileggerai.\n\nÈ tutto lì. Non deleghi perché due agenti sono meglio di uno. Deleghi perché c'è del rumore che non vuoi nella tua finestra.\n\n## Cosa riceve e cosa non riceve\n\nUn subagent parte pulito. Riceve un system prompt suo, il messaggio con il compito, i file `CLAUDE.md`, lo stato di git e le skill precaricate. Non riceve la cronologia della conversazione principale né la memoria della sessione, e ha permessi propri.\n\nQuesta è la parte che paghi. Quello che torna indietro è un **riassunto**: non i file che ha letto, non i passaggi intermedi. Se poi ti serve discutere un dettaglio, quel dettaglio non c'è più — e mentre lavora non puoi correggerlo come faresti in una conversazione normale.\n\n## Quando delegare e quando no\n\nDelega quando il compito produce output verboso che non rileggerai, come log, suite di test o l'esplorazione di un codebase. Delega quando il compito è autoconsistente e si chiude con un riassunto. Delega anche per imporre restrizioni, per esempio un agente che può solo leggere, o per far correre in parallelo rami indipendenti.\n\nNon delegare quando serve avanti e indietro con te. Non delegare quando le fasi condividono contesto, come piano, implementazione e test: il subagent riparte da zero ogni volta. E non delegare per una modifica piccola e mirata, o quando la latenza conta: un subagent è un giro in più.\n\n## Come si definisce\n\nUn file markdown in `.claude/agents/`, con frontmatter YAML: `name`, `description` — che è ciò che decide quando delegare — e in opzione `tools`, `model`, `memory`, `maxTurns`. Il corpo è il system prompt.\n\n```yaml\n---\nname: code-improver\ndescription: Scans files and suggests improvements\ntools: Read, Grep, Glob\nmodel: sonnet\n---\n```\n\nTieni corte le `description`: stanno tutte in contesto all'avvio, e i dettagli vanno nel corpo. Ci sono dei limiti: tre livelli di annidamento, venti subagent in parallelo.\n\n## Le due voci dell'inbox, lette con questa lente\n\nLa prima è una pipeline di ricerca accademica con 13 agenti per la deep research, 12 per scrivere e 5 per la peer review. La seconda è `/wayfinder`, un layer che spezza una sessione troppo grande per una finestra in ticket lavorabili da agenti con contesto pulito.\n\nLa seconda descrive esattamente il problema di questo modulo. La prima è impressionante, ma davanti a trenta agenti la domanda da farsi è sempre la stessa: **quale di questi esiste perché quel pezzo di lavoro sporcherebbe la finestra di qualcun altro?** Quelli che non rispondono sono decorazione, e costano un giro in più ciascuno.",
+    "prerequisiti_testo": "Serve sapere che ogni conversazione ha una finestra di contesto, e che tutto quello che ci entra ci resta fino alla fine.\n\nServe sapere che un agente usa strumenti, e che i risultati di quegli strumenti finiscono in finestra insieme al resto.\n\nNon serve aver mai definito un subagent. Serve solo tenere presente che una finestra sporca risponde peggio di una pulita.",
+    "sintesi_md": "## Prima di partire\n\nAlla fine sai decidere, davanti a un compito concreto, se delegarlo a un subagent o tenerlo nella conversazione principale. E sai dire cosa perdi delegando.\n\nUn subagent è un assistente specializzato che lavora in una finestra di contesto isolata.\n\nLa documentazione dice quando serve, e lo dice in una riga sola. Ne usi uno quando un compito laterale riempirebbe la conversazione principale di roba che non rileggerai.\n\nQuesto modulo serve a darti un criterio, non una ricetta. Alla fine dovresti saper guardare un compito e decidere in dieci secondi.\n\n## Non deleghi per avere due agenti\n\nÈ tutto lì, ed è il punto che quasi tutte le architetture con trenta agenti dimenticano.\n\nNon deleghi perché due agenti sono meglio di uno. Deleghi perché c'è del rumore che non vuoi nella tua finestra.\n\nRisultati di ricerca, log, contenuti di file che leggi una volta e non riapri: tutta roba che resta in finestra e peggiora i turni successivi.\n\nSe il compito non produce rumore, delegarlo non ti dà niente. Ti costa e basta.\n\n- Il subagent non è più bravo di te su quel compito. È solo in un posto separato.\n- Il vantaggio non è la specializzazione. È il confine.\n\n## Cosa riceve e cosa no\n\nUn subagent parte pulito. Riceve un system prompt suo, il messaggio con il compito, i file `CLAUDE.md`, lo stato di git e le skill precaricate.\n\nNon riceve la cronologia della conversazione principale né la memoria della sessione. E ha permessi propri.\n\nQuesta è la parte che paghi, e va guardata bene prima di delegare.\n\nIl subagent non sa cosa vi siete detti. Se il compito dipende da tre decisioni prese venti minuti fa, quelle decisioni gliele devi riscrivere.\n\n- Quello che torna indietro è un riassunto: non i file che ha letto, non i passaggi intermedi.\n- Se poi ti serve discutere un dettaglio, quel dettaglio non c'è più.\n- E mentre lavora non puoi correggerlo come faresti in una conversazione normale.\n\n## Quando delegare e quando no\n\nLe due liste sono corte e si applicano a occhio, una volta che hai capito il criterio. Vale la pena leggerle una volta e poi fidarsi dell'istinto.\n\nQuasi tutti gli errori stanno nella seconda lista, non nella prima: si delega troppo, non troppo poco.\n\nDelega quando il compito produce output verboso che non rileggerai. Log, suite di test, esplorazione di un codebase.\n\n- Delega quando il compito è autoconsistente e si chiude con un riassunto.\n- Delega per imporre restrizioni: un agente che può solo leggere, per esempio.\n- Non delegare quando serve avanti e indietro con te.\n- Non delegare quando le fasi condividono contesto: il subagent riparte da zero ogni volta.\n- Non delegare per una modifica piccola, o quando la latenza conta: è un giro in più.\n\n## Come si definisce un subagent\n\nUn file markdown in `.claude/agents/`, con frontmatter YAML. Il corpo è il system prompt.\n\nIl campo che decide quando delegare è `description`, esattamente come per le skill e per gli strumenti.\n\nÈ lo stesso meccanismo che hai già visto due volte in questo percorso. Vale la pena notarlo: il modello sceglie sempre su una descrizione, mai sulla cosa descritta.\n\n1. `name` e `description` sono obbligatori. In opzione ci sono `tools`, `model`, `memory` e `maxTurns`.\n2. Tieni corte le `description`: stanno tutte in contesto all'avvio, e i dettagli vanno nel corpo.\n\n> **Approfondimento — I limiti da conoscere prima.** Ci sono due limiti dichiarati. Tre livelli di annidamento, e venti subagent in parallelo. Il primo si incontra prima di quanto sembri, se costruisci agenti che ne chiamano altri. Il secondo raramente, ma quando lo incontri la coda non ti viene segnalata.\n\n## Le pipeline con trenta agenti\n\nGirano architetture impressionanti. Una pipeline di ricerca accademica con tredici agenti per la ricerca, dodici per scrivere e cinque per la revisione.\n\nSono belle da guardare e dicono poco su cosa serva a te.\n\nUn altro esempio, più utile, spezza una sessione troppo grande per una finestra in ticket lavorabili da agenti con contesto pulito. Quello descrive esattamente il problema di questo modulo.\n\n- Davanti a trenta agenti la domanda è sempre la stessa.\n- Quale di questi esiste perché quel pezzo di lavoro sporcherebbe la finestra di qualcun altro?\n- Quelli che non rispondono sono decorazione, e costano un giro in più ciascuno.\n\n## Il costo che non si vede\n\nOgni delega è un giro in più: una richiesta che parte, un contesto che si costruisce da zero, un riassunto che torna.\n\nSu un compito che dura dieci secondi, quel giro è quasi tutto il tempo. Su un'esplorazione di venti file, non si nota.\n\nIl conto si fa così, e va fatto prima: quanto rumore tolgo dalla finestra, contro quanto tempo e quanto dettaglio perdo.\n\n> **Approfondimento — Il riassunto è un collo di bottiglia.** Tutto quello che il subagent ha capito deve passare da un riassunto scritto da lui. Se il compito era esplorare, il riassunto è una sintesi di quello che ha visto. Vuol dire che la qualità della delega dipende da quanto è preciso il compito che gli hai dato. Un compito vago produce un riassunto vago, e non te ne accorgi finché non lo usi.\n\n## Tre frasi da ricordare\n\nL'orchestrazione non è un obiettivo. È una risposta a un problema di contesto, e va usata quando quel problema c'è.\n\n- Deleghi per tenere il rumore fuori dalla tua finestra, non per avere più agenti.\n- Un subagent parte pulito e torna con un riassunto: i dettagli non li rivedi.\n- Se serve avanti e indietro, o le fasi condividono contesto, non delegare.\n",
     "fonte_primaria": {
       "url": "https://code.claude.com/docs/en/sub-agents",
       "titolo": "Claude Code — Subagents (documentazione ufficiale)",
@@ -2207,7 +2444,126 @@
     "nuovo": false,
     "creato_il": "2026-09-15",
     "servito_il": null,
-    "completato_il": null
+    "completato_il": null,
+    "slide": [
+      {
+        "tipo": "apertura",
+        "titolo": "Prima di partire",
+        "corpo": "Alla fine sai decidere, davanti a un compito concreto, se delegarlo a un subagent o tenerlo nella conversazione principale. E sai dire cosa perdi delegando.\n\nUn subagent è un assistente specializzato che lavora in una finestra di contesto isolata.\n\nLa documentazione dice quando serve, e lo dice in una riga sola. Ne usi uno quando un compito laterale riempirebbe la conversazione principale di roba che non rileggerai.\n\nQuesto modulo serve a darti un criterio, non una ricetta. Alla fine dovresti saper guardare un compito e decidere in dieci secondi.",
+        "punti": [],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Non deleghi per avere due agenti",
+        "corpo": "È tutto lì, ed è il punto che quasi tutte le architetture con trenta agenti dimenticano.\n\nNon deleghi perché due agenti sono meglio di uno. Deleghi perché c'è del rumore che non vuoi nella tua finestra.\n\nRisultati di ricerca, log, contenuti di file che leggi una volta e non riapri: tutta roba che resta in finestra e peggiora i turni successivi.\n\nSe il compito non produce rumore, delegarlo non ti dà niente. Ti costa e basta.",
+        "punti": [
+          "Il subagent non è più bravo di te su quel compito. È solo in un posto separato.",
+          "Il vantaggio non è la specializzazione. È il confine."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Cosa riceve e cosa no",
+        "corpo": "Un subagent parte pulito. Riceve un system prompt suo, il messaggio con il compito, i file `CLAUDE.md`, lo stato di git e le skill precaricate.\n\nNon riceve la cronologia della conversazione principale né la memoria della sessione. E ha permessi propri.\n\nQuesta è la parte che paghi, e va guardata bene prima di delegare.\n\nIl subagent non sa cosa vi siete detti. Se il compito dipende da tre decisioni prese venti minuti fa, quelle decisioni gliele devi riscrivere.",
+        "punti": [
+          "Quello che torna indietro è un riassunto: non i file che ha letto, non i passaggi intermedi.",
+          "Se poi ti serve discutere un dettaglio, quel dettaglio non c'è più.",
+          "E mentre lavora non puoi correggerlo come faresti in una conversazione normale."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": {
+          "id": "subagent-cosa-riceve",
+          "stile": "B",
+          "larghezza": "wide",
+          "alt": "Verso il subagent passano il compito, i file CLAUDE.md, lo stato di git e le skill; non passano la cronologia né la memoria di sessione. Indietro torna solo un riassunto"
+        }
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Quando delegare e quando no",
+        "corpo": "Le due liste sono corte e si applicano a occhio, una volta che hai capito il criterio. Vale la pena leggerle una volta e poi fidarsi dell'istinto.\n\nQuasi tutti gli errori stanno nella seconda lista, non nella prima: si delega troppo, non troppo poco.\n\nDelega quando il compito produce output verboso che non rileggerai. Log, suite di test, esplorazione di un codebase.",
+        "punti": [
+          "Delega quando il compito è autoconsistente e si chiude con un riassunto.",
+          "Delega per imporre restrizioni: un agente che può solo leggere, per esempio.",
+          "Non delegare quando serve avanti e indietro con te.",
+          "Non delegare quando le fasi condividono contesto: il subagent riparte da zero ogni volta.",
+          "Non delegare per una modifica piccola, o quando la latenza conta: è un giro in più."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": {
+          "id": "delegare-o-no",
+          "stile": "B",
+          "larghezza": "spot",
+          "alt": "Delega quando il compito produce output verboso, si chiude con un riassunto o corre in parallelo; non delegare quando serve avanti e indietro, quando le fasi condividono contesto o quando conta la latenza"
+        }
+      },
+      {
+        "tipo": "esempio",
+        "titolo": "Come si definisce un subagent",
+        "corpo": "Un file markdown in `.claude/agents/`, con frontmatter YAML. Il corpo è il system prompt.\n\nIl campo che decide quando delegare è `description`, esattamente come per le skill e per gli strumenti.\n\nÈ lo stesso meccanismo che hai già visto due volte in questo percorso. Vale la pena notarlo: il modello sceglie sempre su una descrizione, mai sulla cosa descritta.",
+        "punti": [
+          "`name` e `description` sono obbligatori. In opzione ci sono `tools`, `model`, `memory` e `maxTurns`.",
+          "Tieni corte le `description`: stanno tutte in contesto all'avvio, e i dettagli vanno nel corpo."
+        ],
+        "punti_stile": "numerato",
+        "approfondimento": {
+          "titolo": "I limiti da conoscere prima",
+          "testo": "Ci sono due limiti dichiarati. Tre livelli di annidamento, e venti subagent in parallelo.\n\nIl primo si incontra prima di quanto sembri, se costruisci agenti che ne chiamano altri. Il secondo raramente, ma quando lo incontri la coda non ti viene segnalata."
+        },
+        "immagine": {
+          "id": "agent-md-vscode",
+          "stile": "A",
+          "larghezza": "wide",
+          "alt": "Un subagent definito in un file markdown: il frontmatter con name, description, tools e model, e nel corpo il system prompt"
+        }
+      },
+      {
+        "tipo": "trappola",
+        "titolo": "Le pipeline con trenta agenti",
+        "corpo": "Girano architetture impressionanti. Una pipeline di ricerca accademica con tredici agenti per la ricerca, dodici per scrivere e cinque per la revisione.\n\nSono belle da guardare e dicono poco su cosa serva a te.\n\nUn altro esempio, più utile, spezza una sessione troppo grande per una finestra in ticket lavorabili da agenti con contesto pulito. Quello descrive esattamente il problema di questo modulo.",
+        "punti": [
+          "Davanti a trenta agenti la domanda è sempre la stessa.",
+          "Quale di questi esiste perché quel pezzo di lavoro sporcherebbe la finestra di qualcun altro?",
+          "Quelli che non rispondono sono decorazione, e costano un giro in più ciascuno."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Il costo che non si vede",
+        "corpo": "Ogni delega è un giro in più: una richiesta che parte, un contesto che si costruisce da zero, un riassunto che torna.\n\nSu un compito che dura dieci secondi, quel giro è quasi tutto il tempo. Su un'esplorazione di venti file, non si nota.\n\nIl conto si fa così, e va fatto prima: quanto rumore tolgo dalla finestra, contro quanto tempo e quanto dettaglio perdo.",
+        "punti": [],
+        "punti_stile": "elenco",
+        "approfondimento": {
+          "titolo": "Il riassunto è un collo di bottiglia",
+          "testo": "Tutto quello che il subagent ha capito deve passare da un riassunto scritto da lui. Se il compito era esplorare, il riassunto è una sintesi di quello che ha visto.\n\nVuol dire che la qualità della delega dipende da quanto è preciso il compito che gli hai dato. Un compito vago produce un riassunto vago, e non te ne accorgi finché non lo usi."
+        },
+        "immagine": null
+      },
+      {
+        "tipo": "chiusura",
+        "titolo": "Tre frasi da ricordare",
+        "corpo": "L'orchestrazione non è un obiettivo. È una risposta a un problema di contesto, e va usata quando quel problema c'è.",
+        "punti": [
+          "Deleghi per tenere il rumore fuori dalla tua finestra, non per avere più agenti.",
+          "Un subagent parte pulito e torna con un riassunto: i dettagli non li rivedi.",
+          "Se serve avanti e indietro, o le fasi condividono contesto, non delegare."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      }
+    ]
   },
   {
     "id": "mod-orchestrazione-02",
