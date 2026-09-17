@@ -9,7 +9,7 @@ import json, os, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
-from lezioni_slide_data import SLIDES  # noqa: E402
+from lezioni_slide_data import SLIDES, MODULO  # noqa: E402
 
 ILLU = os.path.join(ROOT, "data", "illustrations")
 MODULES = os.path.join(ROOT, "data", "modules.json")
@@ -68,6 +68,8 @@ def main():
 
     for mid, slide in SLIDES.items():
         m = by_id[mid]
+        for k, v in MODULO.get(mid, {}).items():
+            m[k] = v
         m["slide"] = slide
         m["sintesi_md"] = sintesi_da_slide(slide)
         m["durata_min"] = 10

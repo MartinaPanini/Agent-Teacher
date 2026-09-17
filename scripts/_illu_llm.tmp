@@ -1,0 +1,81 @@
+
+# =============================== corso LLM ==================================
+
+def strip_h(x, y, w, h, segs, gap=3):
+    """Striscia orizzontale di segmenti proporzionali. segs: (label, peso, kind)."""
+    tot = sum(s[1] for s in segs)
+    o, cx = "", x
+    for lbl, peso, kind in segs:
+        sw = (w - gap * (len(segs) - 1)) * peso / tot
+        fill, stroke, tc = PAPER, INK, INK
+        if kind == "sys": fill, stroke, tc = SYSBG, SYS, "#1F3B39"
+        if kind == "acc": fill, stroke, tc = "#F7EDE9", ACC, ACC
+        if kind == "mute": fill, stroke, tc = "#EFECE7", "#A9A497", MUTE
+        o += (f'<rect x="{cx:.1f}" y="{y}" width="{sw:.1f}" height="{h}" rx="6" '
+              f'fill="{fill}" stroke="{stroke}" stroke-width="1.8"/>')
+        if lbl:
+            o += (f'<text x="{cx+sw/2:.1f}" y="{y+h/2+4}" text-anchor="middle" '
+                  f'font-family="{MONO}" font-size="10.5" fill="{tc}">{lbl}</text>')
+        cx += sw + gap
+    return o
+
+
+# --- mod-llm-02 -------------------------------------------------------------
+segs = [("definizioni strumenti", 46, "sys"), ("system prompt", 34, "ink"),
+        ("turni precedenti, interi", 104, "acc"), ("risultati strumenti", 36, "acc"),
+        ("output di questo turno", 32, "mute")]
+b, y = "", 40
+for k, (lbl, hh, kind) in enumerate(segs):
+    fill, stroke, tc = PAPER, INK, INK
+    if kind == "sys": fill, stroke, tc = SYSBG, SYS, "#1F3B39"
+    if kind == "acc": fill, stroke, tc = "#F7EDE9", ACC, ACC
+    if kind == "mute": fill, stroke, tc = "#EFECE7", "#A9A497", MUTE
+    dash = ' stroke-dasharray="6 5"' if kind == "mute" else ""
+    b += (f'<rect x="44" y="{y}" width="246" height="{hh}" rx="7" fill="{fill}" '
+          f'stroke="{stroke}" stroke-width="1.8"{dash}/>'
+          f'<text x="58" y="{y+hh/2+4}" font-family="{MONO}" font-size="11" '
+          f'fill="{tc}">{lbl}</text>')
+    if k < 4:
+        b += badge(28, y + hh / 2, k + 1)
+    y += hh + 5
+b = (cap(160, 26, "una richiesta, dall'inizio alla fine", "middle", 12, INK) + b +
+     cap(160, y + 14, "tutto questo viaggia a ogni singola richiesta", "middle", 11, ACC))
+IMG["finestra-cosa-contiene"] = svg(320, y + 26,
+    "Cosa occupa la finestra di contesto, dall'alto: definizioni degli strumenti, "
+    "system prompt, turni precedenti interi, risultati degli strumenti e l'output "
+    "di questo turno", b)
+
+b = cap(300, 24, "la domanda e la stessa; l'input no", "middle", 12.5, INK)
+for k, (t, storico) in enumerate([("turno 1", 0), ("turno 5", 150), ("turno 10", 340)]):
+    yy = 52 + k * 62
+    b += cap(16, yy + 22, t, size=12, fill=INK)
+    b += strip_h(84, yy, 130 + storico, 32,
+                 ([("fisso", 130, "sys")] if not storico else
+                  [("fisso", 130, "sys"), ("storico accumulato", storico, "acc")]))
+    b += cap(96 + 130 + storico + 12, yy + 21, "=" + str(130 + storico) + " u", size=11)
+b += (cap(16, 240, "Il blocco «fisso» sono definizioni degli strumenti e system prompt:",
+          size=11.5, fill=INK) +
+      cap(16, 256, "non cresce, ma lo rispedisci ogni volta. Il resto si accumula.",
+          size=11.5, fill=INK))
+IMG["finestra-cresce-per-turno"] = svg(600, 276,
+    "Tre barre, turno 1, 5 e 10: la parte fissa resta uguale mentre lo storico "
+    "accumulato allunga la richiesta a ogni turno", b)
+
+b = vscode("richiesta.json", [
+    [P("{")],
+    [ind(2), K('"model"'), P(": "), S('"claude-..."'), P(",")],
+    [ind(2), K('"tools"'), P(": [ "), ("/* 20 definizioni, ~4.000 token */", VSC["com"]), P(" ],")],
+    [ind(2), K('"system"'), P(": "), S('"Sei un assistente che..."'), P(",")],
+    [ind(2), K('"messages"'), P(": [")],
+    [ind(4), P("{ "), K('"role"'), P(": "), S('"user"'), P(", ... },")],
+    [ind(4), P("{ "), K('"role"'), P(": "), S('"assistant"'), P(", ... },")],
+    [ind(4), P("{ "), K('"role"'), P(": "), S('"user"'), P(", ... },        "),
+     ("/* turno 1 */", VSC["com"])],
+    [ind(4), ("/* ...e tutti i turni successivi, interi... */", VSC["com"])],
+    [ind(2), P("]")],
+    [P("}")],
+], badges=((1, 2), (2, 3), (3, 4)))
+IMG["richiesta-anatomia"] = svg(600, 30 + max(180, 88 + 11 * 16) + 12,
+    "Il corpo di una richiesta in Visual Studio Code: il campo tools con venti "
+    "definizioni, il system prompt e l'array messages con tutti i turni precedenti "
+    "riportati per intero", b)

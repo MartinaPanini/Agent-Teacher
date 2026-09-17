@@ -88,8 +88,9 @@ non serviva.
   apre bene. "In questo modulo parleremo della finestra di contesto" no.
 - **Ultimo paragrafo**: che cosa cambia nella pratica, in due o tre frasi.
   Una cosa che si fa o si smette di fare, non un riepilogo di quanto letto.
-- Lunghezza: 300-600 parole, come dice la routine. Semplificare la forma non
-  vuol dire allungare il testo: di solito lo accorcia.
+- Lunghezza: 900-1300 parole per modulo nel formato a slide, esclusi gli
+  approfondimenti. Semplificare la forma non vuol dire allungare il testo: di
+  solito lo accorcia.
 
 ## 8. Obiettivo, prerequisiti, domande
 
@@ -109,3 +110,31 @@ non serviva.
 6. Un solo grassetto per paragrafo.
 7. L'ultimo paragrafo dice che cosa cambia nella pratica.
 8. Letto una volta sola: si capisce.
+
+---
+
+## 10. Il formato a slide
+
+Vale da AT-specifiche §15 in poi. Le regole 1-8 restano tutte; queste si
+aggiungono.
+
+- Otto slide per modulo, una idea per slide. Massimo 150 parole di corpo per
+  slide, titolo da 3 a 6 parole.
+- Il titolo della slide segue la regola 3: dice che cosa si impara lì dentro.
+- I punti numerati si usano solo quando l'immagine porta gli stessi numeri.
+  Altrimenti elenco puntato.
+- Niente etichetta in grassetto a inizio voce di elenco. La regola 4 vale anche
+  qui: un solo grassetto per paragrafo, e sul termine tecnico, non sull'etichetta.
+- L'approfondimento è testo facoltativo che sta fuori dai dieci minuti. Ci va la
+  risposta alla domanda «sì, ma perché».
+
+## 11. Controllo automatico
+
+`python3 scripts/controlla-stile.py` verifica meccanicamente le regole 1-8 e
+10, più i tell da IA che questa guida non nomina: lineette, elenchi con
+etichetta in grassetto, parole che un modello usa più di una persona,
+virgolette ricurve, emoji.
+
+Esce con 1 se trova qualcosa. Va passato prima di scrivere in `data/`, e la
+checklist della regola 9 resta per quello che una macchina non può controllare:
+se il testo, letto una volta sola, si capisce.

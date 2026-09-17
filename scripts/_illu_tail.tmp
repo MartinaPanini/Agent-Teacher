@@ -1,0 +1,7 @@
+os.makedirs(OUT, exist_ok=True)
+for name, content in IMG.items():
+    with open(os.path.join(OUT, name + ".svg"), "w", encoding="utf-8") as f:
+        f.write(content)
+print(f"{len(IMG)} illustrazioni scritte in {OUT}")
+for n in IMG:
+    print(" -", n + ".svg")
