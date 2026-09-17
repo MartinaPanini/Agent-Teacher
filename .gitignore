@@ -28,4 +28,4 @@ tmp/
 # data/
 # !data/seed/
 
-Claude outputs
+Claude outputs__pycache__/

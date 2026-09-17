@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Moduli riscritti</title>
+<style>
+:root {
+  color-scheme: light dark;
+  --color-bg: #faf9f7;
+  --color-text: #1c1b1a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.scaffold-placeholder {
+  padding: 2rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.onboarding {
+  padding: 2rem 1.25rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.onboarding-intro {
+  color: #55524d;
+  margin-bottom: 1.5rem;
+}
+
+.onboarding-domanda {
+  border: 1px solid #e2ddd4;
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.onboarding-domanda legend {
+  font-weight: 600;
+  padding: 0 0.25rem;
+}
+
+.onboarding-opzione {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  cursor: pointer;
+}
+
+.onboarding button[type="submit"] {
+  margin-top: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  background: #1c1b1a;
+  color: #faf9f7;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.onboarding button[type="submit"]:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.errore {
+  color: #b3261e;
+}
+
+/* ------------------------- Daily ------------------------- */
+
+.daily {
+  padding: 1.5rem 1.25rem 3rem;
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.daily h2 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #6b675f;
+}
+
+.empty-state-messaggio {
+  font-size: 1.1rem;
+}
+
+.empty-state-nota {
+  color: #6b675f;
+}
+
+.daily-ripasso,
+.daily-qualifica,
+.daily-ignora {
+  border: 1px solid #e2ddd4;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.qualifica-voce {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.5rem 0;
+  border-top: 1px solid #eee8dd;
+}
+
+.qualifica-voce:first-of-type {
+  border-top: none;
+}
+
+.qualifica-voce a {
+  overflow-wrap: anywhere;
+  font-size: 0.9rem;
+}
+
+.qualifica-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.qualifica-form input {
+  flex: 1;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #d8d2c6;
+  border-radius: 6px;
+}
+
+.qualifica-ok {
+  color: #2e7d32;
+  font-size: 0.9rem;
+}
+
+.module-card {
+  border: 1px solid #e2ddd4;
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.module-card--scoperta {
+  background: #faf6ec;
+  padding: 1rem;
+}
+
+.module-card--compatta h2 {
+  font-size: 1.1rem;
+}
+
+.module-card-ruolo {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #8a8578;
+  margin: 0 0 0.35rem;
+}
+
+.module-card h2 {
+  margin: 0 0 0.5rem;
+}
+
+.module-card-motivazione {
+  font-style: italic;
+  color: #55524d;
+  margin: 0 0 0.75rem;
+}
+
+.module-card-obiettivo {
+  margin: 0 0 0.35rem;
+}
+
+.module-card-durata {
+  color: #8a8578;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+}
+
+.module-card-prereq {
+  margin-bottom: 0.75rem;
+}
+
+.module-card-sintesi {
+  margin-bottom: 0.75rem;
+}
+
+/* Testo lungo reso da markdown: sintesi delle lezioni, prerequisiti. */
+.prosa {
+  line-height: 1.6;
+}
+
+.prosa > *:first-child {
+  margin-top: 0;
+}
+
+.prosa > *:last-child {
+  margin-bottom: 0;
+}
+
+.prosa p {
+  margin: 0 0 0.85rem;
+}
+
+.prosa h3 {
+  font-size: 1.02rem;
+  line-height: 1.35;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.prosa h4 {
+  font-size: 0.95rem;
+  margin: 1.25rem 0 0.4rem;
+}
+
+.prosa ul,
+.prosa ol {
+  margin: 0 0 0.85rem;
+  padding-left: 1.3rem;
+}
+
+.prosa li {
+  margin-bottom: 0.3rem;
+}
+
+.prosa blockquote {
+  margin: 0 0 0.85rem;
+  padding-left: 0.9rem;
+  border-left: 3px solid #e2ddd4;
+  color: #55524d;
+}
+
+.prosa code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.88em;
+  background: #f0ece4;
+  border-radius: 4px;
+  padding: 0.1em 0.32em;
+}
+
+.prosa pre {
+  margin: 0 0 0.85rem;
+  padding: 0.8rem 0.9rem;
+  background: #f0ece4;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.prosa pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.prosa a {
+  color: #1c1b1a;
+}
+
+.prosa table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 0.85rem;
+  font-size: 0.93rem;
+}
+
+.prosa th,
+.prosa td {
+  border-bottom: 1px solid #e2ddd4;
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.prosa th {
+  font-weight: 600;
+  color: #55524d;
+}
+
+.prosa hr {
+  border: none;
+  border-top: 1px solid #e2ddd4;
+  margin: 1.25rem 0;
+}
+
+.module-card-fonte {
+  font-size: 0.9rem;
+  color: #6b675f;
+}
+
+.module-card-azioni {
+  margin-top: 1rem;
+}
+
+button {
+  padding: 0.55rem 1.1rem;
+  border: none;
+  border-radius: 6px;
+  background: #1c1b1a;
+  color: #faf9f7;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+button.secondario {
+  background: transparent;
+  color: #1c1b1a;
+  border: 1px solid #c9c3b6;
+  margin-left: 0.5rem;
+}
+
+.domande {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.domanda {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.domanda textarea {
+  font: inherit;
+  font-weight: normal;
+  padding: 0.5rem;
+  border: 1px solid #d8d2c6;
+  border-radius: 6px;
+  min-height: 4rem;
+  resize: vertical;
+}
+
+.fatto-conferma {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.sessione-chiusa {
+  text-align: center;
+  color: #6b675f;
+}
+
+.sessione-chiusa button {
+  margin-top: 0.5rem;
+}
+
+.daily-ignora ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: #55524d;
+}
+
+/* ------------------------- Navigazione ------------------------- */
+
+.tab-bar {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid #e2ddd4;
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  background: var(--color-bg);
+  z-index: 1;
+}
+
+.tab-bar button {
+  background: transparent;
+  color: #6b675f;
+  border: none;
+  padding: 0.5rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.tab-bar button.tab-attiva {
+  background: #1c1b1a;
+  color: #faf9f7;
+}
+
+/* ------------------------- Knowledge Map ------------------------- */
+
+.knowledge-map {
+  padding: 1.5rem 1.25rem 3rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.knowledge-map-intro {
+  color: #6b675f;
+  margin-bottom: 1.5rem;
+}
+
+.area-gruppo {
+  margin-bottom: 1.75rem;
+}
+
+.area-gruppo h2 {
+  text-transform: capitalize;
+  font-size: 1.05rem;
+  margin-bottom: 0.6rem;
+}
+
+.area-griglia {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.skill-card {
+  border: 1px solid #e2ddd4;
+  border-radius: 8px;
+  padding: 0.9rem;
+  border-left: 4px solid #c9c3b6;
+}
+
+.skill-card--livello-0 {
+  border-left-color: #c9c3b6;
+}
+.skill-card--livello-1 {
+  border-left-color: #d9a441;
+}
+.skill-card--livello-2 {
+  border-left-color: #c98a2b;
+}
+.skill-card--livello-3 {
+  border-left-color: #6a9955;
+}
+.skill-card--livello-4 {
+  border-left-color: #2e7d32;
+}
+
+.skill-card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.skill-card p {
+  margin: 0.2rem 0;
+  font-size: 0.85rem;
+  color: #55524d;
+}
+
+.skill-card-bloccata {
+  color: #b3261e;
+}
+
+.skill-card-completa {
+  color: #2e7d32;
+}
+
+/* ------------------------- Curriculum ------------------------- */
+
+.curriculum {
+  padding: 1.5rem 1.25rem 3rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.corso {
+  border: 1px solid #e2ddd4;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.corso-intestazione {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.corso-intestazione h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.corso-stato {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #6b675f;
+}
+
+.corso-stato--completato {
+  color: #2e7d32;
+}
+
+.corso-obiettivo {
+  color: #55524d;
+  margin: 0.35rem 0 0.75rem;
+}
+
+.corso-in-preparazione {
+  color: #8a8578;
+  font-style: italic;
+  margin-bottom: 0.75rem;
+}
+
+.corso-moduli {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.modulo-riga {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  border-top: 1px solid #eee8dd;
+  font-size: 0.9rem;
+}
+
+.corso-moduli li:first-child {
+  border-top: none;
+}
+
+.modulo-titolo {
+  flex: 1;
+}
+
+.modulo-riga--completato .modulo-titolo {
+  color: #6b675f;
+}
+
+.modulo-riga--completato .modulo-titolo::before {
+  content: "✓ ";
+  color: #2e7d32;
+}
+
+.modulo-badge {
+  font-size: 0.75rem;
+  color: #8a8578;
+  border: 1px solid #e2ddd4;
+  border-radius: 999px;
+  padding: 0.1rem 0.55rem;
+}
+
+.etichetta-nuovo {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  background: #d9a441;
+  color: #2b2200;
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+}
+
+/* ------------------------- Cattura link ------------------------- */
+
+.cattura-link {
+  position: fixed;
+  right: 1rem;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  z-index: 2;
+}
+
+.cattura-link-toggle {
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cattura-link--aperto {
+  background: #fff;
+  border: 1px solid #e2ddd4;
+  border-radius: 10px;
+  padding: 0.9rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  width: min(320px, calc(100vw - 2rem));
+}
+
+.cattura-link-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cattura-link-form input {
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #d8d2c6;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.cattura-link-azioni {
+  display: flex;
+  justify-content: flex-end;
+}
+
+body { padding: 2rem 1rem; }
+.wrap { max-width: 680px; margin: 0 auto; display: grid; gap: 2rem; }
+.intro { color: #55524d; margin: 0 auto 0.5rem; max-width: 680px; }
+</style></head>
+<body>
+<p class="intro">Quattro dei 14 moduli riscritti, resi come li mostra il sito. Tabelle, blocchi di codice ed elenchi compresi.</p>
+<div class="wrap">
+<section class="module-card module-card--principale">
+    <p class="module-card-ruolo">mod-llm-03</p>
+    <h2>Context rot: perché una finestra più grande non basta</h2>
+    <p class="module-card-obiettivo">Alla fine sai spiegare perché la qualità delle risposte cala al crescere del contesto, e sai indicare quale rimedio attacca la causa e quale no.</p>
+    <p class="module-card-durata">15 min</p>
+    <div class="prosa module-card-sintesi"><p>Si chiama <strong>context rot</strong>: quando i token nella finestra crescono, la capacità del modello di richiamare le informazioni con precisione cala. Succede su tutti i modelli. Alcuni degradano più dolcemente, nessuno è immune. &quot;Ci sta tutto dentro&quot; e &quot;lo userà bene&quot; sono due affermazioni diverse, e la seconda non segue dalla prima.</p>
+<h3>Da dove viene</h3>
+<p>Due cause, entrambe strutturali.</p>
+<p>L'<strong>attenzione cresce in modo quadratico</strong>. Un transformer gestisce n² relazioni a coppie per n token. Raddoppiare il contesto più che raddoppia il lavoro di attenzione, e quell'attenzione è una risorsa finita da spalmare su più materiale.</p>
+<p>L'<strong>addestramento ha visto soprattutto sequenze corte</strong>. I modelli imparano i pattern di attenzione dai dati, e lì le sequenze brevi sono molto più comuni di quelle lunghe. Sulle dipendenze a lunga distanza hanno semplicemente meno esperienza.</p>
+<p>Ne segue che il contesto è una risorsa con rendimenti decrescenti, non un contenitore da riempire. La domanda prima di aggiungere qualcosa non è &quot;ci sta?&quot;, ma &quot;questo aumenta o diluisce la probabilità che il modello faccia la cosa giusta?&quot;.</p>
+<h3>I rimedi che attaccano la causa</h3>
+<ul><li><strong>Compattazione</strong>: riassumi la conversazione e riparti dalla versione compressa, tenendo decisioni prese, bug ancora aperti e dettagli che servono davvero.</li><li><strong>Appunti esterni</strong>: l'agente scrive in un file, stile <code>NOTES.md</code>, e lo rilegge quando gli serve invece di portarsi dietro tutta la storia.</li><li><strong>Recupero al momento giusto</strong>: niente precaricamento, l'agente apre i dati quando gli servono. È il modo in cui lavori tu: tieni i puntatori, non i file.</li><li><strong>Sottoagenti</strong>: un agente separato affronta un compito circoscritto nel proprio contesto e restituisce solo la conclusione.</li></ul>
+<h3>I rimedi che non risolvono</h3>
+<p>Una finestra più grande sposta il limite e non toglie il degrado: è esattamente quello che il fenomeno descrive. Chiedere al modello di fare più attenzione o di ricordare meglio non agisce su niente di reale. Lasciare che un agente esplori da solo una cartella grande, quando potresti dargli il percorso preciso, è il modo più rapido di riempire la finestra di materiale inutile.</p>
+<h3>Come lo riconosci</h3>
+<p>Il sintomo tipico è una sessione lunga che a un certo punto peggiora. Dimentica un vincolo che avevi dato all'inizio, rifà una cosa già fatta, perde il filo. Non hai cambiato modello né chiesto qualcosa di più difficile: si è riempita la finestra.</p>
+<p>Quando lo vedi, la mossa giusta è compattare e ripartire, non insistere con la stessa conversazione. Riscrivere il contesto costa cinque minuti; una sessione che degrada te ne costa molti di più.</p></div>
+    <p class="module-card-fonte">Fonte: <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents — Anthropic Engineering</a> (verificata il 2026-09-16)</p>
+  </section>
+<section class="module-card module-card--principale">
+    <p class="module-card-ruolo">mod-claude-code-03</p>
+    <h2>Permessi: cosa Claude Code può fare senza chiedertelo</h2>
+    <p class="module-card-obiettivo">Alla fine sai prevedere, per una data azione, se Claude Code ti chiederà il permesso, e sai dove finisce la regola quando rispondi 'non chiedermelo più'.</p>
+    <p class="module-card-durata">15 min</p>
+    <div class="prosa module-card-sintesi"><p>I permessi non sono una funzione di sicurezza appiccicata sopra. Sono il punto in cui il ciclo del tool calling si ferma: il modello ha già deciso di scrivere su un file, e il programma sulla tua macchina guarda le regole prima di eseguire.</p>
+<h3>Che cosa chiede, e per quanto vale la risposta</h3>
+<p>In modalità manuale il comportamento dipende dal tipo di strumento:</p>
+<table><thead><tr><th>Tipo</th><th>Chiede?</th><th>Se dici &quot;non chiedermelo più&quot;</th></tr></thead><tbody><tr><td>Sola lettura (lettura file, grep)</td><td>No, dentro la cartella di lavoro</td><td>non si pone</td></tr><tr><td>Comandi bash</td><td>Sì, tranne un insieme di comandi di sola lettura</td><td>per sempre, per quel repository e quel comando</td></tr><tr><td>Modifica di file (Edit, Write)</td><td>Sì</td><td><strong>solo fino a fine sessione</strong></td></tr><tr><td>WebFetch</td><td>Sì, tranne alcuni domini di documentazione</td><td>per sempre, per repository e dominio</td></tr><tr><td>WebSearch</td><td>Sì</td><td>per sempre, per repository</td></tr></tbody></table>
+<p>La riga che sorprende è la terza. L'approvazione di una modifica di file non viene salvata su disco e vale finché la sessione è aperta. Le altre approvazioni permanenti finiscono in <code>.claude/settings.local.json</code>, nella radice del repository, e da lì valgono anche per le sessioni future.</p>
+<h3>Allow, ask, deny</h3>
+<p>Con <code>/permissions</code> vedi le regole attive e da quale file di impostazioni arriva ciascuna. I tipi sono tre: <strong>allow</strong> procede senza chiedere, <strong>ask</strong> chiede sempre, <strong>deny</strong> non fa.</p>
+<p>L'ordine di valutazione è fisso: prima deny, poi ask, poi allow. Vince la prima regola che corrisponde, e la sua precisione non cambia l'ordine. Quindi un <code>deny</code> batte sempre un <code>allow</code>, per quanto specifico sia.</p>
+<p>Le regole si scrivono come <code>Bash(npm run build)</code>, <code>Read(./.env)</code>, <code>WebFetch(domain:example.com)</code>. Gli asterischi contano: <code>Bash(ls *)</code> copre <code>ls -la</code> ma non <code>lsof</code>, mentre <code>Bash(ls*)</code> copre entrambi.</p>
+<h3>Le modalità</h3>
+<p>La modalità decide quanto spesso quel sistema ti interpella.</p>
+<ul><li><code>default</code>, etichettata Manual: chiede al primo uso di ogni strumento.</li><li><code>acceptEdits</code>: accetta da sola le modifiche ai file dentro la cartella di lavoro.</li><li><code>plan</code>: fa esplorare senza toccare i sorgenti.</li><li><code>auto</code>: approva da sola, con un classificatore che verifica in sottofondo la coerenza con quello che hai chiesto.</li><li><code>bypassPermissions</code>: salta i controlli, scritture su <code>.git</code> e <code>.claude</code> comprese. Solo in ambienti isolati.</li></ul>
+<p>La modalità con cui partono le sessioni si imposta con <code>defaultMode</code> nei file di impostazioni.</p>
+<h3>Cosa portarsi via</h3>
+<p>Quando un agente fa qualcosa che non ti aspettavi, la domanda giusta non è perché abbia voluto farlo. È quale regola gliel'ha lasciato fare, e da quale file veniva. <code>/permissions</code> risponde a tutte e due in dieci secondi.</p></div>
+    <p class="module-card-fonte">Fonte: <a href="https://code.claude.com/docs/en/permissions">Claude Code — Configure permissions</a> (verificata il 2026-09-16)</p>
+  </section>
+<section class="module-card module-card--principale">
+    <p class="module-card-ruolo">mod-mcp-05</p>
+    <h2>Cos’è MCP e quale problema risolve</h2>
+    <p class="module-card-obiettivo">Alla fine sai dire chi sono host, client e server in una connessione MCP, e sai distinguere un tool da una resource senza guardare la documentazione.</p>
+    <p class="module-card-durata">15 min</p>
+    <div class="prosa module-card-sintesi"><p>MCP, Model Context Protocol, è uno standard aperto per collegare le applicazioni AI ai sistemi esterni. L'immagine che usa la documentazione è una porta USB-C per le applicazioni AI: scrivi il server una volta, e qualunque client che parla MCP lo può usare.</p>
+<p>Conta anche quello che non è. Il protocollo si occupa solo dello scambio di contesto: non decide come l'agente ragiona, né come l'applicazione usa il modello. Sposta dati e capacità, nient'altro.</p>
+<h3>I tre partecipanti</h3>
+<ul><li><strong>Host</strong>: l'applicazione AI, come Claude Code o Claude Desktop. Coordina il tutto.</li><li><strong>Client</strong>: un componente dentro l'host che tiene una sola connessione verso un solo server. Host con tre server significa tre client.</li><li><strong>Server</strong>: un programma che fornisce contesto e capacità. Può girare sulla tua macchina o su Internet: &quot;server&quot; indica il ruolo, non il luogo.</li></ul>
+<p>Il dettaglio che di solito si perde è quell'uno a uno: il client non è l'applicazione, è la connessione.</p>
+<h3>Due strati</h3>
+<p>Il <strong>data layer</strong> è il protocollo vero: messaggi JSON-RPC 2.0, gestione del ciclo di vita, primitive. Il <strong>transport layer</strong> è il modo in cui i messaggi viaggiano, e ne esistono due.</p>
+<p>Con <code>stdio</code> il server è un processo locale e si parla sullo standard input e output: niente rete, di norma un client solo. Con Streamable HTTP si usano POST HTTP e Server-Sent Events per lo streaming: server remoto, molti client, autenticazione HTTP standard. Il formato dei messaggi non cambia, quindi il trasporto è intercambiabile.</p>
+<h3>Le primitive</h3>
+<p>Un server può esporre tre cose, e la distinzione conta:</p>
+<table><thead><tr><th>Primitiva</th><th>Cos'è</th><th>Esempio</th></tr></thead><tbody><tr><td><strong>Tools</strong></td><td>funzioni eseguibili, il modello le invoca per agire</td><td>interroga il database</td></tr><tr><td><strong>Resources</strong></td><td>dati da leggere come contesto</td><td>lo schema del database</td></tr><tr><td><strong>Prompts</strong></td><td>modelli di interazione riutilizzabili</td><td>esempi per usare quei tool</td></tr></tbody></table>
+<p>Ogni primitiva ha i suoi metodi: <code>*/list</code> per scoprirla, <code>*/get</code> o <code>tools/call</code> per usarla. Le liste sono dinamiche apposta.</p>
+<p>Anche il client espone qualcosa al server: <code>sampling</code>, con cui il server chiede all'host una risposta del modello senza incorporare un SDK; <code>elicitation</code>, con cui chiede qualcosa a te; e il logging.</p>
+<h3>Come comincia una connessione</h3>
+<ol><li>Il client manda <code>initialize</code> con la versione di protocollo e le proprie capability.</li><li>Il server risponde con le sue, per esempio <code>&quot;tools&quot;: {&quot;listChanged&quot;: true}</code>.</li><li>Il client manda la notifica <code>notifications/initialized</code> e si parte.</li><li>Poi <code>tools/list</code> per scoprire cosa c'è, e <code>tools/call</code> per eseguire.</li></ol>
+<p>Se non si trova una versione compatibile la connessione si chiude. Se i tool del server cambiano arriva <code>notifications/tools/list_changed</code>, e il client ricarica la lista invece di interrogare a vuoto.</p>
+<p>Quello che ti resta in mano: un server MCP tuo è un programma che risponde a quattro o cinque metodi JSON-RPC. Non è un servizio web e non è un framework, quindi il primo che scriverai sarà molto più corto di quanto ti aspetti.</p></div>
+    <p class="module-card-fonte">Fonte: <a href="https://modelcontextprotocol.io/docs/learn/architecture">Model Context Protocol — Architecture overview</a> (verificata il 2026-09-16)</p>
+  </section>
+<section class="module-card module-card--principale">
+    <p class="module-card-ruolo">mod-claude-skills-01</p>
+    <h2>Cos’è una Skill e perché non è un altro CLAUDE.md</h2>
+    <p class="module-card-obiettivo">Alla fine sai decidere se un’istruzione ricorrente va in CLAUDE.md o in una skill, e sai scrivere il frontmatter che fa caricare la skill al momento giusto.</p>
+    <p class="module-card-durata">15 min</p>
+    <div class="prosa module-card-sintesi"><p>Una <strong>skill</strong> è una cartella con dentro un file <code>SKILL.md</code>: frontmatter YAML più istruzioni in markdown. Claude la usa quando la ritiene pertinente, oppure la invochi tu con <code>/nome-skill</code>.</p>
+<pre><code>---
+name: summarize-changes
+description: Riassume le modifiche non committate e segnala quelle rischiose. Usala quando l'utente chiede cosa è cambiato o vuole un messaggio di commit.
+---
+
+## Modifiche correnti
+
+!`git diff HEAD`
+
+## Istruzioni
+
+Riassumi le modifiche in due o tre punti, poi elenca i rischi.</code></pre>
+<h3>Perché non è un altro CLAUDE.md</h3>
+<p>La differenza sta in quando il testo entra nel contesto. Le <code>description</code> di tutte le skill ci stanno sempre: sono poche righe e servono a Claude per sapere che cosa esiste. Il corpo entra solo quando la skill viene invocata. È il <strong>progressive disclosure</strong>: materiale di riferimento lungo non costa quasi niente finché non serve.</p>
+<p>Da lì in poi però ci resta. Una skill caricata rimane in contesto per i turni successivi, quindi ogni sua riga diventa un costo ricorrente fino a fine sessione.</p>
+<p>Quindi il criterio non è dove sta più ordinato, è ogni quanto serve. Un fatto stabile che vale per ogni sessione — questo progetto usa pnpm — sta in CLAUDE.md. Una procedura lunga che serve ogni tanto — come si prepara una release, la checklist di code review — sta in una skill. Il segnale per crearne una: ti accorgi di reincollare le stesse istruzioni, o una sezione di CLAUDE.md è diventata una procedura invece che un fatto.</p>
+<h3>I campi che contano</h3>
+<ul><li><code>name</code> e <code>description</code>: la <code>description</code> è l'unica cosa su cui Claude decide se caricare la skill. Scritta male, la skill non parte mai. Deve dire che cosa fa e quando si usa.</li><li><code>disable-model-invocation: true</code>: può invocarla solo tu. Da mettere su tutto ciò che è irreversibile, come deploy e commit.</li><li><code>user-invocable: false</code>: la usa solo Claude, per conoscenza di sfondo.</li><li><code>allowed-tools</code>: strumenti preapprovati, senza richiesta di permesso.</li><li><code>context: fork</code>: la esegue in un sottoagente isolato.</li></ul>
+<h3>Injection dinamica, e dove si installano</h3>
+<p>La sintassi <code>!`comando`</code> esegue il comando prima che il contenuto arrivi a Claude e ne mette l'output al suo posto. Nell'esempio sopra Claude non riceve la riga <code>git diff HEAD</code>: riceve il diff vero. La skill smette di essere un testo e diventa un contesto già riempito.</p>
+<p>Le skill vivono in <code>~/.claude/skills/&lt;nome&gt;/SKILL.md</code> per tutti i progetti, in <code>.claude/skills/&lt;nome&gt;/SKILL.md</code> per un repository, o dentro un plugin. Tieni <code>SKILL.md</code> sotto le 500 righe e sposta il materiale di riferimento in file separati che la skill cita: si aprono solo se servono.</p>
+<h3>Sulle raccolte di skill pronte</h3>
+<p>L'inbox ne ha due: una repo &quot;Awesome Claude Skills&quot; e una lista di otto repository con skill già fatte. Come esempi di frontmatter scritto bene sono utili.</p>
+<p>Però una skill è testo che entra nel tuo contesto e può portarsi dietro <code>allowed-tools</code> preapprovati. Una skill scaricata va letta riga per riga prima di installarla, esattamente come uno script trovato su Internet.</p></div>
+    <p class="module-card-fonte">Fonte: <a href="https://code.claude.com/docs/en/skills">Claude Code — Agent Skills (documentazione ufficiale)</a> (verificata il 2026-09-16)</p>
+  </section>
+</div></body></html>

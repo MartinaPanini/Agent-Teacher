@@ -98,6 +98,41 @@ export const DomandaSchema = z.object({
   rubrica: z.string(),
 });
 
+export const SlideTipoSchema = z.enum([
+  "apertura",
+  "concetto",
+  "procedura",
+  "esempio",
+  "trappola",
+  "chiusura",
+]);
+
+export const SlideImmagineSchema = z.object({
+  /** nome del file in data/illustrations/<id>.svg */
+  id: z.string(),
+  /** A = finestre piatte realistiche, B = linea tecnica (AT-specifiche §15.5) */
+  stile: z.enum(["A", "B"]),
+  alt: z.string(),
+  /** spot = colonna stretta accanto al testo, wide = immagine dominante */
+  larghezza: z.enum(["spot", "wide"]),
+});
+
+export const ApprofondimentoSchema = z.object({
+  titolo: z.string(),
+  testo: z.string(),
+});
+
+export const SlideSchema = z.object({
+  tipo: SlideTipoSchema,
+  titolo: z.string(),
+  corpo: z.string(),
+  punti: z.array(z.string()),
+  /** "numerato" solo se l'immagine porta gli stessi numeri (RF66) */
+  punti_stile: z.enum(["numerato", "elenco"]).default("elenco"),
+  approfondimento: ApprofondimentoSchema.nullable(),
+  immagine: SlideImmagineSchema.nullable(),
+});
+
 const ModuleBaseSchema = z.object({
   id: z.string(),
   course_id: z.string(),
@@ -109,6 +144,8 @@ const ModuleBaseSchema = z.object({
   prerequisiti_skill: z.array(z.string()),
   prerequisiti_testo: z.string(),
   sintesi_md: z.string(),
+  /** vuoto = modulo ancora nel vecchio formato a pagina unica */
+  slide: z.array(SlideSchema).optional(),
   fonte_primaria: FontePrimariaSchema.nullable(),
   fonti_extra: z.array(FontePrimariaSchema),
   domande: z.array(DomandaSchema),

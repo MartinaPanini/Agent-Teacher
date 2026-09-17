@@ -516,7 +516,7 @@
     "course_id": "corso-mcp",
     "titolo": "Cosa vede il modello di uno strumento",
     "tipo": "teoria",
-    "durata_min": 15,
+    "durata_min": 10,
     "voci_inbox": [],
     "obiettivo": "Alla fine sai dire quali sono le tre parti di una definizione di strumento, e quale delle tre decide se il modello quello strumento lo userà o lo ignorerà.",
     "prerequisiti_skill": [
@@ -524,7 +524,7 @@
       "claude-code"
     ],
     "prerequisiti_testo": "Ti serve sapere che un modello linguistico non esegue niente: produce testo. Quando si dice «Claude ha letto un file», quello che è successo è che il modello ha prodotto un pezzo di testo strutturato che dice «voglio leggere questo file», e un programma esterno — Claude Code, il tuo script, la piattaforma — ha letto il file e gli ha rimandato il contenuto come nuovo testo in ingresso. Ti serve sapere cos'è la finestra di contesto: tutto ciò che il modello ha davanti in un dato momento è una lista di messaggi che gli viene rispedita per intero a ogni richiesta, e le definizioni degli strumenti stanno dentro quella lista, quindi occupano token come tutto il resto. Ti serve infine un'idea minima di JSON Schema: un oggetto che descrive che forma deve avere un dato — quali campi esistono, di che tipo sono, quali sono obbligatori.",
-    "sintesi_md": "Un modello che «usa uno strumento» non sa niente di quello strumento oltre a quello che gli scrivi tu in due campi di testo. È il punto da cui parte tutto il resto, ed è il primo che si dimentica.\n\nUna definizione di strumento ha esattamente tre parti obbligatorie. `name` è l'identificatore, e deve rispettare `^[a-zA-Z0-9_-]{1,128}$`. `description` è prosa in chiaro che dice cosa fa lo strumento, quando va usato e quando no, cosa significa ogni parametro e quali sono i limiti. `input_schema` è un oggetto JSON Schema che descrive la forma dell'input: quali proprietà, di che tipo, quali obbligatorie.\n\nLa documentazione su questo non è tiepida: «Provide extremely detailed descriptions. This is by far the most important factor in tool performance.» E dà una misura: almeno tre o quattro frasi per strumento, di più se lo strumento è complicato.\n\nIl motivo è meccanico, non stilistico. Il modello non vede il codice che esegue lo strumento. Non vede cosa succede dentro. Non ha modo di provare. Al momento di decidere se quello strumento serve, ha davanti soltanto `description` e `input_schema`. Se la descrizione dice «cerca cose», lo strumento è di fatto invisibile: il modello non ha modo di sapere che la tua richiesta rientra in «cose». Se lo schema non prevede il campo che servirebbe al tuo caso, lo strumento è inutilizzabile in quel caso, e viene saltato.\n\nDa qui la conseguenza pratica, che è l'unica cosa da ricordare se ne ricordi una sola. Quando uno strumento non viene mai chiamato, la prima cosa da guardare non è il modello, non è il prompt e non è il codice che lo esegue: è la coppia descrizione più schema. Sono l'unica superficie di contatto che esiste.\n\nCon `tool_choice` al valore predefinito `{\"type\": \"auto\"}` il modello decide turno per turno. La documentazione dice che chiama uno strumento «when the request maps to that tool's described capability and the answer isn't already in context», e risponde direttamente per conoscenza stabile, compiti creativi e turni di conversazione. *Described* capability: di nuovo la descrizione, non la capacità reale. Se serve forzare una chiamata si usa `tool_choice` con `any` o con il nome di uno strumento preciso; una riga nel system prompt tipo «usa gli strumenti prima di rispondere» sposta la probabilità ma non garantisce niente.\n\nUltima distinzione, che conta perché cambia chi lavora. I **client tool** — i tuoi, più quelli di Anthropic come `bash` e `text_editor` — girano nel tuo codice: il modello si ferma con `stop_reason: \"tool_use\"`, esegui tu, rimandi tu il risultato. I **server tool** — `web_search`, `web_fetch`, `code_execution` — girano sull'infrastruttura di Anthropic: i risultati arrivano già fatti e tu non gestisci nessuna esecuzione. Stessa forma nella definizione, due posti diversi in cui il lavoro accade davvero.",
+    "sintesi_md": "## Quello che il modello sa di uno strumento\n\nAlla fine di questa lezione sai dire quali sono le tre parti di una definizione di strumento, e quale delle tre decide se il modello quello strumento lo userà o lo ignorerà.\n\nPrima di partire serve una cosa sola, e va tenuta ferma per tutta la lezione: un modello linguistico non esegue niente. Produce testo. Quando si dice «Claude ha letto un file», quello che è successo è che il modello ha prodotto un pezzo di testo strutturato che dice «voglio leggere questo file», e un programma esterno — Claude Code, il tuo script, la piattaforma — ha letto quel testo, ha eseguito l'operazione e gli ha rimandato il risultato. Tutto il resto della lezione discende da qui.\n\n## Chi chiede e chi esegue\n\nLa parola «strumento» suggerisce qualcosa che il modello impugna. Il modello non impugna niente: dichiara un'intenzione in un formato che il tuo codice sa leggere. Il giro completo ha tre passaggi e due protagonisti, e il modello è uno solo dei due.\n\n1. Il modello produce un blocco `tool_use`: quale strumento vuole e con quali parametri. Poi il suo turno finisce.\n2. Il tuo programma legge quel blocco ed esegue davvero l'operazione — la lettura del file, la chiamata HTTP, la query.\n3. Il risultato torna al modello come un messaggio nuovo. Solo adesso il modello «sa» cosa c'era nel file.\n\n## Tre campi, e uno solo decide\n\nUna definizione di strumento ha esattamente tre parti obbligatorie. Due sono descrittive, una è tecnica, e nessuna delle tre contiene il codice che fa il lavoro: quello vive nel tuo programma e al modello non arriva mai.\n\n1. `name` — l'identificatore. Deve rispettare `^[a-zA-Z0-9_-]{1,128}$`. Serve a te e alla macchina, non spiega niente.\n2. `description` — prosa in chiaro: cosa fa lo strumento, quando va usato, quando no, cosa significa ogni parametro, quali sono i limiti.\n3. `input_schema` — un oggetto JSON Schema: quali proprietà accetta l'input, di che tipo, quali sono obbligatorie.\n\n> **Approfondimento — Perché lo schema è già mezza descrizione.** Un campo chiamato `q` di tipo stringa non dice niente. Lo stesso campo chiamato `query_testuale`, con una descrizione propria dentro lo schema, dice al modello sia cosa metterci sia quando lo strumento è pertinente. JSON Schema permette una descrizione per ogni proprietà, ed è lo spazio che viene sprecato più spesso: si compila `type` e si lascia il resto vuoto.\n\n## Una definizione vera, campo per campo\n\nQuesto è `get_weather`, scritto come andrebbe scritto. Non è lungo per pignoleria: ogni frase in più chiude un caso in cui il modello avrebbe dovuto tirare a indovinare.\n\n1. `name` è breve e stabile. Cambiarlo dopo significa invalidare tutto quello che nella conversazione è già stato chiamato con il nome vecchio.\n2. `description` occupa quattro frasi: cosa restituisce, quando usarlo, quando **non** usarlo, come va scritto il parametro. Il «quando no» è la parte che viene omessa quasi sempre.\n3. `input_schema` dichiara una sola proprietà e la rende obbligatoria. Uno schema stretto elimina intere classi di chiamate sbagliate prima che avvengano.\n\n> **Approfondimento — Quanto deve essere lunga una descrizione.** La documentazione ufficiale non è tiepida su questo: «Provide extremely detailed descriptions. This is by far the most important factor in tool performance.» E dà una misura concreta: almeno tre o quattro frasi per strumento, di più se lo strumento è complicato o se il nome è ambiguo. Va letta come un limite inferiore, non come un consiglio.\n\n## L'unica superficie su cui si decide\n\nIl motivo per cui la descrizione conta così tanto è meccanico, non stilistico. Il modello non vede il codice che esegue lo strumento, non vede cosa succede dentro e non ha modo di provare. Al momento di decidere se quello strumento serve, ha davanti soltanto `description` e `input_schema`.\n\nDa qui seguono due cose che sembrano diverse e sono la stessa. Se la descrizione dice «cerca cose», lo strumento è di fatto invisibile: il modello non ha modo di sapere che la tua richiesta rientra in «cose». Se lo schema non prevede il campo che servirebbe al tuo caso, lo strumento è inutilizzabile lì, e viene saltato.\n\nLa documentazione lo dice quasi alla lettera: il modello chiama uno strumento «when the request maps to that tool's *described* capability». *Described*: la capacità descritta, non quella reale.\n\n> **Approfondimento — Forzare la mano con tool_choice.** `tool_choice` accetta anche `{\"type\": \"any\"}`, che obbliga il modello a chiamare uno strumento qualsiasi, e `{\"type\": \"tool\", \"name\": \"...\"}`, che ne impone uno preciso. Servono quando la chiamata deve avvenire per forza: un passaggio di validazione, un formato di uscita obbligato. Una riga nel system prompt tipo «usa gli strumenti prima di rispondere» non è la stessa cosa — sposta la probabilità e non garantisce niente, perché la decisione continua a prendersi sulla capacità descritta nello strumento.\n\n## Lo strumento che non viene mai chiamato\n\nÈ il sintomo più comune, e quasi sempre viene diagnosticato nel posto sbagliato. Lo strumento c'è, il codice funziona se lo chiami a mano, ma il modello non lo usa mai — e la reazione istintiva è cambiare modello o irrobustire il system prompt. L'ordine giusto in cui guardare è esattamente l'inverso di quello istintivo.\n\n- **Prima la descrizione.** Dice esplicitamente in quali casi lo strumento va usato? Nomina le parole che l'utente userebbe davvero?\n- **Poi lo schema.** Esiste un campo per l'informazione che l'utente ha dato? Se manca, lo strumento non è applicabile e il modello ha ragione a saltarlo.\n- **Poi gli altri strumenti.** Ce n'è uno che copre lo stesso terreno in modo più preciso? Il modello sta scegliendo, non ignorando.\n- **Il modello e il prompt per ultimi.** Sono la causa molto più di rado di quanto sembri.\n\n## Client tool e server tool\n\nUltima distinzione, e conta perché cambia chi fa il lavoro. Nella definizione hanno la stessa forma; nell'esecuzione stanno in due posti diversi, e solo uno dei due è tuo.\n\n- **Client tool** — i tuoi, più quelli di Anthropic come `bash` e `text_editor`. Il modello si ferma con `stop_reason: \"tool_use\"`, esegui tu, rimandi tu il risultato. Se non fai niente, non succede niente.\n- **Server tool** — `web_search`, `web_fetch`, `code_execution`. Girano sull'infrastruttura di Anthropic: il risultato arriva già prodotto e tu non gestisci nessuna esecuzione.\n- In un solo turno il modello può chiamarli insieme. Sta a te sapere quale dei due tocca a te eseguire.\n\n## Da ricordare\n\nTre frasi. Se ne ricordi una sola, ricorda la prima.\n\nQuesto modulo sblocca il prossimo: contare quante richieste servono perché una chiamata a uno strumento arrivi fino in fondo, e capire cosa c'è dentro ciascuna.\n\n- Il modello non esegue: produce un blocco `tool_use` e si ferma.\n- Di uno strumento vede `description` e `input_schema`, e nient'altro. Mai il codice.\n- Quando uno strumento non viene chiamato, la prima cosa da guardare è la coppia descrizione più schema, non il modello.\n",
     "fonte_primaria": {
       "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools",
       "titolo": "Define tools — documentazione ufficiale Claude",
@@ -561,14 +561,142 @@
     "nuovo": false,
     "creato_il": "2026-09-17",
     "servito_il": null,
-    "completato_il": null
+    "completato_il": null,
+    "slide": [
+      {
+        "tipo": "apertura",
+        "titolo": "Quello che il modello sa di uno strumento",
+        "corpo": "Alla fine di questa lezione sai dire quali sono le tre parti di una definizione di strumento, e quale delle tre decide se il modello quello strumento lo userà o lo ignorerà.\n\nPrima di partire serve una cosa sola, e va tenuta ferma per tutta la lezione: un modello linguistico non esegue niente. Produce testo. Quando si dice «Claude ha letto un file», quello che è successo è che il modello ha prodotto un pezzo di testo strutturato che dice «voglio leggere questo file», e un programma esterno — Claude Code, il tuo script, la piattaforma — ha letto quel testo, ha eseguito l'operazione e gli ha rimandato il risultato. Tutto il resto della lezione discende da qui.",
+        "punti": [],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Chi chiede e chi esegue",
+        "corpo": "La parola «strumento» suggerisce qualcosa che il modello impugna. Il modello non impugna niente: dichiara un'intenzione in un formato che il tuo codice sa leggere. Il giro completo ha tre passaggi e due protagonisti, e il modello è uno solo dei due.",
+        "punti": [
+          "Il modello produce un blocco `tool_use`: quale strumento vuole e con quali parametri. Poi il suo turno finisce.",
+          "Il tuo programma legge quel blocco ed esegue davvero l'operazione — la lettura del file, la chiamata HTTP, la query.",
+          "Il risultato torna al modello come un messaggio nuovo. Solo adesso il modello «sa» cosa c'era nel file."
+        ],
+        "punti_stile": "numerato",
+        "approfondimento": null,
+        "immagine": {
+          "id": "tool-use-chi-esegue",
+          "stile": "B",
+          "larghezza": "spot",
+          "alt": "Il modello produce un blocco tool_use, il tuo programma esegue l'operazione e il risultato torna al modello come messaggio user"
+        }
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Tre campi, e uno solo decide",
+        "corpo": "Una definizione di strumento ha esattamente tre parti obbligatorie. Due sono descrittive, una è tecnica, e nessuna delle tre contiene il codice che fa il lavoro: quello vive nel tuo programma e al modello non arriva mai.",
+        "punti": [
+          "`name` — l'identificatore. Deve rispettare `^[a-zA-Z0-9_-]{1,128}$`. Serve a te e alla macchina, non spiega niente.",
+          "`description` — prosa in chiaro: cosa fa lo strumento, quando va usato, quando no, cosa significa ogni parametro, quali sono i limiti.",
+          "`input_schema` — un oggetto JSON Schema: quali proprietà accetta l'input, di che tipo, quali sono obbligatorie."
+        ],
+        "punti_stile": "numerato",
+        "approfondimento": {
+          "titolo": "Perché lo schema è già mezza descrizione",
+          "testo": "Un campo chiamato `q` di tipo stringa non dice niente. Lo stesso campo chiamato `query_testuale`, con una descrizione propria dentro lo schema, dice al modello sia cosa metterci sia quando lo strumento è pertinente. JSON Schema permette una descrizione per ogni proprietà, ed è lo spazio che viene sprecato più spesso: si compila `type` e si lascia il resto vuoto."
+        },
+        "immagine": {
+          "id": "tool-definizione-tre-campi",
+          "stile": "B",
+          "larghezza": "spot",
+          "alt": "I tre campi di una definizione di strumento: name, description e input_schema; il codice che esegue lo strumento resta fuori e il modello non lo vede mai"
+        }
+      },
+      {
+        "tipo": "esempio",
+        "titolo": "Una definizione vera, campo per campo",
+        "corpo": "Questo è `get_weather`, scritto come andrebbe scritto. Non è lungo per pignoleria: ogni frase in più chiude un caso in cui il modello avrebbe dovuto tirare a indovinare.",
+        "punti": [
+          "`name` è breve e stabile. Cambiarlo dopo significa invalidare tutto quello che nella conversazione è già stato chiamato con il nome vecchio.",
+          "`description` occupa quattro frasi: cosa restituisce, quando usarlo, quando **non** usarlo, come va scritto il parametro. Il «quando no» è la parte che viene omessa quasi sempre.",
+          "`input_schema` dichiara una sola proprietà e la rende obbligatoria. Uno schema stretto elimina intere classi di chiamate sbagliate prima che avvengano."
+        ],
+        "punti_stile": "numerato",
+        "approfondimento": {
+          "titolo": "Quanto deve essere lunga una descrizione",
+          "testo": "La documentazione ufficiale non è tiepida su questo: «Provide extremely detailed descriptions. This is by far the most important factor in tool performance.» E dà una misura concreta: almeno tre o quattro frasi per strumento, di più se lo strumento è complicato o se il nome è ambiguo. Va letta come un limite inferiore, non come un consiglio."
+        },
+        "immagine": {
+          "id": "tool-json-vscode",
+          "stile": "A",
+          "larghezza": "wide",
+          "alt": "La definizione JSON dello strumento get_weather aperta in Visual Studio Code: name, una description di quattro frasi e input_schema"
+        }
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "L'unica superficie su cui si decide",
+        "corpo": "Il motivo per cui la descrizione conta così tanto è meccanico, non stilistico. Il modello non vede il codice che esegue lo strumento, non vede cosa succede dentro e non ha modo di provare. Al momento di decidere se quello strumento serve, ha davanti soltanto `description` e `input_schema`.\n\nDa qui seguono due cose che sembrano diverse e sono la stessa. Se la descrizione dice «cerca cose», lo strumento è di fatto invisibile: il modello non ha modo di sapere che la tua richiesta rientra in «cose». Se lo schema non prevede il campo che servirebbe al tuo caso, lo strumento è inutilizzabile lì, e viene saltato.\n\nLa documentazione lo dice quasi alla lettera: il modello chiama uno strumento «when the request maps to that tool's *described* capability». *Described*: la capacità descritta, non quella reale.",
+        "punti": [],
+        "punti_stile": "elenco",
+        "approfondimento": {
+          "titolo": "Forzare la mano con tool_choice",
+          "testo": "`tool_choice` accetta anche `{\"type\": \"any\"}`, che obbliga il modello a chiamare uno strumento qualsiasi, e `{\"type\": \"tool\", \"name\": \"...\"}`, che ne impone uno preciso. Servono quando la chiamata deve avvenire per forza: un passaggio di validazione, un formato di uscita obbligato. Una riga nel system prompt tipo «usa gli strumenti prima di rispondere» non è la stessa cosa — sposta la probabilità e non garantisce niente, perché la decisione continua a prendersi sulla capacità descritta nello strumento."
+        },
+        "immagine": null
+      },
+      {
+        "tipo": "trappola",
+        "titolo": "Lo strumento che non viene mai chiamato",
+        "corpo": "È il sintomo più comune, e quasi sempre viene diagnosticato nel posto sbagliato. Lo strumento c'è, il codice funziona se lo chiami a mano, ma il modello non lo usa mai — e la reazione istintiva è cambiare modello o irrobustire il system prompt. L'ordine giusto in cui guardare è esattamente l'inverso di quello istintivo.",
+        "punti": [
+          "**Prima la descrizione.** Dice esplicitamente in quali casi lo strumento va usato? Nomina le parole che l'utente userebbe davvero?",
+          "**Poi lo schema.** Esiste un campo per l'informazione che l'utente ha dato? Se manca, lo strumento non è applicabile e il modello ha ragione a saltarlo.",
+          "**Poi gli altri strumenti.** Ce n'è uno che copre lo stesso terreno in modo più preciso? Il modello sta scegliendo, non ignorando.",
+          "**Il modello e il prompt per ultimi.** Sono la causa molto più di rado di quanto sembri."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Client tool e server tool",
+        "corpo": "Ultima distinzione, e conta perché cambia chi fa il lavoro. Nella definizione hanno la stessa forma; nell'esecuzione stanno in due posti diversi, e solo uno dei due è tuo.",
+        "punti": [
+          "**Client tool** — i tuoi, più quelli di Anthropic come `bash` e `text_editor`. Il modello si ferma con `stop_reason: \"tool_use\"`, esegui tu, rimandi tu il risultato. Se non fai niente, non succede niente.",
+          "**Server tool** — `web_search`, `web_fetch`, `code_execution`. Girano sull'infrastruttura di Anthropic: il risultato arriva già prodotto e tu non gestisci nessuna esecuzione.",
+          "In un solo turno il modello può chiamarli insieme. Sta a te sapere quale dei due tocca a te eseguire."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": {
+          "id": "client-vs-server-tool",
+          "stile": "B",
+          "larghezza": "spot",
+          "alt": "I client tool girano nel tuo codice e li esegui tu; i server tool girano sull'infrastruttura di Anthropic e il risultato arriva già prodotto"
+        }
+      },
+      {
+        "tipo": "chiusura",
+        "titolo": "Da ricordare",
+        "corpo": "Tre frasi. Se ne ricordi una sola, ricorda la prima.\n\nQuesto modulo sblocca il prossimo: contare quante richieste servono perché una chiamata a uno strumento arrivi fino in fondo, e capire cosa c'è dentro ciascuna.",
+        "punti": [
+          "Il modello non esegue: produce un blocco `tool_use` e si ferma.",
+          "Di uno strumento vede `description` e `input_schema`, e nient'altro. Mai il codice.",
+          "Quando uno strumento non viene chiamato, la prima cosa da guardare è la coppia descrizione più schema, non il modello."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      }
+    ]
   },
   {
     "id": "mod-mcp-02",
     "course_id": "corso-mcp",
     "titolo": "Due richieste e un identificatore: il giro completo di una chiamata",
     "tipo": "teoria",
-    "durata_min": 15,
+    "durata_min": 10,
     "voci_inbox": [],
     "obiettivo": "Alla fine sai contare quante richieste all'API servono perché il modello risponda usando uno strumento, e sai dire cosa c'è dentro ciascuna e chi la scrive.",
     "prerequisiti_skill": [
@@ -576,7 +704,7 @@
       "claude-code"
     ],
     "prerequisiti_testo": "Ti serve sapere che una definizione di strumento ha tre parti — `name`, `description`, `input_schema` — e che il modello non esegue niente: produce un pezzo di testo strutturato che chiede un'operazione, e qualcun altro la esegue. Ti serve sapere che una conversazione con l'API non ha memoria propria: non c'è una sessione aperta dall'altra parte. Ogni richiesta è indipendente e contiene l'intera lista dei messaggi fino a quel momento, più le definizioni degli strumenti; è per questo che i token di input crescono a ogni turno. Ti serve infine sapere che ogni risposta del modello porta uno `stop_reason` che dice perché il modello ha smesso di scrivere: `end_turn` quando ha finito di rispondere, `tool_use` quando si è fermato perché vuole uno strumento.",
-    "sintesi_md": "La domanda «quante richieste servono» ha una risposta secca, ed è due. Non una. Non «dipende». Due, per una singola chiamata a uno strumento; tre per due chiamate in sequenza, e così via: una richiesta in più per ogni giro.\n\n**Prima richiesta.** Ci metti dentro due cose: l'array `tools` con le definizioni complete di tutti gli strumenti disponibili, e l'array `messages` con il messaggio dell'utente. La risposta che torna non è testo finale. Ha `stop_reason: \"tool_use\"`, e il suo `content` contiene uno o più blocchi: tipicamente un blocco `text` con quello che il modello sta dicendo a voce alta («controllo il meteo»), e poi un blocco `tool_use` fatto di tre campi — `id` (qualcosa come `toolu_01A09q90qw90lq917835lq9`), `name` (quale strumento) e `input` (i parametri, nella forma dichiarata dallo schema).\n\nA questo punto il modello ha finito il suo turno. Non sta aspettando niente e non è in pausa: la richiesta HTTP è chiusa. Se non fai nient'altro, non succede nient'altro. È la differenza fra una chiamata a uno strumento e una chiamata di funzione normale, ed è tutta qui.\n\n**In mezzo.** Tu — il tuo programma, Claude Code, la libreria che stai usando — leggi il blocco `tool_use`, esegui davvero l'operazione, e ti ritrovi in mano un risultato.\n\n**Seconda richiesta.** Rispedisci tutto: gli stessi `tools`, gli stessi messaggi di prima, più il messaggio assistant che il modello ti ha appena mandato (quello che contiene il `tool_use`), più un messaggio nuovo. E qui c'è il dettaglio che si sbaglia sempre: quel messaggio nuovo ha `role: \"user\"`. Non `tool`, non `assistant`. È un messaggio utente il cui `content` contiene un blocco `tool_result` con tre campi: `tool_use_id`, che riporta esattamente l'`id` del blocco `tool_use` di prima; `content`, cioè il risultato; e `is_error`, un booleano che dice se l'esecuzione è fallita.\n\n`tool_use_id` è quello che tiene insieme la coppia. Se il modello ha chiesto tre strumenti in parallelo in un solo turno, i tre risultati tornano indietro tutti insieme dentro un unico messaggio user, e l'unico modo di sapere quale risultato appartiene a quale richiesta è quell'identificatore. Non l'ordine.\n\nLa risposta a questa seconda richiesta è il testo che leggi, con `stop_reason: \"end_turn\"`.\n\nDue conseguenze che si vedono solo se hai contato le richieste. La prima è il costo: nella seconda richiesta stai rimandando tutto — definizioni degli strumenti comprese — più il contenuto che lo strumento ha restituito. Un file letto entra nella finestra e ci resta per tutti i turni successivi. La seconda è che una descrizione di strumento lunga la paghi a ogni singola richiesta della conversazione, non una volta sola.",
+    "sintesi_md": "## Il giro completo di una chiamata\n\nAlla fine di questa lezione sai contare quante richieste all'API servono perché il modello risponda usando uno strumento, e sai dire cosa c'è dentro ciascuna e chi la scrive.\n\nServono due cose. La prima viene dal modulo precedente: una definizione di strumento ha tre parti — `name`, `description`, `input_schema` — e il modello non esegue niente, produce un pezzo di testo strutturato che chiede un'operazione.\n\nLa seconda è meno ovvia e conta altrettanto: una conversazione con l'API non ha memoria propria. Ogni richiesta rispedisce tutta la conversazione dall'inizio. Il server non conserva niente fra una chiamata e l'altra, e quello che sembra un dialogo continuo è una sequenza di richieste indipendenti, ognuna delle quali si porta dietro tutto il passato.\n\n## Due richieste, non una\n\nLa domanda «quante richieste servono» ha una risposta secca, ed è due. Non una. Non «dipende». Due, per una singola chiamata a uno strumento; tre per due chiamate in sequenza, e così via: una richiesta in più per ogni giro.\n\nContarle non è pedanteria. È quello che rende visibili due cose che altrimenti restano invisibili: il costo, e il punto esatto in cui il tuo codice deve fare qualcosa perché la conversazione vada avanti.\n\n1. **Richiesta 1** — ci metti `tools` con le definizioni complete di tutti gli strumenti disponibili e `messages` con il messaggio dell'utente. Torna una risposta con `stop_reason: \"tool_use\"`.\n2. **In mezzo** — fuori dall'API. Il tuo programma legge il blocco `tool_use` ed esegue davvero l'operazione.\n3. **Richiesta 2** — rispedisci tutto quanto, più il risultato. Torna il testo che leggi, con `stop_reason: \"end_turn\"`.\n\n## Cosa torna dalla prima richiesta\n\nLa risposta alla prima richiesta non è testo finale, ed è utile guardare com'è fatta perché è la forma che il tuo codice deve saper leggere.\n\n`stop_reason` vale `\"tool_use\"`. Il `content` non è una stringa ma un array di blocchi: tipicamente un blocco `text` con quello che il modello sta dicendo a voce alta («controllo il meteo»), e poi un blocco `tool_use` fatto di tre campi — `id`, un identificatore come `toolu_01A09q90qw90lq917835lq9`; `name`, quale strumento; `input`, i parametri nella forma dichiarata dallo schema.\n\nA questo punto il modello ha finito il suo turno. Non sta aspettando niente e non è in pausa: la richiesta HTTP è chiusa. Se non fai nient'altro, non succede nient'altro. È la differenza fra una chiamata a uno strumento e una chiamata di funzione normale, ed è tutta qui.\n\n> **Approfondimento — Più strumenti in un solo turno.** Il `content` può contenere più blocchi `tool_use` insieme: il modello chiede tre operazioni in parallelo e il tuo codice le esegue tutte prima di rispondere. In quel caso i risultati tornano indietro tutti dentro un unico messaggio, e l'ordine in cui li metti non conta — conta solo l'identificatore che li accoppia, ed è il motivo per cui quell'identificatore esiste.\n\n## La seconda richiesta, aperta\n\nTre messaggi, e il terzo è quello che si sbaglia sempre. Insieme ai messaggi rispedisci anche `tools`, identico a prima: non è un residuo, è quello che dice al modello cosa può ancora chiamare.\n\n1. Il messaggio `assistant` è quello che il modello ti ha appena mandato, riportato tale e quale: contiene il blocco `tool_use` con il suo `id`.\n2. Il messaggio nuovo ha `role: \"user\"`. Non `tool`, non `assistant`. È un messaggio utente, anche se il contenuto l'hai prodotto tu.\n3. Dentro c'è un blocco `tool_result` con tre campi: `tool_use_id`, `content` (il risultato) e `is_error`, un booleano che dice se l'esecuzione è fallita.\n\n> **Approfondimento — Quando l'esecuzione fallisce.** `is_error: true`, con il messaggio d'errore dentro `content`, è meglio che non rimandare niente o rimandare un risultato vuoto. Il modello legge l'errore, capisce cosa non ha funzionato e può correggere i parametri e riprovare nel turno successivo. Se invece gli rimandi un risultato finto o silenzioso, prosegue convinto che l'operazione sia riuscita, e l'errore ricompare tre turni dopo sotto forma di una risposta sbagliata di cui non si capisce l'origine.\n\n## L'identificatore è tutto il legame\n\n`tool_use_id` è quello che tiene insieme la coppia. Il blocco `tool_use` porta un `id`; il blocco `tool_result` riporta esattamente quel valore. Non è una formalità burocratica: è l'unico legame che esiste fra una richiesta e il suo risultato.\n\n- Se il modello ha chiesto tre strumenti in parallelo in un solo turno, i tre risultati tornano indietro tutti insieme dentro un unico messaggio `user`.\n- L'unico modo di sapere quale risultato appartiene a quale richiesta è l'identificatore. **Non l'ordine.**\n- Un `tool_use_id` sbagliato non dà un errore di sintassi: dà una risposta costruita sul risultato dello strumento sbagliato, che è molto più difficile da notare.\n\n## I tre errori che si fanno qui\n\nSono sempre gli stessi tre, e nessuno dei tre dà un messaggio d'errore che li nomina. Si manifestano come risposte strane, non come eccezioni.\n\n- **`role: \"tool\"`.** In questa API non esiste. Il risultato di uno strumento viaggia dentro un messaggio con ruolo `user`, e chi arriva da altre librerie lo sbaglia quasi sempre la prima volta.\n- **Non rispedire le definizioni.** `tools` va nella seconda richiesta come nella prima. Se lo ometti, il modello non sa più cosa può chiamare e smette di usare gli strumenti a metà conversazione.\n- **Saltare il messaggio assistant.** Se mandi il `tool_result` senza il messaggio che conteneva il `tool_use`, stai riportando la risposta a una domanda che nella conversazione non è mai stata fatta.\n\n## Quello che il conteggio rende visibile\n\nContare le richieste rende visibile una cosa che altrimenti si scopre solo guardando il consumo. La seconda richiesta non è più leggera della prima: è la prima, più altre due cose.\n\n- Le definizioni degli strumenti le rispedisci a ogni richiesta della conversazione, non una volta sola. Una `description` lunga la paghi tutte le volte.\n- Il contenuto che lo strumento ha restituito entra nella finestra di contesto e ci resta per tutti i turni successivi. Un file letto una volta lo porti avanti fino alla fine della conversazione.\n- Tre chiamate a strumenti in una conversazione sono quattro richieste, e ognuna è più pesante della precedente.\n\n> **Approfondimento — Dove si recupera.** Due leve, e agiscono su metà diverse del problema. Il prompt caching abbatte il costo della parte che non cambia, e le definizioni degli strumenti sono il caso da manuale: identiche a ogni richiesta e all'inizio del prompt. Restituire meno roba dallo strumento agisce sull'altra metà: un `tool_result` che riporta duecento righe di JSON quando ne servivano tre te le porti dietro per tutta la conversazione, e nessuna cache te le toglie.\n\n## Da ricordare\n\nTre frasi, e la seconda è quella che salva più tempo in fase di debug.\n\nQuesto modulo sblocca la parte di MCP in cui questo stesso giro smette di essere codice tuo e diventa un protocollo: `tools/list` e `tools/call` verso un server che non hai scritto tu.\n\n- Due richieste per una chiamata a uno strumento. Una in più per ogni giro successivo.\n- Fra le due la richiesta HTTP è chiusa: se il tuo codice non esegue, non succede niente e nessuno sta aspettando.\n- `tool_use_id` accoppia richiesta e risultato. L'ordine non conta.\n",
     "fonte_primaria": {
       "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls",
       "titolo": "Handle tool calls — documentazione ufficiale Claude",
@@ -606,7 +734,134 @@
     "nuovo": false,
     "creato_il": "2026-09-17",
     "servito_il": null,
-    "completato_il": null
+    "completato_il": null,
+    "slide": [
+      {
+        "tipo": "apertura",
+        "titolo": "Il giro completo di una chiamata",
+        "corpo": "Alla fine di questa lezione sai contare quante richieste all'API servono perché il modello risponda usando uno strumento, e sai dire cosa c'è dentro ciascuna e chi la scrive.\n\nServono due cose. La prima viene dal modulo precedente: una definizione di strumento ha tre parti — `name`, `description`, `input_schema` — e il modello non esegue niente, produce un pezzo di testo strutturato che chiede un'operazione.\n\nLa seconda è meno ovvia e conta altrettanto: una conversazione con l'API non ha memoria propria. Ogni richiesta rispedisce tutta la conversazione dall'inizio. Il server non conserva niente fra una chiamata e l'altra, e quello che sembra un dialogo continuo è una sequenza di richieste indipendenti, ognuna delle quali si porta dietro tutto il passato.",
+        "punti": [],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Due richieste, non una",
+        "corpo": "La domanda «quante richieste servono» ha una risposta secca, ed è due. Non una. Non «dipende». Due, per una singola chiamata a uno strumento; tre per due chiamate in sequenza, e così via: una richiesta in più per ogni giro.\n\nContarle non è pedanteria. È quello che rende visibili due cose che altrimenti restano invisibili: il costo, e il punto esatto in cui il tuo codice deve fare qualcosa perché la conversazione vada avanti.",
+        "punti": [
+          "**Richiesta 1** — ci metti `tools` con le definizioni complete di tutti gli strumenti disponibili e `messages` con il messaggio dell'utente. Torna una risposta con `stop_reason: \"tool_use\"`.",
+          "**In mezzo** — fuori dall'API. Il tuo programma legge il blocco `tool_use` ed esegue davvero l'operazione.",
+          "**Richiesta 2** — rispedisci tutto quanto, più il risultato. Torna il testo che leggi, con `stop_reason: \"end_turn\"`."
+        ],
+        "punti_stile": "numerato",
+        "approfondimento": null,
+        "immagine": {
+          "id": "due-richieste-timeline",
+          "stile": "B",
+          "larghezza": "wide",
+          "alt": "Due richieste all'API per una sola chiamata a uno strumento: la prima torna con stop_reason tool_use, in mezzo il tuo codice esegue, la seconda torna con il testo finale"
+        }
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Cosa torna dalla prima richiesta",
+        "corpo": "La risposta alla prima richiesta non è testo finale, ed è utile guardare com'è fatta perché è la forma che il tuo codice deve saper leggere.\n\n`stop_reason` vale `\"tool_use\"`. Il `content` non è una stringa ma un array di blocchi: tipicamente un blocco `text` con quello che il modello sta dicendo a voce alta («controllo il meteo»), e poi un blocco `tool_use` fatto di tre campi — `id`, un identificatore come `toolu_01A09q90qw90lq917835lq9`; `name`, quale strumento; `input`, i parametri nella forma dichiarata dallo schema.\n\nA questo punto il modello ha finito il suo turno. Non sta aspettando niente e non è in pausa: la richiesta HTTP è chiusa. Se non fai nient'altro, non succede nient'altro. È la differenza fra una chiamata a uno strumento e una chiamata di funzione normale, ed è tutta qui.",
+        "punti": [],
+        "punti_stile": "elenco",
+        "approfondimento": {
+          "titolo": "Più strumenti in un solo turno",
+          "testo": "Il `content` può contenere più blocchi `tool_use` insieme: il modello chiede tre operazioni in parallelo e il tuo codice le esegue tutte prima di rispondere. In quel caso i risultati tornano indietro tutti dentro un unico messaggio, e l'ordine in cui li metti non conta — conta solo l'identificatore che li accoppia, ed è il motivo per cui quell'identificatore esiste."
+        },
+        "immagine": null
+      },
+      {
+        "tipo": "esempio",
+        "titolo": "La seconda richiesta, aperta",
+        "corpo": "Tre messaggi, e il terzo è quello che si sbaglia sempre. Insieme ai messaggi rispedisci anche `tools`, identico a prima: non è un residuo, è quello che dice al modello cosa può ancora chiamare.",
+        "punti": [
+          "Il messaggio `assistant` è quello che il modello ti ha appena mandato, riportato tale e quale: contiene il blocco `tool_use` con il suo `id`.",
+          "Il messaggio nuovo ha `role: \"user\"`. Non `tool`, non `assistant`. È un messaggio utente, anche se il contenuto l'hai prodotto tu.",
+          "Dentro c'è un blocco `tool_result` con tre campi: `tool_use_id`, `content` (il risultato) e `is_error`, un booleano che dice se l'esecuzione è fallita."
+        ],
+        "punti_stile": "numerato",
+        "approfondimento": {
+          "titolo": "Quando l'esecuzione fallisce",
+          "testo": "`is_error: true`, con il messaggio d'errore dentro `content`, è meglio che non rimandare niente o rimandare un risultato vuoto. Il modello legge l'errore, capisce cosa non ha funzionato e può correggere i parametri e riprovare nel turno successivo. Se invece gli rimandi un risultato finto o silenzioso, prosegue convinto che l'operazione sia riuscita, e l'errore ricompare tre turni dopo sotto forma di una risposta sbagliata di cui non si capisce l'origine."
+        },
+        "immagine": {
+          "id": "seconda-richiesta-json",
+          "stile": "A",
+          "larghezza": "wide",
+          "alt": "L'array messages della seconda richiesta: il messaggio utente, il messaggio assistant con il blocco tool_use, e un secondo messaggio con ruolo user che contiene il tool_result"
+        }
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "L'identificatore è tutto il legame",
+        "corpo": "`tool_use_id` è quello che tiene insieme la coppia. Il blocco `tool_use` porta un `id`; il blocco `tool_result` riporta esattamente quel valore. Non è una formalità burocratica: è l'unico legame che esiste fra una richiesta e il suo risultato.",
+        "punti": [
+          "Se il modello ha chiesto tre strumenti in parallelo in un solo turno, i tre risultati tornano indietro tutti insieme dentro un unico messaggio `user`.",
+          "L'unico modo di sapere quale risultato appartiene a quale richiesta è l'identificatore. **Non l'ordine.**",
+          "Un `tool_use_id` sbagliato non dà un errore di sintassi: dà una risposta costruita sul risultato dello strumento sbagliato, che è molto più difficile da notare."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": {
+          "id": "tool-use-e-tool-result",
+          "stile": "B",
+          "larghezza": "spot",
+          "alt": "Il blocco tool_use porta un id e il blocco tool_result riporta lo stesso valore in tool_use_id: è questo che accoppia la richiesta al suo risultato"
+        }
+      },
+      {
+        "tipo": "trappola",
+        "titolo": "I tre errori che si fanno qui",
+        "corpo": "Sono sempre gli stessi tre, e nessuno dei tre dà un messaggio d'errore che li nomina. Si manifestano come risposte strane, non come eccezioni.",
+        "punti": [
+          "**`role: \"tool\"`.** In questa API non esiste. Il risultato di uno strumento viaggia dentro un messaggio con ruolo `user`, e chi arriva da altre librerie lo sbaglia quasi sempre la prima volta.",
+          "**Non rispedire le definizioni.** `tools` va nella seconda richiesta come nella prima. Se lo ometti, il modello non sa più cosa può chiamare e smette di usare gli strumenti a metà conversazione.",
+          "**Saltare il messaggio assistant.** Se mandi il `tool_result` senza il messaggio che conteneva il `tool_use`, stai riportando la risposta a una domanda che nella conversazione non è mai stata fatta."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      },
+      {
+        "tipo": "concetto",
+        "titolo": "Quello che il conteggio rende visibile",
+        "corpo": "Contare le richieste rende visibile una cosa che altrimenti si scopre solo guardando il consumo. La seconda richiesta non è più leggera della prima: è la prima, più altre due cose.",
+        "punti": [
+          "Le definizioni degli strumenti le rispedisci a ogni richiesta della conversazione, non una volta sola. Una `description` lunga la paghi tutte le volte.",
+          "Il contenuto che lo strumento ha restituito entra nella finestra di contesto e ci resta per tutti i turni successivi. Un file letto una volta lo porti avanti fino alla fine della conversazione.",
+          "Tre chiamate a strumenti in una conversazione sono quattro richieste, e ognuna è più pesante della precedente."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": {
+          "titolo": "Dove si recupera",
+          "testo": "Due leve, e agiscono su metà diverse del problema. Il prompt caching abbatte il costo della parte che non cambia, e le definizioni degli strumenti sono il caso da manuale: identiche a ogni richiesta e all'inizio del prompt. Restituire meno roba dallo strumento agisce sull'altra metà: un `tool_result` che riporta duecento righe di JSON quando ne servivano tre te le porti dietro per tutta la conversazione, e nessuna cache te le toglie."
+        },
+        "immagine": {
+          "id": "costo-che-cresce",
+          "stile": "B",
+          "larghezza": "spot",
+          "alt": "Il carico della seconda richiesta è più grande della prima: le definizioni degli strumenti vengono rispedite ogni volta, insieme al blocco tool_use e al risultato dello strumento"
+        }
+      },
+      {
+        "tipo": "chiusura",
+        "titolo": "Da ricordare",
+        "corpo": "Tre frasi, e la seconda è quella che salva più tempo in fase di debug.\n\nQuesto modulo sblocca la parte di MCP in cui questo stesso giro smette di essere codice tuo e diventa un protocollo: `tools/list` e `tools/call` verso un server che non hai scritto tu.",
+        "punti": [
+          "Due richieste per una chiamata a uno strumento. Una in più per ogni giro successivo.",
+          "Fra le due la richiesta HTTP è chiusa: se il tuo codice non esegue, non succede niente e nessuno sta aspettando.",
+          "`tool_use_id` accoppia richiesta e risultato. L'ordine non conta."
+        ],
+        "punti_stile": "elenco",
+        "approfondimento": null,
+        "immagine": null
+      }
+    ]
   },
   {
     "id": "mod-mcp-03",

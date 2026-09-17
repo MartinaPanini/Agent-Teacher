@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Anteprima modulo</title>
+<style>
+:root {
+  color-scheme: light dark;
+  --color-bg: #faf9f7;
+  --color-text: #1c1b1a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.scaffold-placeholder {
+  padding: 2rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.onboarding {
+  padding: 2rem 1.25rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.onboarding-intro {
+  color: #55524d;
+  margin-bottom: 1.5rem;
+}
+
+.onboarding-domanda {
+  border: 1px solid #e2ddd4;
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.onboarding-domanda legend {
+  font-weight: 600;
+  padding: 0 0.25rem;
+}
+
+.onboarding-opzione {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  cursor: pointer;
+}
+
+.onboarding button[type="submit"] {
+  margin-top: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  background: #1c1b1a;
+  color: #faf9f7;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.onboarding button[type="submit"]:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.errore {
+  color: #b3261e;
+}
+
+/* ------------------------- Daily ------------------------- */
+
+.daily {
+  padding: 1.5rem 1.25rem 3rem;
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.daily h2 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #6b675f;
+}
+
+.empty-state-messaggio {
+  font-size: 1.1rem;
+}
+
+.empty-state-nota {
+  color: #6b675f;
+}
+
+.daily-ripasso,
+.daily-qualifica,
+.daily-ignora {
+  border: 1px solid #e2ddd4;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.qualifica-voce {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.5rem 0;
+  border-top: 1px solid #eee8dd;
+}
+
+.qualifica-voce:first-of-type {
+  border-top: none;
+}
+
+.qualifica-voce a {
+  overflow-wrap: anywhere;
+  font-size: 0.9rem;
+}
+
+.qualifica-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.qualifica-form input {
+  flex: 1;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #d8d2c6;
+  border-radius: 6px;
+}
+
+.qualifica-ok {
+  color: #2e7d32;
+  font-size: 0.9rem;
+}
+
+.module-card {
+  border: 1px solid #e2ddd4;
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.module-card--scoperta {
+  background: #faf6ec;
+  padding: 1rem;
+}
+
+.module-card--compatta h2 {
+  font-size: 1.1rem;
+}
+
+.module-card-ruolo {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #8a8578;
+  margin: 0 0 0.35rem;
+}
+
+.module-card h2 {
+  margin: 0 0 0.5rem;
+}
+
+.module-card-motivazione {
+  font-style: italic;
+  color: #55524d;
+  margin: 0 0 0.75rem;
+}
+
+.module-card-obiettivo {
+  margin: 0 0 0.35rem;
+}
+
+.module-card-durata {
+  color: #8a8578;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+}
+
+.module-card-prereq {
+  margin-bottom: 0.75rem;
+}
+
+.module-card-sintesi {
+  margin-bottom: 0.75rem;
+}
+
+/* Testo lungo reso da markdown: sintesi delle lezioni, prerequisiti. */
+.prosa {
+  line-height: 1.6;
+}
+
+.prosa > *:first-child {
+  margin-top: 0;
+}
+
+.prosa > *:last-child {
+  margin-bottom: 0;
+}
+
+.prosa p {
+  margin: 0 0 0.85rem;
+}
+
+.prosa h3 {
+  font-size: 1.02rem;
+  line-height: 1.35;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.prosa h4 {
+  font-size: 0.95rem;
+  margin: 1.25rem 0 0.4rem;
+}
+
+.prosa ul,
+.prosa ol {
+  margin: 0 0 0.85rem;
+  padding-left: 1.3rem;
+}
+
+.prosa li {
+  margin-bottom: 0.3rem;
+}
+
+.prosa blockquote {
+  margin: 0 0 0.85rem;
+  padding-left: 0.9rem;
+  border-left: 3px solid #e2ddd4;
+  color: #55524d;
+}
+
+.prosa code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.88em;
+  background: #f0ece4;
+  border-radius: 4px;
+  padding: 0.1em 0.32em;
+}
+
+.prosa pre {
+  margin: 0 0 0.85rem;
+  padding: 0.8rem 0.9rem;
+  background: #f0ece4;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.prosa pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.prosa a {
+  color: #1c1b1a;
+}
+
+.prosa hr {
+  border: none;
+  border-top: 1px solid #e2ddd4;
+  margin: 1.25rem 0;
+}
+
+.module-card-fonte {
+  font-size: 0.9rem;
+  color: #6b675f;
+}
+
+.module-card-azioni {
+  margin-top: 1rem;
+}
+
+button {
+  padding: 0.55rem 1.1rem;
+  border: none;
+  border-radius: 6px;
+  background: #1c1b1a;
+  color: #faf9f7;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+button.secondario {
+  background: transparent;
+  color: #1c1b1a;
+  border: 1px solid #c9c3b6;
+  margin-left: 0.5rem;
+}
+
+.domande {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.domanda {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.domanda textarea {
+  font: inherit;
+  font-weight: normal;
+  padding: 0.5rem;
+  border: 1px solid #d8d2c6;
+  border-radius: 6px;
+  min-height: 4rem;
+  resize: vertical;
+}
+
+.fatto-conferma {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.sessione-chiusa {
+  text-align: center;
+  color: #6b675f;
+}
+
+.sessione-chiusa button {
+  margin-top: 0.5rem;
+}
+
+.daily-ignora ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: #55524d;
+}
+
+/* ------------------------- Navigazione ------------------------- */
+
+.tab-bar {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid #e2ddd4;
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  background: var(--color-bg);
+  z-index: 1;
+}
+
+.tab-bar button {
+  background: transparent;
+  color: #6b675f;
+  border: none;
+  padding: 0.5rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.tab-bar button.tab-attiva {
+  background: #1c1b1a;
+  color: #faf9f7;
+}
+
+/* ------------------------- Knowledge Map ------------------------- */
+
+.knowledge-map {
+  padding: 1.5rem 1.25rem 3rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.knowledge-map-intro {
+  color: #6b675f;
+  margin-bottom: 1.5rem;
+}
+
+.area-gruppo {
+  margin-bottom: 1.75rem;
+}
+
+.area-gruppo h2 {
+  text-transform: capitalize;
+  font-size: 1.05rem;
+  margin-bottom: 0.6rem;
+}
+
+.area-griglia {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.skill-card {
+  border: 1px solid #e2ddd4;
+  border-radius: 8px;
+  padding: 0.9rem;
+  border-left: 4px solid #c9c3b6;
+}
+
+.skill-card--livello-0 {
+  border-left-color: #c9c3b6;
+}
+.skill-card--livello-1 {
+  border-left-color: #d9a441;
+}
+.skill-card--livello-2 {
+  border-left-color: #c98a2b;
+}
+.skill-card--livello-3 {
+  border-left-color: #6a9955;
+}
+.skill-card--livello-4 {
+  border-left-color: #2e7d32;
+}
+
+.skill-card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.skill-card p {
+  margin: 0.2rem 0;
+  font-size: 0.85rem;
+  color: #55524d;
+}
+
+.skill-card-bloccata {
+  color: #b3261e;
+}
+
+.skill-card-completa {
+  color: #2e7d32;
+}
+
+/* ------------------------- Curriculum ------------------------- */
+
+.curriculum {
+  padding: 1.5rem 1.25rem 3rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.corso {
+  border: 1px solid #e2ddd4;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.corso-intestazione {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.corso-intestazione h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.corso-stato {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #6b675f;
+}
+
+.corso-stato--completato {
+  color: #2e7d32;
+}
+
+.corso-obiettivo {
+  color: #55524d;
+  margin: 0.35rem 0 0.75rem;
+}
+
+.corso-in-preparazione {
+  color: #8a8578;
+  font-style: italic;
+  margin-bottom: 0.75rem;
+}
+
+.corso-moduli {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.modulo-riga {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  border-top: 1px solid #eee8dd;
+  font-size: 0.9rem;
+}
+
+.corso-moduli li:first-child {
+  border-top: none;
+}
+
+.modulo-titolo {
+  flex: 1;
+}
+
+.modulo-riga--completato .modulo-titolo {
+  color: #6b675f;
+}
+
+.modulo-riga--completato .modulo-titolo::before {
+  content: "✓ ";
+  color: #2e7d32;
+}
+
+.modulo-badge {
+  font-size: 0.75rem;
+  color: #8a8578;
+  border: 1px solid #e2ddd4;
+  border-radius: 999px;
+  padding: 0.1rem 0.55rem;
+}
+
+.etichetta-nuovo {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  background: #d9a441;
+  color: #2b2200;
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+}
+
+/* ------------------------- Cattura link ------------------------- */
+
+.cattura-link {
+  position: fixed;
+  right: 1rem;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  z-index: 2;
+}
+
+.cattura-link-toggle {
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cattura-link--aperto {
+  background: #fff;
+  border: 1px solid #e2ddd4;
+  border-radius: 10px;
+  padding: 0.9rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  width: min(320px, calc(100vw - 2rem));
+}
+
+.cattura-link-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cattura-link-form input {
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #d8d2c6;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.cattura-link-azioni {
+  display: flex;
+  justify-content: flex-end;
+}
+
+body { padding: 2rem 1rem; }
+.wrap { max-width: 680px; margin: 0 auto; display: grid; gap: 2rem; }
+.etichetta { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: #8a8578; margin: 0 0 .5rem; }
+.prima { white-space: pre-wrap; border: 1px solid #e2ddd4; border-radius: 10px; padding: 1.25rem; background: #fff; max-height: 320px; overflow: auto; font-size: .95rem; }
+</style></head>
+<body><div class="wrap">
+<div>
+  <p class="etichetta">Prima — come arriva a schermo oggi</p>
+  <div class="prima">La finestra di contesto è la scrivania del modello, non la sua memoria. La documentazione di Anthropic la definisce come tutto il testo che il modello può guardare mentre genera una risposta, risposta compresa. I dati su cui è stato addestrato stanno altrove, nei pesi. Qui c'è solo quello che gli mandi adesso.
+
+## Cosa occupa la scrivania
+
+Tutto quello che parte insieme alla richiesta:
+
+- il system prompt;
+- ogni messaggio della conversazione, inclusi risultati dei tool, immagini e documenti;
+- le **definizioni** dei tool: nome, descrizione e schema dei parametri pesano anche se non li usi;
+- l'output che Claude genera, ragionamento esteso compreso.
+
+E si accumula. A ogni turno l'input è tutto quello che c'era prima, più il tuo messaggio nuovo. L'output di questo turno diventa input del prossimo. Niente resta fuori e viene ricordato altrove: se è nella conversazione, riparte ogni volta.
+…</div>
+</div>
+<div>
+  <p class="etichetta">Dopo — markdown reso, testo riscritto</p>
+  <section class="module-card module-card--principale">
+    <p class="module-card-ruolo">Modulo principale</p>
+    <h2>Token e context window: cosa vede davvero il modello</h2>
+    <p class="module-card-obiettivo">Alla fine sai elencare cosa occupa la finestra di contesto in una conversazione con tool, e sai spiegare perché una finestra più grande non dà automaticamente risposte migliori.</p>
+    <p class="module-card-durata">15 min</p>
+    <div class="prosa module-card-sintesi"><p>La finestra di contesto è la scrivania del modello, non la sua memoria. La documentazione di Anthropic la definisce come tutto il testo che il modello può guardare mentre genera una risposta, risposta compresa. I dati su cui è stato addestrato stanno altrove, nei pesi. Qui c'è solo quello che gli mandi adesso.</p>
+<h3>Cosa occupa la scrivania</h3>
+<p>Tutto quello che parte insieme alla richiesta:</p>
+<ul><li>il system prompt;</li><li>ogni messaggio della conversazione, inclusi risultati dei tool, immagini e documenti;</li><li>le <strong>definizioni</strong> dei tool: nome, descrizione e schema dei parametri pesano anche se non li usi;</li><li>l'output che Claude genera, ragionamento esteso compreso.</li></ul>
+<p>E si accumula. A ogni turno l'input è tutto quello che c'era prima, più il tuo messaggio nuovo. L'output di questo turno diventa input del prossimo. Niente resta fuori e viene ricordato altrove: se è nella conversazione, riparte ogni volta.</p>
+<p>Lo vedi bene con un agente che lavora sui file. Ogni file letto entra e ci resta. Dieci letture esplorative le paghi per tutta la sessione, non solo nel turno in cui le fa.</p>
+<h3>Grande non vuol dire meglio</h3>
+<p>Una finestra più larga regge richieste più lunghe e complesse. Ma più contesto non è automaticamente meglio: quando i token crescono, precisione e capacità di ritrovare le cose peggiorano. La documentazione chiama questo fenomeno <strong>context rot</strong>.</p>
+<p>Riempire la finestra fino all'orlo non è sfruttarla. È degradarla. Per questo il context engineering è un mestiere: la domanda utile non è quanto ci sta, ma che cosa merita di starci.</p>
+<h3>I numeri, con la data addosso</h3>
+<p>Verificati sulla documentazione ufficiale il 16/09/2026. I modelli Claude più recenti dichiarano una finestra da 1 milione di token, con un massimo di 128 K token in output. Claude Sonnet 4.5 e i modelli precedenti si fermano a 200 K. Ci sono limiti anche sui contenuti non testuali: 600 immagini o pagine PDF nella finestra da 1M, 100 in quella da 200 K.</p>
+<p>Sono numeri che invecchiano. Quello che resta è che il tetto dipende dal modello, e che si controlla invece di ricordarlo a memoria.</p>
+<h3>Due dettagli che ti serviranno</h3>
+<p>Il ragionamento esteso conta. I token di thinking rientrano in <code>max_tokens</code> e occupano la finestra. Sui modelli recenti i blocchi di thinking dei turni precedenti restano e pesano come input.</p>
+<p>Se l'input più <code>max_tokens</code> supera la finestra, i modelli recenti si fermano con <code>stop_reason: &quot;model_context_window_exceeded&quot;</code>. Non troncano in silenzio.</p>
+<p>Da qui in avanti, prima di incollare un file intero in una conversazione, chiediti se ti serve tutto. Quando il conto è importante esiste una API che conta i token prima di spedirli: a occhio si sbaglia sempre, soprattutto su codice e JSON.</p></div>
+    <p class="module-card-fonte">Fonte: <a href="https://platform.claude.com/docs/en/build-with-claude/context-windows">Context windows — documentazione Claude Platform</a> (verificata il 2026-09-16)</p>
+  </section>
+</div>
+</div></body></html>
