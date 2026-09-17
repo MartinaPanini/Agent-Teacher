@@ -132,6 +132,7 @@ export const SlideSchema = z.object({
   approfondimento: ApprofondimentoSchema.nullable(),
   immagine: SlideImmagineSchema.nullable(),
 });
+export type Slide = z.infer<typeof SlideSchema>;
 
 const ModuleBaseSchema = z.object({
   id: z.string(),

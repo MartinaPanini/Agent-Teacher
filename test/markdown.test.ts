@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { renderMarkdown } from "../shared/markdown.js";
+import { renderMarkdown, renderMarkdownInline } from "../shared/markdown.js";
 
 describe("renderMarkdown", () => {
   it("non lascia a schermo i simboli del markup", () => {
@@ -72,5 +72,20 @@ describe("renderMarkdown, tabelle", () => {
     const html = renderMarkdown("| A |\n|---|\n| 1 |\n\nUn paragrafo dopo.");
     expect(html).toContain("</table>");
     expect(html).toContain("<p>Un paragrafo dopo.</p>");
+  });
+});
+
+describe("renderMarkdownInline: per i \"punti\" di una slide (RF56-59)", () => {
+  it("formatta l'inline senza avvolgerlo in un paragrafo", () => {
+    const html = renderMarkdownInline("Il `matcher` seleziona lo **strumento**, non il comando.");
+    expect(html).not.toContain("<p>");
+    expect(html).toContain("<code>matcher</code>");
+    expect(html).toContain("<strong>strumento</strong>");
+  });
+
+  it("neutralizza l'HTML presente nel sorgente", () => {
+    const html = renderMarkdownInline("Attenzione <script>alert(1)</script>");
+    expect(html).not.toContain("<script>");
+    expect(html).toContain("&lt;script&gt;");
   });
 });

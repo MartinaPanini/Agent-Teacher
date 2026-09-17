@@ -2,6 +2,21 @@
   color-scheme: light dark;
   --color-bg: #faf9f7;
   --color-text: #1c1b1a;
+
+  /* token della lezione a slide (RF56-59): colori fissi per combaciare con le illustrazioni */
+  --colore-fondo-pagina: #faf9f5;
+  --colore-fondo-card: #ffffff;
+  --colore-inchiostro: #141413;
+  --colore-corpo: #35332e;
+  --colore-testo-spento: #6e6a5e;
+  --colore-filetti: #e4e0d5;
+  --colore-accento: #b4563c;
+  --colore-sistema-testo: #3f6c6a;
+  --colore-sistema-fondo: #e7eeed;
+
+  --font-titolo: "Fraunces", Georgia, serif;
+  --font-corpo: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 * {
@@ -598,4 +613,218 @@ button.secondario {
 .cattura-link-azioni {
   display: flex;
   justify-content: flex-end;
+}
+
+/* ------------------------- Lezione a slide (RF56-59) ------------------------- */
+
+.lezione {
+  background: var(--colore-fondo-card);
+  border: 1px solid var(--colore-filetti);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  scroll-margin-top: 1rem;
+}
+
+.lezione-contesto {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.lezione-tipo {
+  font-family: var(--font-mono);
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  color: var(--colore-testo-spento);
+  font-size: 0.85rem;
+}
+
+.lezione-barra {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.lezione-segmento {
+  width: 1.4rem;
+  height: 0.35rem;
+  padding: 0;
+  border-radius: 999px;
+  border: none;
+  background: var(--colore-filetti);
+  cursor: pointer;
+}
+
+.lezione-segmento--attivo {
+  background: var(--colore-accento);
+}
+
+.lezione-contenuto {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.lezione-titolo {
+  font-family: var(--font-titolo);
+  font-weight: 600;
+  font-size: 1.45rem;
+  color: var(--colore-inchiostro);
+  margin: 0;
+}
+
+.lezione-slide-corpo {
+  display: flex;
+  gap: 1.75rem;
+  align-items: flex-start;
+}
+
+.lezione-slide-corpo--spot .lezione-testo {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.lezione-slide-corpo--spot .lezione-immagine {
+  flex: 0 0 320px;
+  max-width: 320px;
+}
+
+.lezione-slide-corpo--wide .lezione-testo {
+  flex: 1 1 54%;
+  min-width: 0;
+}
+
+.lezione-slide-corpo--wide .lezione-immagine {
+  flex: 1 1 46%;
+}
+
+.lezione-slide-corpo--nessuna .lezione-testo {
+  flex: 1 1 100%;
+}
+
+.lezione-immagine img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+.lezione-corpo {
+  color: var(--colore-corpo);
+  font-family: var(--font-corpo);
+  line-height: 1.65;
+}
+
+.lezione-punti {
+  margin: 0.85rem 0 0;
+  padding-left: 1.3rem;
+  font-family: var(--font-corpo);
+  color: var(--colore-corpo);
+}
+
+.lezione-punti li {
+  margin-bottom: 0.45rem;
+}
+
+.lezione-punti:not(.lezione-punti--numerato) li::marker {
+  color: var(--colore-accento);
+}
+
+.lezione-punti--numerato {
+  list-style: none;
+  counter-reset: lezione-punto;
+  padding-left: 0;
+}
+
+.lezione-punti--numerato li {
+  counter-increment: lezione-punto;
+  position: relative;
+  padding-left: 2.15rem;
+  min-height: 1.5rem;
+}
+
+.lezione-punti--numerato li::before {
+  content: counter(lezione-punto);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--colore-accento);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lezione-approfondimento {
+  background: var(--colore-sistema-fondo);
+  color: var(--colore-sistema-testo);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+.lezione-approfondimento summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-family: var(--font-corpo);
+}
+
+.lezione-approfondimento[open] summary {
+  margin-bottom: 0.5rem;
+}
+
+.lezione-approfondimento .prosa {
+  color: var(--colore-sistema-testo);
+}
+
+.lezione-fonte {
+  font-size: 0.85rem;
+  color: var(--colore-testo-spento);
+  border-top: 1px solid var(--colore-filetti);
+  padding-top: 0.9rem;
+  margin: 0;
+}
+
+.lezione-navigazione {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.lezione-fatto {
+  margin-left: auto;
+  background: var(--colore-accento);
+}
+
+.lezione button:focus-visible,
+.lezione summary:focus-visible {
+  outline: 2px solid var(--colore-accento);
+  outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  .lezione-slide-corpo {
+    flex-direction: column;
+  }
+
+  .lezione-slide-corpo--spot .lezione-immagine,
+  .lezione-slide-corpo--wide .lezione-immagine {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lezione {
+    scroll-behavior: auto;
+  }
 }

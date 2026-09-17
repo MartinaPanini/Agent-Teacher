@@ -56,6 +56,12 @@ function inline(testo: string): string {
   return html.replace(/@@md-code-(\d+)@@/g, (_m, i: string) => codici[Number(i)] ?? "");
 }
 
+/** Formattazione inline senza paragrafo attorno: per stringhe corte come i "punti" di una slide. */
+export function renderMarkdownInline(sorgente: string): string {
+  if (!sorgente) return "";
+  return inline(escapeHtml(sorgente));
+}
+
 export function renderMarkdown(sorgente: string, opzioni: OpzioniMarkdown = {}): string {
   if (!sorgente) return "";
   const base = opzioni.livelloTitoloBase ?? 2;

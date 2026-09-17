@@ -7,10 +7,13 @@ import {
   completaModulo,
   scopertaFeedback,
   qualificaInbox,
+  salvaProgresso,
   type SessionNextRisposta,
 } from "../api/client";
 import EmptyState from "../components/EmptyState";
 import ModuleCard from "../components/ModuleCard";
+import Lezione from "../components/Lezione";
+import { usaLezione } from "../lib/contenuto";
 
 type FaseModulo = "da_leggere" | "domande" | "fatto";
 
@@ -175,8 +178,29 @@ export default function Daily() {
       )}
 
       {principale?.modulo && (
-        <ModuleCard modulo={principale.modulo} ruolo="principale" motivazione={principale.motivazione}>
-          {faseModulo === "da_leggere" && <button onClick={handleFatto}>Fatto</button>}
+        <ModuleCard
+          modulo={principale.modulo}
+          ruolo="principale"
+          motivazione={principale.motivazione}
+          contenuto={
+            usaLezione(principale.modulo) ? (
+              <Lezione
+                key={principale.modulo.id}
+                modulo={principale.modulo}
+                slideIniziale={principale.slide_corrente ?? 0}
+                onCambiaSlide={(i) => {
+                  if (sessioneId && principale.modulo) {
+                    salvaProgresso(sessioneId, principale.modulo.id, i).catch(() => {});
+                  }
+                }}
+                onFatto={faseModulo === "da_leggere" ? handleFatto : undefined}
+              />
+            ) : undefined
+          }
+        >
+          {faseModulo === "da_leggere" && !usaLezione(principale.modulo) && (
+            <button onClick={handleFatto}>Fatto</button>
+          )}
 
           {faseModulo === "domande" && (
             <div className="domande">
@@ -209,7 +233,25 @@ export default function Daily() {
       )}
 
       {faseModulo === "fatto" && scoperta?.modulo && !sessioneChiusa && (
-        <ModuleCard modulo={scoperta.modulo} ruolo="scoperta" compatta>
+        <ModuleCard
+          modulo={scoperta.modulo}
+          ruolo="scoperta"
+          compatta
+          contenuto={
+            usaLezione(scoperta.modulo) ? (
+              <Lezione
+                key={scoperta.modulo.id}
+                modulo={scoperta.modulo}
+                slideIniziale={scoperta.slide_corrente ?? 0}
+                onCambiaSlide={(i) => {
+                  if (sessioneId && scoperta.modulo) {
+                    salvaProgresso(sessioneId, scoperta.modulo.id, i).catch(() => {});
+                  }
+                }}
+              />
+            ) : undefined
+          }
+        >
           <div className="scoperta-azioni">
             <button onClick={() => void handleScopertaFeedback("interessante")}>Interessante</button>
             <button className="secondario" onClick={() => void handleScopertaFeedback("non_fa_per_me")}>

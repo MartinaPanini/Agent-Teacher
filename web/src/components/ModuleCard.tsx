@@ -14,9 +14,11 @@ interface Props {
   motivazione?: string | null;
   compatta?: boolean;
   children?: ReactNode;
+  /** sostituisce la sintesi_md — usato dalla lezione a slide (RF56-59) */
+  contenuto?: ReactNode;
 }
 
-export default function ModuleCard({ modulo, ruolo, motivazione, compatta, children }: Props) {
+export default function ModuleCard({ modulo, ruolo, motivazione, compatta, children, contenuto }: Props) {
   return (
     <section className={`module-card module-card--${ruolo}${compatta ? " module-card--compatta" : ""}`}>
       <p className="module-card-ruolo">{ETICHETTA_RUOLO[ruolo]}</p>
@@ -32,7 +34,7 @@ export default function ModuleCard({ modulo, ruolo, motivazione, compatta, child
         </details>
       )}
 
-      <Markdown testo={modulo.sintesi_md} className="module-card-sintesi" />
+      {contenuto ?? <Markdown testo={modulo.sintesi_md} className="module-card-sintesi" />}
 
       {modulo.fonte_primaria && (
         <p className="module-card-fonte">
