@@ -1319,13 +1319,24 @@
     "url": "https://www.instagram.com/reel/DdMAETWgZ4K/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==",
     "aggiunto_il": "2026-09-16",
     "fonte": "instagram",
-    "stato": "da_qualificare",
+    "stato": "risolto",
     "didascalia_incollata": null,
-    "estratto": null,
-    "tool_nominati": [],
-    "fonte_primaria": null,
-    "verdetto": null,
-    "motivo": "Il reel non e' leggibile: il fetch anonimo e' bloccato da robots.txt e aprendolo nel browser l'URL rimbalza sulla home di Instagram, quindi il post e' stato rimosso o non e' piu' accessibile. Nessuna didascalia incollata, nessun tool ricavabile. Serve una riga tua in una sessione: di che parlava.",
+    "estratto": {
+      "autore": "Simone Rizzo AI",
+      "titolo": null,
+      "didascalia": "Reel che presenta DeepSeek 4.1 Flash come «capolavoro architetturale», piu' veloce e piu' intelligente di GPT-6 Astra e con un costo 60 volte inferiore. Nessun benchmark e nessun link nel post.",
+      "data_pubblicazione": "2026-09-12"
+    },
+    "tool_nominati": [
+      "DeepSeek-V4.1-Flash",
+      "GPT-6 Astra"
+    ],
+    "fonte_primaria": {
+      "url": "https://api-docs.deepseek.com/quick_start/pricing",
+      "tipo": "documentazione"
+    },
+    "verdetto": "verifica",
+    "motivo": "Claim numerico verificato alla fonte e non confermato come enunciato. Listino DeepSeek (api-docs.deepseek.com, letto il 2026-09-17): deepseek-flash = DeepSeek-V4.1-Flash, input cache-miss 0,30 $/1M in fascia piena e 0,15 $/1M fuori fascia, output 1,20 / 0,60 $/1M. Listino OpenAI (developers.openai.com/docs/pricing, letto il 2026-09-17): gpt-6-astra input 10,00 $/1M, output 50,00 $/1M. Il rapporto reale va da 33x (input, fascia piena) a 83x (output, fuori fascia): il «60 volte in meno» esiste solo scegliendo la combinazione piu' favorevole, non e' il divario generale. Su «piu' intelligente» il post non porta nessun benchmark. Nessun contenuto sullo stack agentico: non genera modulo.",
     "skill_toccate": [],
     "modulo_generato": null,
     "nota_utente": ""
