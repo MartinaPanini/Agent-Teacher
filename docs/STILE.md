@@ -138,3 +138,40 @@ virgolette ricurve, emoji.
 Esce con 1 se trova qualcosa. Va passato prima di scrivere in `data/`, e la
 checklist della regola 9 resta per quello che una macchina non può controllare:
 se il testo, letto una volta sola, si capisce.
+
+## 12. I tell da IA, in chiaro
+
+La skill `humanizer` copre questi punti. Sono scritti qui perché una routine
+che gira da sola potrebbe non avere quella skill caricata, e le regole devono
+valere lo stesso. `scripts/controlla-stile.py` ne verifica meccanicamente la
+maggior parte.
+
+1. **Lineette come pausa.** `—` e `–` non si usano al posto di un punto, di
+   una virgola o dei due punti. Riscrivi la frase.
+2. **Elenchi con etichetta in grassetto.** Niente `**Cosa:** spiegazione` a
+   inizio voce. Scrivi la voce come una frase.
+3. **Grassetto sparso.** Uno per paragrafo, sul termine tecnico la prima volta
+   che compare. Il grassetto usato per enfasi generica non si vede più.
+4. **Parole che un modello usa più di una persona**: fondamentale, cruciale,
+   approfondire, sottolineare, evidenziare, panorama, testimonianza,
+   affascinante, funge da, si configura come, nel cuore di.
+5. **Zeppe e finte rivelazioni**: al fine di, in termini di, è importante
+   notare che, in sostanza, la vera domanda è, vediamo insieme, analizziamo.
+6. **Gruppi di tre forzati.** Tre voci vanno bene se sono tre. Non aggiungere
+   la terza per chiudere il ritmo.
+7. **Il titolo ripetuto nella prima frase.** Dopo un titolo, la prima riga
+   dice qualcosa di nuovo.
+8. **Chiusure vaghe.** Niente "il futuro è promettente" o "un passo nella
+   direzione giusta". Si chiude sull'ultimo fatto concreto.
+9. **Obiezioni che nessuno ha sollevato**: "non sto dicendo che", "per essere
+   chiari", "si potrebbe obiettare". Se c'è una tesi, dilla.
+10. **Alternative finte**: "si potrebbe pensare di X, ma". Se nessuno lo
+    farebbe, non nominarlo.
+11. **Virgolette ricurve ed emoji.** Virgolette dritte o caporali `«»`, e
+    nessuna emoji.
+12. **Frasi drammatiche in fila.** Una frase corta dà enfasi. Quattro di
+    seguito sembrano costruite.
+
+Quello che invece va tenuto: le frasi di lunghezza diversa, un'obiezione con
+la sua fonte, un limite dichiarato, una citazione attribuita. Non sono tell,
+sono scrittura.
