@@ -1,0 +1,13 @@
+# Modello per una lezione nuova. Copialo in <id-modulo>.py e riempilo.
+# Gli helper sono gia' disponibili: non importare niente.
+#
+# IMG["nome-illustrazione"] = svg(320, 300, "testo alternativo, una frase", (
+#     cap(160, 22, "titolo dell'immagine", "middle", 12.5, INK) +
+#     box(14, 44, 292, 62, "Etichetta", "sottotitolo", "ink") +
+#     box(14, 150, 292, 62, "Altra", "sottotitolo", "sys") +
+#     varrow(160, 112, 144) + badge(184, 128, 1)
+# ))
+#
+# Larghezze: 320 per le immagini "spot" accanto al testo, 600 per le "wide".
+# Stile A (finestra VS Code): usa vscode("file.json", [[K('"chiave"'), P(": "),
+# S('"valore"')]], badges=((1, 0),)) dentro svg(600, ...).

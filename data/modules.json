@@ -54,36 +54,6 @@
     "prerequisiti_skill": [],
     "prerequisiti_testo": "Un modello non ha memoria fra una richiesta e l'altra. Tutto quello che deve sapere glielo rispedisci ogni volta dentro la richiesta.\n\nServe anche sapere cos'è un token. È l'unità in cui il testo viene spezzato prima di arrivare al modello. In inglese una parola comune sta in un token, una parola lunga in due o tre.",
     "sintesi_md": "## Prima di partire\n\nAlla fine sai elencare tutto quello che occupa la finestra di contesto in una richiesta vera. E sai spiegare perché il conto dei token di input cresce a ogni turno.\n\nLa finestra di contesto è tutto il testo che il modello può consultare mentre scrive la risposta, risposta compresa. È la memoria di lavoro di una richiesta sola.\n\nNon c'entra niente con i dati su cui il modello è stato addestrato.\n\n## Cosa ci finisce dentro\n\nTutto quello che parte insieme alla richiesta, in quest'ordine.\n\nL'elenco risponde alla domanda «perché la sessione è già piena e non ho fatto quasi niente».\n\nLa finestra ha un limite dichiarato dal modello. Superarlo non tronca in silenzio: la richiesta viene rifiutata con un errore.\n\n1. Le definizioni degli strumenti, non solo i loro risultati. Un agente con venti strumenti le porta dentro prima del tuo primo messaggio.\n2. Il system prompt, per intero.\n3. Ogni messaggio dentro `messages`: risultati degli strumenti, immagini e documenti compresi.\n4. L'output che il modello genera in questo turno, ragionamento esteso compreso.\n\n## La stessa cosa in JSON\n\nLo stesso elenco, visto nel corpo di una richiesta. Non c'è niente di nascosto: quello che leggi qui è quello che il modello riceve.\n\nL'ordine dei campi non è casuale. Conta quando entra in gioco la cache, che legge il prompt dall'inizio.\n\n1. `tools` sta per primo. Venti definizioni scritte bene sono migliaia di token, e viaggiano prima di ogni altra cosa.\n2. `system` viene dopo, ed è di solito stabile per tutta la conversazione.\n3. `messages` contiene i turni, interi. Nessuno li riassume per te.\n\n## Perché cresce a ogni turno\n\nI turni precedenti restano interi. Messaggi e risposte si accumulano finché la conversazione si avvicina al limite.\n\nLa stessa domanda, fatta al primo turno e al decimo, costa in input due cifre molto diverse.\n\nNon è che il modello si ricorda e quindi paga di più. È il contrario: non ricorda niente, quindi gli rispedisci tutto, e quel tutto nel frattempo è cresciuto.\n\n- Il blocco fisso, definizioni e system prompt, non cresce. Ma lo rispedisci a ogni giro.\n- Lo storico cresce a ogni scambio e non si riduce da solo.\n- Anche i turni in cui non è successo niente restano lì, per intero.\n\n> **Approfondimento — Perché non lo riassume da solo.** Riassumere la conversazione sarebbe una scelta, e l'API non la prende al posto tuo. Un riassunto butta via qualcosa, e solo tu sai cosa puoi permetterti di perdere. Il risultato è che la compattazione è un lavoro tuo o del client che stai usando. Claude Code la fa, una libreria scritta a mano di solito no.\n\n## Ragionamento e strumenti\n\nI token di ragionamento occupano la finestra e si pagano come output. Sui modelli recenti i blocchi di ragionamento dei turni precedenti restano, e contano come input.\n\nQuando ragionamento e strumenti lavorano insieme c'è un vincolo pratico. Insieme al `tool_result` devi rimandare il blocco di ragionamento intero e non modificato, firma compresa. L'API lo verifica.\n\nAlcuni modelli sanno quanto spazio resta. Ricevono il budget di token e un aggiornamento dopo ogni chiamata a uno strumento. Serve a portare a termine un compito lungo senza tirare a indovinare.\n\nSui modelli più vecchi l'API toglieva da sola i blocchi di ragionamento passati. Non dare per scontato il comportamento: cambia da un modello all'altro.\n\n## La sessione già piena\n\nApri una sessione nuova, scrivi due righe, e il conto dei token di input è già alto. Sembra un errore. Non lo è.\n\nQuello che hai spedito non sono le tue due righe. Sono le due righe più tutto il resto.\n\nIl conto si rifà in trenta secondi, e quasi sempre il colpevole è uno solo.\n\n- Guarda per prima cosa quante definizioni di strumenti sono registrate.\n- Poi la lunghezza del system prompt, che spesso nessuno rilegge da settimane.\n- Le tue due righe sono l'ultima voce della lista, non la prima.\n- Se la sessione riparte da un riassunto, controlla quanto è lungo quel riassunto.\n\n## Quanto costa uno strumento\n\nPrima di aggiungere uno strumento a un agente, guarda quanto pesa la sua definizione. La paghi a ogni turno, anche in quelli in cui lo strumento non serve.\n\nVenti strumenti descritti bene sono un secondo system prompt, spedito a ogni richiesta.\n\nNon è un motivo per scrivere descrizioni povere. Una descrizione corta che non viene capita costa comunque, e in più non funziona.\n\nÈ un motivo per tenerne pochi e buoni, e per togliere quelli che non chiami mai.\n\n> **Approfondimento — Il conto che non torna.** Quando una sessione lunga inizia a rispondere peggio, controlla quanto è cresciuto l'input prima di dare la colpa al modello. Il numero da guardare non è quello che hai scritto tu nell'ultimo turno. È il totale dei token di input della richiesta, che comprende gli strumenti, il system prompt e tutti i turni precedenti.\n\n## Tre frasi da ricordare\n\nIl modulo dopo parte da qui. Quando l'input cresce, la qualità cala, e quel degrado ha un nome: context rot.\n\nPrima di arrivarci, tieni la prima frase: la finestra appartiene alla richiesta, non al modello.\n\n- La finestra è la memoria di lavoro di una richiesta, non del modello.\n- Ci sta dentro tutto: strumenti, system prompt, turni interi, output di adesso.\n- Cresce perché il modello non ricorda, non perché ricorda.\n",
-    "fonte_primaria": {
-      "url": "https://platform.claude.com/docs/en/build-with-claude/context-windows",
-      "titolo": "Context windows — Claude Docs",
-      "tipo": "documentazione",
-      "verificata_il": "2026-09-16"
-    },
-    "fonti_extra": [],
-    "domande": [
-      {
-        "q": "Apri una sessione con un agente, non scrivi ancora niente, e la finestra risulta già occupata. Cosa c'è dentro?",
-        "rubrica": "2 = il system prompt e le definizioni degli strumenti, che contano anche se nessuno strumento è stato ancora usato; in un contesto tipo Claude Code anche i file di istruzioni caricati all'avvio. Deve essere chiaro che le definizioni degli strumenti pesano di per se'. 1 = nomina il system prompt ma non le definizioni degli strumenti, o viceversa. 0 = dice che a inizio sessione la finestra è vuota, o parla di dati di addestramento."
-      },
-      {
-        "q": "Nella stessa conversazione fai due domande identiche, a dieci turni di distanza. Il conto dei token di input è lo stesso? Spiega il meccanismo, non solo il risultato.",
-        "rubrica": "2 = no, la seconda è molto più grande: i turni precedenti sono conservati per intero e l'input del secondo turno contiene tutta la storia più il messaggio. Il meccanismo è che il modello non ricorda niente fra una richiesta e l'altra, quindi tutta la conversazione viene rispedita ogni volta. 1 = risponde no ma giustifica dicendo che il modello 'ha più memoria da gestire' invece che col rinvio integrale. 0 = risponde sì."
-      },
-      {
-        "q": "Un collega propone: 'passiamo al modello con la finestra da 1 milione, così il problema del contesto è risolto'. Cosa gli manca?",
-        "rubrica": "2 = la capienza non è la qualità del recupero: la documentazione dice esplicitamente che più contesto non è automaticamente meglio, perché accuratezza e recall degradano al crescere dei token (context rot). Può aggiungere che l'output massimo resta limitato e che tutto quello che ci metti va comunque rispedito ogni turno. 1 = dice solo che costa di più o che comunque non ci sta tutto, senza toccare il degrado. 0 = accetta la proposta, o risponde che basta scegliere il modello giusto."
-      }
-    ],
-    "peso_skill": {
-      "fondamenta-llm": 0.17
-    },
-    "stato": "pronto",
-    "origine": "seed",
-    "nuovo": false,
-    "creato_il": "2026-09-15",
-    "servito_il": null,
-    "completato_il": null,
     "slide": [
       {
         "tipo": "apertura",
@@ -200,7 +170,37 @@
         "approfondimento": null,
         "immagine": null
       }
-    ]
+    ],
+    "fonte_primaria": {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/context-windows",
+      "titolo": "Context windows — Claude Docs",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
+    "fonti_extra": [],
+    "domande": [
+      {
+        "q": "Apri una sessione con un agente, non scrivi ancora niente, e la finestra risulta già occupata. Cosa c'è dentro?",
+        "rubrica": "2 = il system prompt e le definizioni degli strumenti, che contano anche se nessuno strumento è stato ancora usato; in un contesto tipo Claude Code anche i file di istruzioni caricati all'avvio. Deve essere chiaro che le definizioni degli strumenti pesano di per se'. 1 = nomina il system prompt ma non le definizioni degli strumenti, o viceversa. 0 = dice che a inizio sessione la finestra è vuota, o parla di dati di addestramento."
+      },
+      {
+        "q": "Nella stessa conversazione fai due domande identiche, a dieci turni di distanza. Il conto dei token di input è lo stesso? Spiega il meccanismo, non solo il risultato.",
+        "rubrica": "2 = no, la seconda è molto più grande: i turni precedenti sono conservati per intero e l'input del secondo turno contiene tutta la storia più il messaggio. Il meccanismo è che il modello non ricorda niente fra una richiesta e l'altra, quindi tutta la conversazione viene rispedita ogni volta. 1 = risponde no ma giustifica dicendo che il modello 'ha più memoria da gestire' invece che col rinvio integrale. 0 = risponde sì."
+      },
+      {
+        "q": "Un collega propone: 'passiamo al modello con la finestra da 1 milione, così il problema del contesto è risolto'. Cosa gli manca?",
+        "rubrica": "2 = la capienza non è la qualità del recupero: la documentazione dice esplicitamente che più contesto non è automaticamente meglio, perché accuratezza e recall degradano al crescere dei token (context rot). Può aggiungere che l'output massimo resta limitato e che tutto quello che ci metti va comunque rispedito ogni turno. 1 = dice solo che costa di più o che comunque non ci sta tutto, senza toccare il degrado. 0 = accetta la proposta, o risponde che basta scegliere il modello giusto."
+      }
+    ],
+    "peso_skill": {
+      "fondamenta-llm": 0.17
+    },
+    "stato": "pronto",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
   },
   {
     "id": "mod-llm-03",
@@ -213,36 +213,6 @@
     "prerequisiti_skill": [],
     "prerequisiti_testo": "Serve sapere cosa occupa la finestra di contesto. Ci stanno il system prompt, le definizioni degli strumenti, tutti i turni precedenti conservati per intero, i risultati degli strumenti e l'output del turno.\n\nServe sapere che i turni precedenti non vengono riassunti da soli: si accumulano.\n\nNon serve conoscere l'architettura dei transformer. Basta sapere che il meccanismo di attenzione mette in relazione ogni token con ogni altro token della sequenza.",
     "sintesi_md": "## Prima di partire\n\nAlla fine sai spiegare perché la qualità delle risposte cala al crescere del contesto. E sai indicare quale rimedio attacca la causa e quale no.\n\nIl fenomeno si chiama context rot. Quando i token nella finestra crescono, la capacità del modello di richiamare le informazioni con precisione cala.\n\nSuccede su tutti i modelli. Alcuni degradano più dolcemente, nessuno è immune.\n\nNon è un difetto da segnalare né un bug che qualcuno sistemerà. È una proprietà di come funziona l'attenzione, e si gestisce.\n\n## Grande non vuol dire meglio\n\n«Ci sta tutto dentro» e «lo userà bene» sono due affermazioni diverse. La seconda non segue dalla prima.\n\nÈ il punto che rende il context rot controintuitivo. Una finestra da 200.000 token sembra una promessa di qualità, e invece è solo una promessa di capienza.\n\nIl contesto è una risorsa con rendimenti decrescenti, non un contenitore da riempire. Le prime pagine che gli dai valgono più delle ultime.\n\n- La domanda prima di aggiungere qualcosa non è «ci sta?».\n- È: «questo aumenta o diluisce la probabilità che il modello faccia la cosa giusta?».\n\n## Da dove viene il degrado\n\nDue cause, entrambe strutturali. Nessuna delle due si risolve con un prompt scritto meglio.\n\nL'attenzione cresce in modo quadratico. Un transformer mette in relazione ogni token con ogni altro token, e quel lavoro è una risorsa finita da spalmare su più materiale.\n\nL'addestramento ha visto soprattutto sequenze corte. I modelli imparano i pattern di attenzione dai dati, e lì le sequenze brevi sono molto più comuni di quelle lunghe.\n\n- Sulle dipendenze a lunga distanza i modelli hanno semplicemente meno esperienza.\n- Non è un difetto di un modello singolo: è come sono fatti tutti.\n\n> **Approfondimento — Perché nessun modello è immune.** Il degrado si misura, e la differenza fra modelli è di pendenza, non di presenza. Un modello migliore regge più a lungo prima che la qualità scenda in modo visibile. Questo cambia quando conviene compattare, non se conviene farlo. Trattare «la finestra è grande» come «posso riempirla» resta sbagliato su qualunque modello.\n\n## I rimedi che funzionano\n\nQuattro mosse attaccano la causa, e hanno tutte la stessa forma. Tolgono materiale dalla finestra invece di sperare che il modello lo gestisca.\n\nDue rimedi molto citati non fanno niente di tutto questo. Li trovi nella slide dopo.\n\nNota che nessuno dei quattro chiede niente al modello. Agiscono tutti su cosa gli arriva.\n\n- Compattare: riassumi la conversazione e riparti dalla versione compressa, tenendo decisioni prese e bug ancora aperti.\n- Appunti esterni: l'agente scrive in un file e lo rilegge quando serve, invece di portarsi dietro tutta la storia.\n- Recupero al momento giusto: niente precaricamento, l'agente apre i dati quando gli servono.\n- Sottoagenti: un agente separato affronta un compito circoscritto nel proprio contesto e restituisce solo la conclusione.\n\n## I rimedi che non risolvono\n\nUna finestra più grande sposta il limite e non toglie il degrado. È esattamente quello che il fenomeno descrive.\n\nChiedere al modello di fare più attenzione o di ricordare meglio non agisce su niente di reale. È una frase che suona come un'istruzione e non lo è.\n\n- Lasciare che un agente esplori da solo una cartella grande riempie la finestra di materiale inutile.\n- Se conosci il percorso preciso, daglielo: è la differenza fra dieci file letti e uno.\n- Anche «rileggi le istruzioni iniziali» non aiuta: quelle istruzioni sono già lì dentro, diluite.\n- Cambiare modello sposta la pendenza del degrado, non lo elimina: il problema torna più avanti.\n\n## Come lo riconosci\n\nIl sintomo tipico è una sessione lunga che a un certo punto peggiora. Non c'è un errore, non c'è un messaggio: cambia solo la qualità.\n\nNon hai cambiato modello né chiesto qualcosa di più difficile. Si è riempita la finestra.\n\nIl modo più veloce di confermarlo è guardare il conto dei token di input. Se è cresciuto di molto rispetto ai primi turni, hai la risposta.\n\n- Dimentica un vincolo che avevi dato all'inizio.\n- Rifà una cosa già fatta, senza accorgersene.\n- Perde il filo su qualcosa che venti minuti prima aveva chiaro.\n- Risponde in modo più generico, come se non avesse davanti il materiale che gli hai dato.\n\n## Cosa fare quando succede\n\nQuando lo vedi, la mossa giusta è compattare e ripartire. Non insistere con la stessa conversazione.\n\nRiscrivere il contesto costa cinque minuti. Una sessione che degrada ne costa molti di più, e li costa in modo invisibile: non te ne accorgi finché non rileggi.\n\nLa compattazione non è una sconfitta. È la manutenzione ordinaria di una sessione lunga.\n\n> **Approfondimento — Cosa tenere quando compatti.** Un buon riassunto di sessione tiene tre cose. Le decisioni prese e il perché. I problemi ancora aperti. E i dettagli che non puoi ricostruire: percorsi, nomi, valori. Butta via il resto: i tentativi falliti, le letture di file che hai già usato, le conferme. Se un dettaglio ti servirà, sta in un file e lo rileggi.\n\n## Tre frasi da ricordare\n\nIl modulo dopo guarda l'altra metà del problema. Se rispedisci tutto a ogni turno, almeno non farlo rielaborare da capo: si chiama prompt caching.\n\n- Il degrado al crescere del contesto c'è su tutti i modelli.\n- I rimedi che funzionano tolgono materiale dalla finestra.\n- Una finestra più grande sposta il limite, non toglie il degrado.\n",
-    "fonte_primaria": {
-      "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
-      "titolo": "Effective context engineering for AI agents — Anthropic Engineering",
-      "tipo": "articolo",
-      "verificata_il": "2026-09-16"
-    },
-    "fonti_extra": [],
-    "domande": [
-      {
-        "q": "Una sessione con un agente che legge file rallenta e peggiora dopo un'ora, senza che tu abbia cambiato modello. Elenca cosa sta occupando la finestra, spiega il peggioramento e di' un rimedio che funziona e uno che no.",
-        "rubrica": "2 = elenca almeno system prompt, tutti i turni precedenti, i risultati degli strumenti e i file letti, le definizioni degli strumenti, l'output del modello; collega il peggioramento al context rot, cioè al calo di precisione e recall al crescere dei token, e non solo al costo; rimedio che funziona: compattare, dare puntatori precisi invece di far esplorare, tenere fuori i file non necessari, delegare a un sottoagente; rimedio che non funziona: chiedere al modello di ricordare meglio, o solo passare a una finestra più grande. 1 = elenca due o tre voci, o propone rimedi senza spiegare perché funzionano. 0 = dice che il modello si stanca, o che basta una finestra più grande."
-      },
-      {
-        "q": "Perché il degrado è strutturale e non un difetto che si corregge con un aggiornamento? Cita almeno una delle due cause.",
-        "rubrica": "2 = cita almeno una causa correttamente: l'attenzione richiede n^2 relazioni a coppie per n token, quindi il carico cresce quadraticamente e l'attenzione disponibile si diluisce; oppure i modelli imparano i pattern di attenzione da dati in cui le sequenze corte sono molto più comuni, quindi hanno meno esperienza delle dipendenze lunghe. Deve emergere che è una proprietà dell'architettura e dell'addestramento, non un bug. 1 = dice che è strutturale ma non sa nominare nessuna delle due cause. 0 = dice che è un limite temporaneo che i modelli nuovi hanno risolto."
-      },
-      {
-        "q": "Delegare un pezzo di lavoro a un sottoagente riduce il context rot. Perché funziona, e in quale caso non aiuterebbe?",
-        "rubrica": "2 = funziona perché l'esplorazione avviene in un contesto separato e nel contesto principale rientra solo un riassunto condensato, quindi il contesto principale cresce di poco invece che di tutto il materiale attraversato. Non aiuta quando il compito delegato richiede comunque che il risultato integrale rientri nel contesto principale, o quando il sottoagente deve ricevere in ingresso tutto lo stesso contesto: lì hai spostato il problema, non ridotto i token. 1 = spiega bene perché funziona ma non porta un caso in cui non aiuta, o ne porta uno non pertinente. 0 = dice che funziona perché 'due agenti sono meglio di uno' o perché il sottoagente è più veloce."
-      }
-    ],
-    "peso_skill": {
-      "fondamenta-llm": 0.17
-    },
-    "stato": "pronto",
-    "origine": "seed",
-    "nuovo": false,
-    "creato_il": "2026-09-15",
-    "servito_il": null,
-    "completato_il": null,
     "slide": [
       {
         "tipo": "apertura",
@@ -367,7 +337,37 @@
         "approfondimento": null,
         "immagine": null
       }
-    ]
+    ],
+    "fonte_primaria": {
+      "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+      "titolo": "Effective context engineering for AI agents — Anthropic Engineering",
+      "tipo": "articolo",
+      "verificata_il": "2026-09-16"
+    },
+    "fonti_extra": [],
+    "domande": [
+      {
+        "q": "Una sessione con un agente che legge file rallenta e peggiora dopo un'ora, senza che tu abbia cambiato modello. Elenca cosa sta occupando la finestra, spiega il peggioramento e di' un rimedio che funziona e uno che no.",
+        "rubrica": "2 = elenca almeno system prompt, tutti i turni precedenti, i risultati degli strumenti e i file letti, le definizioni degli strumenti, l'output del modello; collega il peggioramento al context rot, cioè al calo di precisione e recall al crescere dei token, e non solo al costo; rimedio che funziona: compattare, dare puntatori precisi invece di far esplorare, tenere fuori i file non necessari, delegare a un sottoagente; rimedio che non funziona: chiedere al modello di ricordare meglio, o solo passare a una finestra più grande. 1 = elenca due o tre voci, o propone rimedi senza spiegare perché funzionano. 0 = dice che il modello si stanca, o che basta una finestra più grande."
+      },
+      {
+        "q": "Perché il degrado è strutturale e non un difetto che si corregge con un aggiornamento? Cita almeno una delle due cause.",
+        "rubrica": "2 = cita almeno una causa correttamente: l'attenzione richiede n^2 relazioni a coppie per n token, quindi il carico cresce quadraticamente e l'attenzione disponibile si diluisce; oppure i modelli imparano i pattern di attenzione da dati in cui le sequenze corte sono molto più comuni, quindi hanno meno esperienza delle dipendenze lunghe. Deve emergere che è una proprietà dell'architettura e dell'addestramento, non un bug. 1 = dice che è strutturale ma non sa nominare nessuna delle due cause. 0 = dice che è un limite temporaneo che i modelli nuovi hanno risolto."
+      },
+      {
+        "q": "Delegare un pezzo di lavoro a un sottoagente riduce il context rot. Perché funziona, e in quale caso non aiuterebbe?",
+        "rubrica": "2 = funziona perché l'esplorazione avviene in un contesto separato e nel contesto principale rientra solo un riassunto condensato, quindi il contesto principale cresce di poco invece che di tutto il materiale attraversato. Non aiuta quando il compito delegato richiede comunque che il risultato integrale rientri nel contesto principale, o quando il sottoagente deve ricevere in ingresso tutto lo stesso contesto: lì hai spostato il problema, non ridotto i token. 1 = spiega bene perché funziona ma non porta un caso in cui non aiuta, o ne porta uno non pertinente. 0 = dice che funziona perché 'due agenti sono meglio di uno' o perché il sottoagente è più veloce."
+      }
+    ],
+    "peso_skill": {
+      "fondamenta-llm": 0.17
+    },
+    "stato": "pronto",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
   },
   {
     "id": "mod-llm-04",
@@ -380,36 +380,6 @@
     "prerequisiti_skill": [],
     "prerequisiti_testo": "Il modello non conserva niente fra una richiesta e l'altra. Ogni turno rispedisci l'intera conversazione, e i token di input crescono a ogni giro.\n\nServe anche sapere in che ordine è fatta una richiesta. Prima le definizioni degli strumenti, poi il system prompt, poi i messaggi. Quest'ordine conta, perché è l'ordine in cui la cache legge.",
     "sintesi_md": "## Prima di partire\n\nAlla fine sai dire dove va messo un punto di cache. E sai perché spostarlo di un blocco può annullare tutto il risparmio.\n\nSe a ogni turno rispedisci tutta la conversazione, rispedisci anche le stesse migliaia di token di system prompt e di definizioni degli strumenti.\n\nIl prompt caching serve a non farli rielaborare da capo ogni volta. Non riduce quello che spedisci: riduce quello che viene ricalcolato.\n\n## Come funziona in due righe\n\nIl sistema controlla se il prefisso del prompt, fino al punto che hai marcato, combacia con una richiesta recente.\n\nSe combacia, riusa la versione in cache. Altrimenti elabora tutto e scrive in cache mentre la risposta comincia.\n\nNon c'è niente da gestire lato tuo oltre al punto. Non c'è una chiave, non c'è una scadenza da rinnovare a mano.\n\nLa prima richiesta di una conversazione paga sempre la scrittura. Il risparmio comincia dalla seconda, ed è per questo che la cache non serve a niente su una richiesta sola.\n\n## La cache è del prefisso\n\nLa parola che conta è prefisso. La cache legge il prompt in ordine, e si ferma al blocco marcato.\n\nNon è una cache a pezzi. È una cache dell'inizio della richiesta, e questo spiega quasi tutto il resto del modulo.\n\n- L'ordine di lettura è `tools`, poi `system`, poi `messages`, fino al blocco marcato incluso.\n- Cambiare un blocco a quel punto o prima produce un hash diverso, e la corrispondenza non si trova più.\n- Cambiare qualcosa dopo il punto marcato non tocca la cache: quella parte si rielabora comunque.\n\n## Tre regole che bastano\n\nDa qui discende tutto il comportamento che vedrai nei conti. Vale la pena impararle in quest'ordine, perché la seconda ha senso solo dopo la prima.\n\nEsiste anche una variante da un'ora, e ogni riuso rinfresca la cache senza costo. Finché la conversazione va avanti, il tempo di vita si rinnova da solo.\n\n- La scrittura avviene solo nei punti marcati. Mettere `cache_control` su un blocco scrive una voce sola: l'hash del prefisso che finisce lì.\n- La lettura guarda all'indietro. Se al tuo punto non c'è corrispondenza, il sistema torna indietro un blocco alla volta, fino a 20 blocchi.\n- Il tempo di vita parte dall'inizio della richiesta. Il minimo è cinque minuti, e la generazione della risposta ci rientra.\n\n> **Approfondimento — Quando serve un secondo punto.** In una conversazione che cresce in fretta, venti blocchi si consumano prima di quanto sembri. Ogni turno aggiunge almeno un messaggio, e con gli strumenti ne aggiunge due o tre. Un secondo punto di cache più indietro, sul system prompt, dà alla ricerca un posto sicuro dove atterrare. Costa una scrittura in più e salva tutte le letture successive.\n\n## L'errore che annulla tutto\n\nHai un system prompt grande e stabile nei blocchi da uno a cinque. Nel blocco sei c'è un timestamp che cambia a ogni richiesta.\n\nSe marchi il blocco sei, l'hash cambia ogni volta. La ricerca all'indietro non trova mai niente e paghi sempre una scrittura nuova, cioè più del prezzo pieno.\n\nMarcando il blocco cinque, tutto il resto legge dalla cache. Il timestamp resta dov'è, si rielabora ogni volta, e sono pochi token.\n\n- Il punto di cache va sull'ultimo blocco stabile, non sull'ultimo blocco.\n- Timestamp, identificatori di sessione e contatori sono i sospetti abituali.\n- Se qualcosa cambia a ogni richiesta, spostalo dopo il punto di cache invece che prima.\n\n## Quanto costa e cosa la rompe\n\nUna lettura costa circa un decimo dell'input normale. Una scrittura costa più dell'input normale.\n\nLa cache conviene solo se viene riletta. Una scritta e mai riusata è una perdita secca.\n\nLa soglia è bassa: basta una seconda lettura perché il conto torni in pari. Ma vale la pena guardarla davvero, invece di darla per scontata.\n\n- Scrivere costa 1,25 volte l'input normale per la cache da cinque minuti, il doppio per quella da un'ora.\n- Sotto certe lunghezze minime la cache non viene scritta affatto, e nessun errore te lo dice.\n- L'invalidazione segue la gerarchia `tools`, `system`, `messages`: un cambiamento butta via quel livello e tutti i successivi.\n\n> **Approfondimento — Perché aggiungere uno strumento costa.** `tools` è il primo livello della gerarchia. Aggiungere o togliere uno strumento a metà sessione cambia quel blocco, e con lui ogni prefisso che lo contiene. Il risultato è che la conversazione riparte da una scrittura nuova. Se gli strumenti di un agente cambiano spesso, il caching rende molto meno di quanto promette.\n\n## Come si leggono i conti\n\nI token di input sono la somma di tre campi, non uno solo. Guardare solo `input_tokens` dà l'impressione di spedire pochissimo.\n\nIn questa risposta i token davvero elaborati da zero sono 214. Gli altri 18.432 sono arrivati dalla cache, a un decimo del prezzo.\n\nSenza la cache quella richiesta sarebbe costata circa novanta volte di più in input. È il genere di differenza che si vede in bolletta, non nei tempi di risposta.\n\n1. `input_tokens` conta solo quello che viene dopo l'ultimo punto di cache.\n2. `cache_read_input_tokens` e `cache_creation_input_tokens` contengono tutto il resto, e vanno sommati.\n\n## Tre frasi da ricordare\n\nIl caching è l'unica leva che agisce sul costo senza toccare il contenuto. Tutto il resto passa dal decidere cosa non spedire.\n\nLe due cose si sommano: prima togli quello che non serve, poi metti in cache quello che resta e non cambia.\n\n- La cache è del prefisso: legge dall'inizio e si ferma al punto marcato.\n- Il punto va sull'ultimo blocco stabile, non sull'ultimo blocco.\n- I token di input sono la somma di tre campi, non il valore di `input_tokens`.\n",
-    "fonte_primaria": {
-      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
-      "titolo": "Prompt caching — Claude Docs",
-      "tipo": "documentazione",
-      "verificata_il": "2026-09-16"
-    },
-    "fonti_extra": [],
-    "domande": [
-      {
-        "q": "Hai un system prompt lungo e stabile, e in fondo una riga con la data e l'ora della richiesta. Dove metti il punto di cache e cosa succede se sbagli?",
-        "rubrica": "2 = sull'ultimo blocco stabile, cioè prima della riga con il timestamp. Se lo metti dopo, l'hash del prefisso cambia a ogni richiesta, la ricerca all'indietro non trova mai una voce e paghi ogni volta una scrittura di cache nuova, che costa più dell'input normale: il risparmio non solo sparisce, diventa un costo. 1 = dice di metterlo prima del timestamp ma spiega con 'altrimenti non funziona' senza dire che si paga una scrittura ogni volta. 0 = dice di metterlo alla fine del prompt, o che la posizione non conta."
-      },
-      {
-        "q": "Una conversazione cresce di circa 25 blocchi a turno e hai un solo punto di cache, sempre sull'ultimo blocco. Dopo qualche turno smetti di vedere cache hit. Perché, e come si rimedia?",
-        "rubrica": "2 = la ricerca all'indietro copre al massimo 20 blocchi, quindi la voce scritta al turno precedente è già fuori finestra e non viene più trovata: cache miss a ogni turno. Si rimedia aggiungendo un secondo punto di cache più indietro, che crea una nuova voce raggiungibile. 1 = intuisce che la voce non viene più trovata ma non nomina la finestra di 20 blocchi o non propone il secondo breakpoint. 0 = attribuisce il problema alla scadenza temporale o alla dimensione del contesto."
-      },
-      {
-        "q": "A metà di una sessione lunga aggiungi uno strumento nuovo. Cosa succede alla cache e perché proprio quello?",
-        "rubrica": "2 = si invalida tutto: la cache segue la gerarchia tools, system, messages, e un cambiamento invalida quel livello e tutti i successivi; le definizioni degli strumenti stanno all'inizio del prefisso, quindi cambiarle cambia l'hash di ogni prefisso a valle. Il turno successivo si paga come scrittura piena. 1 = dice che la cache si invalida ma non collega la conseguenza alla posizione di tools nella gerarchia. 0 = dice che si invalidano solo i messaggi, o che non cambia niente perché il system prompt è rimasto uguale."
-      }
-    ],
-    "peso_skill": {
-      "fondamenta-llm": 0.17
-    },
-    "stato": "pronto",
-    "origine": "seed",
-    "nuovo": false,
-    "creato_il": "2026-09-15",
-    "servito_il": null,
-    "completato_il": null,
     "slide": [
       {
         "tipo": "apertura",
@@ -527,7 +497,37 @@
         "approfondimento": null,
         "immagine": null
       }
-    ]
+    ],
+    "fonte_primaria": {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+      "titolo": "Prompt caching — Claude Docs",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
+    "fonti_extra": [],
+    "domande": [
+      {
+        "q": "Hai un system prompt lungo e stabile, e in fondo una riga con la data e l'ora della richiesta. Dove metti il punto di cache e cosa succede se sbagli?",
+        "rubrica": "2 = sull'ultimo blocco stabile, cioè prima della riga con il timestamp. Se lo metti dopo, l'hash del prefisso cambia a ogni richiesta, la ricerca all'indietro non trova mai una voce e paghi ogni volta una scrittura di cache nuova, che costa più dell'input normale: il risparmio non solo sparisce, diventa un costo. 1 = dice di metterlo prima del timestamp ma spiega con 'altrimenti non funziona' senza dire che si paga una scrittura ogni volta. 0 = dice di metterlo alla fine del prompt, o che la posizione non conta."
+      },
+      {
+        "q": "Una conversazione cresce di circa 25 blocchi a turno e hai un solo punto di cache, sempre sull'ultimo blocco. Dopo qualche turno smetti di vedere cache hit. Perché, e come si rimedia?",
+        "rubrica": "2 = la ricerca all'indietro copre al massimo 20 blocchi, quindi la voce scritta al turno precedente è già fuori finestra e non viene più trovata: cache miss a ogni turno. Si rimedia aggiungendo un secondo punto di cache più indietro, che crea una nuova voce raggiungibile. 1 = intuisce che la voce non viene più trovata ma non nomina la finestra di 20 blocchi o non propone il secondo breakpoint. 0 = attribuisce il problema alla scadenza temporale o alla dimensione del contesto."
+      },
+      {
+        "q": "A metà di una sessione lunga aggiungi uno strumento nuovo. Cosa succede alla cache e perché proprio quello?",
+        "rubrica": "2 = si invalida tutto: la cache segue la gerarchia tools, system, messages, e un cambiamento invalida quel livello e tutti i successivi; le definizioni degli strumenti stanno all'inizio del prefisso, quindi cambiarle cambia l'hash di ogni prefisso a valle. Il turno successivo si paga come scrittura piena. 1 = dice che la cache si invalida ma non collega la conseguenza alla posizione di tools nella gerarchia. 0 = dice che si invalidano solo i messaggi, o che non cambia niente perché il system prompt è rimasto uguale."
+      }
+    ],
+    "peso_skill": {
+      "fondamenta-llm": 0.17
+    },
+    "stato": "pronto",
+    "origine": "seed",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
   },
   {
     "id": "mod-llm-05",
@@ -814,36 +814,6 @@
     ],
     "prerequisiti_testo": "Serve sapere cos'è CLAUDE.md: il file di istruzioni che Claude Code carica all'avvio dalla cartella di lavoro e da quelle sopra.\n\nServe sapere che il modello non esegue niente da solo. Chiede di usare uno strumento, e il programma decide se lasciarglielo fare.\n\nNon serve saper scrivere script shell. Basta sapere che un comando restituisce un codice di uscita, e che zero vuol dire «è andata bene».",
     "sintesi_md": "## Prima di partire\n\nAlla fine sai dire quando un'istruzione va scritta come hook invece che in CLAUDE.md. E sai qual è il meccanismo dell'hook che blocca davvero un'azione.\n\nIl punto di partenza è una scena che conosci. Hai scritto in CLAUDE.md «esegui sempre i test prima di ogni commit» e otto volte su dieci funziona.\n\nLe altre due no. Non è un bug, ed è il momento di capire perché.\n\nLa differenza fra «quasi sempre» e «sempre» qui non è una sfumatura. Per una regola di sicurezza è tutta la differenza che conta.\n\n## Contesto contro configurazione\n\nCLAUDE.md è contesto. Viene consegnato al modello come un messaggio dopo il system prompt, il modello lo legge e prova a seguirlo.\n\nNon c'è niente, nel programma, che lo faccia rispettare. Un file lungo, o due istruzioni che si contraddicono, e l'aderenza cala.\n\nUn hook è l'altra cosa. È un comando che il programma esegue da sé in un punto fisso del ciclo di vita, senza chiedere niente al modello.\n\nNon è una versione più forte dell'istruzione. È un pezzo di programma, e gira anche se il modello non ha letto niente.\n\n- La documentazione lo dice quasi con queste parole: CLAUDE.md è contesto, non configurazione imposta.\n- Per bloccare un'azione a prescindere da cosa decide il modello, rimanda agli hook.\n- La riga che riassume tutto: «instructions guide; hooks enforce».\n\n## Dove si attaccano gli hook\n\nGli eventi coprono tre livelli. La sessione, il turno e ogni singola chiamata di strumento.\n\nNon tutti gli eventi possono bloccare. Quelli che contano per imporre una regola sono pochi, e vale la pena saperli a memoria.\n\nGli altri servono per osservare: registrare cosa è successo, avvisare, tenere un diario della sessione.\n\n- Sulla sessione: `SessionStart` e `SessionEnd`.\n- Sul turno: `UserPromptSubmit` e `Stop`.\n- Su ogni strumento: `PreToolUse`, `PostToolUse`, `PermissionRequest`, `PermissionDenied`.\n- Più una coda di eventi su compattazione, cambio di modello e file modificati.\n\n> **Approfondimento — Come è fatta la configurazione.** Gli hook stanno nei file di settings, con tre livelli di annidamento. L'evento, un gruppo con un `matcher` che seleziona a quali strumenti applicarlo, e la lista dei gestori. Ogni gestore ha un `type` e un `command`. Oltre al comando shell, un hook può essere un endpoint HTTP, una chiamata a un tool MCP, un prompt o un subagent.\n\n## Un hook che dice di no\n\nQuesto blocca un `git push --force` prima che parta. Tre righe di configurazione e uno script che decide.\n\nIl matcher seleziona lo strumento, non il comando. Il filtro fine lo fa lo script, che riceve i dettagli su stdin.\n\nVale la pena tenere lo script corto. Un hook lento si fa sentire, perché gira prima di ogni comando che corrisponde al matcher.\n\n1. L'evento è `PreToolUse`: scatta prima dell'esecuzione, che è l'unico momento in cui bloccare serve.\n2. Il `matcher` vale `Bash`, quindi lo script viene chiamato per ogni comando di shell.\n3. Il `command` è il tuo script. Se esce con 2, il comando non parte.\n\n## Come un hook dice di no\n\nÈ il pezzo che conta davvero. Un hook di tipo `command` riceve un JSON su stdin e comunica con il codice di uscita.\n\nZero vuol dire nessuna decisione: il flusso normale dei permessi va avanti. Due vuol dire errore bloccante.\n\nSugli eventi che possono bloccare, l'uscita 2 impedisce l'azione, e lo fa che tu stampi JSON o no.\n\nSu chi vince, la documentazione è netta. Il blocco dell'uscita 2 è l'unico esito che il JSON non può ribaltare.\n\nQualunque altro codice diverso da zero e da due è un errore non bloccante: lo vedi nei log, l'azione parte lo stesso.\n\n> **Approfondimento — Quando serve il JSON invece del codice 2.** L'alternativa più fine è restituire JSON con `hookSpecificOutput.permissionDecision` valorizzato a `allow` o `deny`, più un `permissionDecisionReason` che spiega. Serve quando vuoi decidere caso per caso invece che spegnere tutto. Su `PermissionRequest` è l'unica strada, perché lì l'uscita 2 non viene onorata.\n\n## La regola scritta nel posto sbagliato\n\nIl sintomo è quello dell'apertura: funziona quasi sempre. Quasi sempre, per una regola di sicurezza, vuol dire non funziona.\n\nLa reazione tipica è riscrivere l'istruzione in CLAUDE.md, più in grande, con più maiuscole. Non cambia niente, perché il meccanismo è lo stesso.\n\n- Se l'istruzione deve valere anche quando il modello si distrae, non è contesto.\n- Se deve valere anche quando il modello non c'entra, a maggior ragione.\n- Scriverla due volte in CLAUDE.md non la rende più vincolante: allunga il file e basta.\n\n## Dove va scritta una regola\n\nLa regola di smistamento è la cosa da portarsi via. Tre destinazioni, e si scelgono con una domanda sola.\n\nIl test è secco. Se alla domanda «e se il modello decidesse di no?» la risposta è «non è accettabile», allora non è contesto: è un hook.\n\n- Una convenzione, una preferenza, un pezzo di architettura da conoscere: CLAUDE.md, o una regola con `paths`.\n- Una procedura lunga che serve ogni tanto: una skill.\n- Una cosa che deve accadere in un punto preciso del ciclo, tutte le volte: un hook.\n\n## Tre frasi da ricordare\n\nGli hook sono l'unico posto in cui una regola smette di dipendere dal modello. Tutto il resto è persuasione, ben scritta finché vuoi.\n\nQuesto non toglie valore a CLAUDE.md. Toglie a CLAUDE.md un lavoro che non è mai stato il suo.\n\n- CLAUDE.md guida, gli hook impongono.\n- Un hook gira nel programma, in un punto fisso, senza consultare il modello.\n- Sugli eventi bloccanti, l'uscita 2 impedisce l'azione e nessun JSON la annulla.\n",
-    "fonte_primaria": {
-      "url": "https://code.claude.com/docs/en/hooks",
-      "titolo": "Claude Code — Hooks (documentazione ufficiale)",
-      "tipo": "documentazione",
-      "verificata_il": "2026-09-17"
-    },
-    "fonti_extra": [],
-    "domande": [
-      {
-        "q": "Scrivi in CLAUDE.md «non toccare mai i file in `migrations/`». Un collega ti dice che è sufficiente. Dove ha ragione, dove ha torto, e cosa scrivi al posto suo?",
-        "rubrica": "2 = ha ragione nel senso che l'istruzione viene letta e nella gran parte dei casi seguita; ha torto perché CLAUDE.md è contesto e non configurazione applicata dal programma, quindi non c'è garanzia, tanto più con file lunghi o istruzioni in conflitto. Al posto suo: un hook `PreToolUse` che ispeziona il percorso del file e blocca, oppure una regola `permissions.deny`; l'hook è ciò che il programma esegue a prescindere dalla decisione del modello. 1 = coglie che non è garantito ma non propone il meccanismo che invece lo garantisce, o lo nomina senza dire perché funziona. 0 = dice che basta così, o propone di ripetere l'istruzione, scriverla in maiuscolo, o metterla anche in un secondo file."
-      },
-      {
-        "q": "Un hook su `PreToolUse` stampa un JSON con `permissionDecision: \"allow\"` e poi esce con codice 2. Cosa succede?",
-        "rubrica": "2 = l'azione viene bloccata: su un evento che può bloccare, l'uscita 2 blocca a prescindere dal JSON stampato, ed è l'unico esito che il JSON non può ribaltare. Il JSON conta solo quando l'uscita è 0. 1 = dice che viene bloccata ma senza sapere che è l'uscita 2 a prevalere sul JSON. 0 = dice che l'azione passa perché il JSON dice `allow`, o che il comportamento è indefinito."
-      },
-      {
-        "q": "Devi garantire che il linter giri dopo ogni modifica a un file `.ts`, e vuoi anche che Claude sappia che il progetto usa due spazi di indentazione. Quante cose stai configurando, e dove le metti?",
-        "rubrica": "2 = due cose di natura diversa. Il linter è un'azione che deve accadere a un punto fisso del ciclo indipendentemente dal modello: hook `PostToolUse` con un `matcher` sugli strumenti di scrittura. L'indentazione è un fatto che il modello deve conoscere mentre scrive: CLAUDE.md, o una regola con `paths` su `**/*.ts`. La motivazione deve poggiare sulla distinzione fra ciò che si esegue e ciò che si legge. 1 = colloca le due cose nel posto giusto ma motiva con l'ordine o la comodità invece che con esecuzione contro contesto. 0 = mette entrambe in CLAUDE.md, o entrambe in un hook."
-      }
-    ],
-    "peso_skill": {
-      "claude-code": 0.14
-    },
-    "stato": "pronto",
-    "origine": "routine-cowork",
-    "nuovo": false,
-    "creato_il": "2026-09-17",
-    "servito_il": null,
-    "completato_il": null,
     "slide": [
       {
         "tipo": "apertura",
@@ -968,7 +938,37 @@
         "approfondimento": null,
         "immagine": null
       }
-    ]
+    ],
+    "fonte_primaria": {
+      "url": "https://code.claude.com/docs/en/hooks",
+      "titolo": "Claude Code — Hooks (documentazione ufficiale)",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-17"
+    },
+    "fonti_extra": [],
+    "domande": [
+      {
+        "q": "Scrivi in CLAUDE.md «non toccare mai i file in `migrations/`». Un collega ti dice che è sufficiente. Dove ha ragione, dove ha torto, e cosa scrivi al posto suo?",
+        "rubrica": "2 = ha ragione nel senso che l'istruzione viene letta e nella gran parte dei casi seguita; ha torto perché CLAUDE.md è contesto e non configurazione applicata dal programma, quindi non c'è garanzia, tanto più con file lunghi o istruzioni in conflitto. Al posto suo: un hook `PreToolUse` che ispeziona il percorso del file e blocca, oppure una regola `permissions.deny`; l'hook è ciò che il programma esegue a prescindere dalla decisione del modello. 1 = coglie che non è garantito ma non propone il meccanismo che invece lo garantisce, o lo nomina senza dire perché funziona. 0 = dice che basta così, o propone di ripetere l'istruzione, scriverla in maiuscolo, o metterla anche in un secondo file."
+      },
+      {
+        "q": "Un hook su `PreToolUse` stampa un JSON con `permissionDecision: \"allow\"` e poi esce con codice 2. Cosa succede?",
+        "rubrica": "2 = l'azione viene bloccata: su un evento che può bloccare, l'uscita 2 blocca a prescindere dal JSON stampato, ed è l'unico esito che il JSON non può ribaltare. Il JSON conta solo quando l'uscita è 0. 1 = dice che viene bloccata ma senza sapere che è l'uscita 2 a prevalere sul JSON. 0 = dice che l'azione passa perché il JSON dice `allow`, o che il comportamento è indefinito."
+      },
+      {
+        "q": "Devi garantire che il linter giri dopo ogni modifica a un file `.ts`, e vuoi anche che Claude sappia che il progetto usa due spazi di indentazione. Quante cose stai configurando, e dove le metti?",
+        "rubrica": "2 = due cose di natura diversa. Il linter è un'azione che deve accadere a un punto fisso del ciclo indipendentemente dal modello: hook `PostToolUse` con un `matcher` sugli strumenti di scrittura. L'indentazione è un fatto che il modello deve conoscere mentre scrive: CLAUDE.md, o una regola con `paths` su `**/*.ts`. La motivazione deve poggiare sulla distinzione fra ciò che si esegue e ciò che si legge. 1 = colloca le due cose nel posto giusto ma motiva con l'ordine o la comodità invece che con esecuzione contro contesto. 0 = mette entrambe in CLAUDE.md, o entrambe in un hook."
+      }
+    ],
+    "peso_skill": {
+      "claude-code": 0.14
+    },
+    "stato": "pronto",
+    "origine": "routine-cowork",
+    "nuovo": false,
+    "creato_il": "2026-09-17",
+    "servito_il": null,
+    "completato_il": null
   },
   {
     "id": "mod-claude-code-07",
@@ -1588,36 +1588,6 @@
     ],
     "prerequisiti_testo": "Serve sapere che ogni sessione parte con una finestra di contesto vuota. Il modello non ricorda niente della sessione precedente.\n\nServe sapere cos'è CLAUDE.md: il file di istruzioni che Claude Code carica all'avvio.\n\nServe infine avere presente che tutto quello che entra in finestra si paga a ogni richiesta di quella sessione, non una volta sola.",
     "sintesi_md": "## Prima di partire\n\nAlla fine sai dire, per ogni file di memoria di Claude Code, se entra in contesto a ogni avvio o solo su richiesta. E sai stimare cosa ti costa aggiungerci una riga.\n\nGira un metodo, sui social, che promette memoria persistente per un agente con cinque file markdown. Uno per le regole, uno per le competenze, uno per le decisioni passate, uno per lo stato, uno per le istruzioni.\n\nAlla fonte il quadro è diverso, e la differenza sta tutta nel costo.\n\nNon è una questione di quale metodo è più elegante. È che due di quei file li paghi a ogni avvio e tre no, e il metodo non lo dice.\n\n## Due meccanismi, non cinque\n\nOgni sessione parte con una finestra vuota. Due meccanismi portano dentro qualcosa dalla sessione precedente, e sono solo due.\n\nIl primo sono i file CLAUDE.md, che scrivi tu. Il secondo è l'auto memory, che Claude scrive da sé a partire dalle tue correzioni.\n\nTutto il resto, comprese le cinque sigle del metodo che gira, è uno di questi due sotto un altro nome.\n\nSapere quale dei due è, per ogni file che aggiungi, basta a rispondere alla domanda del costo.\n\n- Quello che scrivi tu lo controlli, e lo paghi a ogni avvio.\n- Quello che scrive Claude si accumula, e ha una regola di caricamento tutta sua.\n\n## Quali CLAUDE.md si caricano\n\nI file CLAUDE.md vengono caricati dalla directory di lavoro e da tutte quelle sopra. Si concatenano dalla radice del filesystem verso il basso.\n\nLe istruzioni più vicine a dove hai lanciato Claude sono quindi le ultime lette.\n\nI file nelle sottocartelle non si caricano all'avvio. Entrano quando Claude legge un file di quella sottocartella.\n\n- La documentazione dà un bersaglio: sotto le 200 righe per file.\n- Il motivo è dichiarato: «longer files consume more context and reduce adherence».\n- Un file lungo non costa solo token. Costa anche aderenza, cioè la cosa per cui l'avevi scritto.\n\n> **Approfondimento — Gli import non risparmiano niente.** È l'equivoco più diffuso. Gli import `@path` vengono espansi e caricati in contesto all'avvio, esattamente come se avessi incollato il testo. Spezzare un file da 600 righe in quattro e richiamarli con `@` organizza meglio, ma non risparmia un token. La profondità massima degli import è di quattro salti.\n\n## L'auto memory e la sua soglia\n\nL'auto memory vive in una cartella per repository. Dentro c'è un `MEMORY.md` che fa da indice, più un file per argomento.\n\nQui sta la risposta alla domanda del costo. All'avvio si carica solo l'indice, e solo le prime 200 righe o i primi 25 KB, quello che viene prima.\n\nI file per argomento no. Claude li legge su richiesta con gli strumenti normali, quando gli servono.\n\n- Quello che sta oltre la soglia dell'indice non viene caricato.\n- E non te lo dice nessuno: non c'è un avviso, non c'è un errore.\n- Un indice che cresce senza controllo perde le voci in fondo, in silenzio.\n\n## Il file che Claude non legge\n\nSu AGENTS.md la fonte è secca: Claude Code legge `CLAUDE.md`, non `AGENTS.md`.\n\nSe il repository ne ha già uno per altri agenti, si crea un CLAUDE.md che lo importa. E quell'import, come tutti, si espande all'avvio.\n\nVale la pena controllarlo, perché è un errore silenzioso. Nessuno ti avvisa che il file non viene letto: le istruzioni semplicemente non hanno effetto.\n\nIl sintomo è lo stesso di un'istruzione ignorata, e ti manda a caccia nel posto sbagliato.\n\n## Il meccanismo che nessuno nomina\n\nIl metodo dei cinque file non nomina proprio quello che risolve il problema. Sono le regole con `paths`, in `.claude/rules/`.\n\nHanno un frontmatter che elenca i pattern dei file a cui si applicano. Entrano in contesto solo quando Claude tocca un file che corrisponde.\n\nLe skill funzionano allo stesso modo: si caricano solo quando servono.\n\nLa differenza con CLAUDE.md non è nel contenuto. È in quando quel contenuto entra in finestra.\n\n- Una convenzione sui test entra in finestra solo quando apri un file di test.\n- Una regola sul frontend non pesa niente in una sessione di backend.\n- È lo stesso contenuto di prima, spostato da costo ricorrente a costo su richiesta.\n\n## Lo schema che vale sempre\n\nQuesto schema vale per qualunque cosa tu voglia rendere persistente. Da una parte quello che entra a ogni avvio, dall'altra quello che si carica quando serve.\n\nCinque file markdown caricati sempre non sono memoria. Sono cinque file di contesto che paghi tutte le volte.\n\n- Costo ricorrente: CLAUDE.md, regole senza `paths`, indice dell'auto memory.\n- Costo su richiesta: regole con `paths`, skill, file per argomento, CLAUDE.md delle sottocartelle.\n- La domanda da farsi è sempre la stessa: questo entra a ogni avvio, o solo quando serve?\n\n> **Approfondimento — Lo stesso metro sugli indicizzatori.** Gira anche la promessa degli indicizzatori: un tool che costruisce un grafo del progetto con un parser del codice. Non dà memoria a Claude. Gli dà un modo di cercare senza leggere tutto, che è di nuovo costo su richiesta al posto di costo ricorrente. Va valutato con la stessa domanda, non con la parola «memoria».\n\n## Tre frasi da ricordare\n\nLa parola «memoria» non dice niente sul costo. La domanda su cosa entra in finestra sì, ed è l'unica che serve per decidere.\n\n- I meccanismi che portano qualcosa dentro sono due: CLAUDE.md e auto memory.\n- Dell'auto memory all'avvio entra solo l'indice, e solo il suo primo pezzo.\n- Le regole con `paths` e le skill spostano il contenuto da costo fisso a costo su richiesta.\n",
-    "fonte_primaria": {
-      "url": "https://code.claude.com/docs/en/memory",
-      "titolo": "Claude Code — How Claude remembers your project (documentazione ufficiale)",
-      "tipo": "documentazione",
-      "verificata_il": "2026-09-17"
-    },
-    "fonti_extra": [],
-    "domande": [
-      {
-        "q": "Il tuo CLAUDE.md è arrivato a 600 righe. Lo spezzi in quattro file da 150 e li richiami con `@`. Poi sposti due dei quattro in `.claude/rules/` con un frontmatter `paths`. Quanto contesto hai risparmiato a ogni avvio, nei due passaggi?",
-        "rubrica": "2 = primo passaggio zero: gli import si espandono e si caricano all'avvio insieme al file che li richiama, quindi il conto dei token è identico e cambia solo l'organizzazione. Secondo passaggio: risparmi le righe dei due file spostati in ogni sessione che non tocca file corrispondenti ai pattern, perché una regola con `paths` entra in contesto solo quando Claude legge un file che corrisponde. 1 = coglie uno dei due passaggi e sbaglia o salta l'altro. 0 = dice che già gli import risparmiano contesto."
-      },
-      {
-        "q": "L'auto memory di un progetto ha un `MEMORY.md` da 400 righe e sei file per argomento. Cosa entra nella finestra quando apri una sessione nuova, e cosa succede alle righe dalla 201 in poi?",
-        "rubrica": "2 = entrano solo le prime 200 righe di `MEMORY.md`, o i primi 25KB se arrivano prima; i sei file per argomento non si caricano all'avvio, Claude li legge su richiesta con gli strumenti normali. Le righe dalla 201 in poi non vengono caricate: esistono su disco ma non entrano in contesto, quindi un indice troppo lungo perde in silenzio la parte finale. 1 = sa che si carica solo l'indice ma non conosce il limite, o non dice cosa succede oltre. 0 = dice che si carica tutta la cartella, o che non si carica niente."
-      },
-      {
-        "q": "Un metodo che gira in rete dice di creare AGENTS.md, SKILLS.md, MEMORY.md, CONTEXT.md e CLAUDE.md nella radice del progetto. Senza giudicare il metodo, di' quali di quei file Claude Code carica davvero da solo, e cosa ti costerebbe il resto.",
-        "rubrica": "2 = di quei cinque Claude Code carica da solo CLAUDE.md. AGENTS.md non lo legge affatto, a meno che un CLAUDE.md non lo importi con `@`, e in quel caso si espande all'avvio come il resto. Gli altri tre sono file markdown qualunque: o li importi, e allora li paghi a ogni sessione, o non li importi, e allora Claude non li vede finché non glieli fai leggere esplicitamente. Il nome del file non fa succedere niente da solo. 1 = individua che AGENTS.md non viene letto ma non spiega cosa succede agli altri tre, o viceversa. 0 = dà per buono che i cinque file vengano caricati, o liquida il metodo senza dire perché."
-      }
-    ],
-    "peso_skill": {
-      "context-economy": 0.2
-    },
-    "stato": "pronto",
-    "origine": "routine-cowork",
-    "nuovo": false,
-    "creato_il": "2026-09-17",
-    "servito_il": null,
-    "completato_il": null,
     "slide": [
       {
         "tipo": "apertura",
@@ -1735,7 +1705,37 @@
         "approfondimento": null,
         "immagine": null
       }
-    ]
+    ],
+    "fonte_primaria": {
+      "url": "https://code.claude.com/docs/en/memory",
+      "titolo": "Claude Code — How Claude remembers your project (documentazione ufficiale)",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-17"
+    },
+    "fonti_extra": [],
+    "domande": [
+      {
+        "q": "Il tuo CLAUDE.md è arrivato a 600 righe. Lo spezzi in quattro file da 150 e li richiami con `@`. Poi sposti due dei quattro in `.claude/rules/` con un frontmatter `paths`. Quanto contesto hai risparmiato a ogni avvio, nei due passaggi?",
+        "rubrica": "2 = primo passaggio zero: gli import si espandono e si caricano all'avvio insieme al file che li richiama, quindi il conto dei token è identico e cambia solo l'organizzazione. Secondo passaggio: risparmi le righe dei due file spostati in ogni sessione che non tocca file corrispondenti ai pattern, perché una regola con `paths` entra in contesto solo quando Claude legge un file che corrisponde. 1 = coglie uno dei due passaggi e sbaglia o salta l'altro. 0 = dice che già gli import risparmiano contesto."
+      },
+      {
+        "q": "L'auto memory di un progetto ha un `MEMORY.md` da 400 righe e sei file per argomento. Cosa entra nella finestra quando apri una sessione nuova, e cosa succede alle righe dalla 201 in poi?",
+        "rubrica": "2 = entrano solo le prime 200 righe di `MEMORY.md`, o i primi 25KB se arrivano prima; i sei file per argomento non si caricano all'avvio, Claude li legge su richiesta con gli strumenti normali. Le righe dalla 201 in poi non vengono caricate: esistono su disco ma non entrano in contesto, quindi un indice troppo lungo perde in silenzio la parte finale. 1 = sa che si carica solo l'indice ma non conosce il limite, o non dice cosa succede oltre. 0 = dice che si carica tutta la cartella, o che non si carica niente."
+      },
+      {
+        "q": "Un metodo che gira in rete dice di creare AGENTS.md, SKILLS.md, MEMORY.md, CONTEXT.md e CLAUDE.md nella radice del progetto. Senza giudicare il metodo, di' quali di quei file Claude Code carica davvero da solo, e cosa ti costerebbe il resto.",
+        "rubrica": "2 = di quei cinque Claude Code carica da solo CLAUDE.md. AGENTS.md non lo legge affatto, a meno che un CLAUDE.md non lo importi con `@`, e in quel caso si espande all'avvio come il resto. Gli altri tre sono file markdown qualunque: o li importi, e allora li paghi a ogni sessione, o non li importi, e allora Claude non li vede finché non glieli fai leggere esplicitamente. Il nome del file non fa succedere niente da solo. 1 = individua che AGENTS.md non viene letto ma non spiega cosa succede agli altri tre, o viceversa. 0 = dà per buono che i cinque file vengano caricati, o liquida il metodo senza dire perché."
+      }
+    ],
+    "peso_skill": {
+      "context-economy": 0.2
+    },
+    "stato": "pronto",
+    "origine": "routine-cowork",
+    "nuovo": false,
+    "creato_il": "2026-09-17",
+    "servito_il": null,
+    "completato_il": null
   },
   {
     "id": "mod-context-economy-02",
@@ -1857,36 +1857,6 @@
     ],
     "prerequisiti_testo": "Serve sapere che CLAUDE.md viene caricato all'avvio e resta in contesto per tutta la sessione.\n\nServe sapere cos'è il frontmatter YAML: le righe fra due `---` in cima a un file markdown, che ne descrivono i metadati.\n\nNon serve aver mai scritto una skill. Serve solo tenere presente che tutto quello che entra in finestra si paga a ogni richiesta successiva.",
     "sintesi_md": "## Prima di partire\n\nAlla fine sai decidere se un'istruzione ricorrente va in CLAUDE.md o in una skill. E sai scrivere il frontmatter che fa caricare la skill al momento giusto.\n\nUna skill è una cartella con dentro un file `SKILL.md`: frontmatter YAML più istruzioni in markdown.\n\nClaude la usa quando la ritiene pertinente, oppure la invochi tu con `/nome-skill`.\n\nLa domanda vera non è come si scrive. È quando conviene scriverne una invece di aggiungere tre righe a CLAUDE.md, e la risposta dipende da come funziona il caricamento.\n\n## Perché non è un altro CLAUDE.md\n\nLa differenza sta in quando il testo entra nel contesto. Non in dove sta più ordinato.\n\nLe `description` di tutte le skill ci stanno sempre. Sono poche righe e servono a Claude per sapere che cosa esiste.\n\nIl corpo entra solo quando la skill viene invocata. Si chiama progressive disclosure, e vuol dire che materiale di riferimento lungo non costa quasi niente finché non serve.\n\n- Da lì in poi però ci resta: una skill caricata rimane in contesto per i turni successivi.\n- Ogni sua riga diventa un costo ricorrente fino a fine sessione.\n- Non è gratis, è differito. È una differenza grossa, ma va detta per intero.\n\n## Il criterio è la frequenza\n\nIl criterio non è dove sta più ordinato. È ogni quanto serve.\n\nUn fatto stabile che vale per ogni sessione sta in CLAUDE.md. Una procedura lunga che serve ogni tanto sta in una skill.\n\nMessa così sembra ovvia, ma quasi tutti sbagliano nella stessa direzione. Mettono in CLAUDE.md le procedure, perché lì «si trovano subito».\n\n- «Questo progetto usa pnpm» è un fatto: CLAUDE.md.\n- «Come si prepara una release» è una procedura: skill.\n- Il segnale per crearne una: ti accorgi di reincollare le stesse istruzioni.\n- Oppure una sezione di CLAUDE.md è diventata una procedura invece che un fatto.\n\n## Un SKILL.md vero\n\nFrontmatter e corpo, in un file solo. La riga con il punto esclamativo è la parte che sorprende di più.\n\nLa sintassi con il punto esclamativo e i backtick esegue il comando prima che il contenuto arrivi a Claude. Al suo posto ci finisce l'output.\n\n1. Claude non riceve la riga `git diff HEAD`: riceve il diff vero.\n2. La skill smette di essere un testo e diventa un contesto già riempito.\n\n## I campi che contano\n\nSono cinque, e il primo pesa più di tutti gli altri messi insieme.\n\nGli altri quattro servono a limitare cosa la skill può fare e chi può invocarla. Vale la pena impostarli presto, perché una skill che può già fare tutto è difficile da restringere dopo.\n\n- `description`: è l'unica cosa su cui Claude decide se caricare la skill. Scritta male, la skill non parte mai.\n- `disable-model-invocation`: può invocarla solo tu. Da mettere su tutto ciò che è irreversibile.\n- `user-invocable: false`: la usa solo Claude, per conoscenza di sfondo.\n- `allowed-tools`: strumenti preapprovati, senza richiesta di permesso.\n- `context: fork`: la esegue in un sottoagente isolato.\n\n> **Approfondimento — Dove si installano, e quanto lunghe.** Le skill vivono in `~/.claude/skills/<nome>/SKILL.md` per tutti i progetti, in `.claude/skills/<nome>/SKILL.md` per un repository, oppure dentro un plugin. Tieni `SKILL.md` sotto le 500 righe. Il materiale di riferimento va in file separati che la skill cita: si aprono solo se servono, ed è di nuovo lo stesso principio.\n\n## Le skill scaricate da altri\n\nGirano raccolte di skill già fatte, e come esempi di frontmatter scritto bene sono utili.\n\nMa una skill è testo che entra nel tuo contesto, e può portarsi dietro `allowed-tools` preapprovati. Vuol dire strumenti che girano senza chiederti niente.\n\n- Una skill scaricata va letta riga per riga prima di installarla.\n- Esattamente come uno script trovato su Internet, perché è la stessa cosa.\n- Il campo da guardare per primo è `allowed-tools`, poi il corpo.\n- Se una skill scaricata non spiega perché le servono certi strumenti, è già un motivo per non installarla.\n\n## Come si scrive una description\n\nÈ il campo che decide tutto, e si scrive con lo stesso criterio della descrizione di uno strumento.\n\nDeve dire che cosa fa la skill e quando si usa. La seconda metà è quella che viene omessa quasi sempre, ed è quella che fa partire la skill al momento giusto.\n\nUna description come «aiuta con i commit» non dice a Claude quando la tua richiesta ricade lì dentro. Nomina le parole che useresti tu quando ti serve.\n\n> **Approfondimento — Il parallelo con gli strumenti.** La regola è la stessa del modulo su cosa vede il modello di uno strumento. Il modello non vede il corpo della skill finché non la carica, quindi decide solo sulla description. Se una skill non parte mai, il posto da guardare è quello. Non il corpo, non il nome, non il modello.\n\n## Tre frasi da ricordare\n\nLe skill non sono un modo più elegante di scrivere CLAUDE.md. Sono un modo diverso di pagarlo.\n\nIl corso continua sulle skill: come si struttura il materiale di riferimento, e come si scrive una description che parte quando deve.\n\n- Delle skill sta sempre in contesto solo la description. Il corpo entra quando servono.\n- Una volta caricata, però, la skill resta fino a fine sessione.\n- Fatto stabile: CLAUDE.md. Procedura che serve ogni tanto: skill.\n",
-    "fonte_primaria": {
-      "url": "https://code.claude.com/docs/en/skills",
-      "titolo": "Claude Code — Agent Skills (documentazione ufficiale)",
-      "tipo": "documentazione",
-      "verificata_il": "2026-09-16"
-    },
-    "fonti_extra": [],
-    "domande": [
-      {
-        "q": "Hai due cose da dare a Claude Code su un progetto: (a) \"i test si lanciano con `pnpm test`, mai con npm\"; (b) una checklist di quaranta righe per preparare una release, che usi una volta al mese. Dove le metti e perché?",
-        "rubrica": "2 = (a) in CLAUDE.md: è un fatto breve e stabile che serve in ogni sessione; (b) in una skill: è lunga e serve di rado, e il corpo si carica solo quando la invochi, quindi non costa contesto nelle altre sessioni. Motivazione ancorata alla frequenza d'uso e al costo ricorrente. 1 = colloca bene ma motiva con l'ordine o la leggibilità. 0 = mette entrambe in CLAUDE.md, o sceglie a caso."
-      },
-      {
-        "q": "Una tua skill non viene mai caricata da sola: devi invocarla ogni volta a mano. Da cosa parti per capire il problema?",
-        "rubrica": "2 = dalla `description`, perché è l'unica cosa su cui Claude decide: deve dire cosa fa e soprattutto *quando* usarla, con le situazioni in cui si applica; va controllato anche che non ci sia `disable-model-invocation: true`. 1 = dice di riscrivere la descrizione senza spiegare che è il criterio di attivazione. 0 = cerca il problema nel corpo della skill o nel modello."
-      },
-      {
-        "q": "Trovi una repo con cinquanta skill pronte. Cosa controlli prima di installarne una, e perché è diverso dall’installare una libreria?",
-        "rubrica": "2 = la skill è testo che entra nel contesto e guida il comportamento dell'agente, e può dichiarare `allowed-tools` preapprovati o eseguire comandi con l'injection dinamica `` !`cmd` ``: va letta riga per riga, come uno script trovato online. Differenza: qui non si tratta solo di codice che gira, ma di istruzioni che cambiano cosa l'agente fa al posto tuo, con permessi già concessi. 1 = dice \"la leggo prima\" senza nominare tool preapprovati o comandi eseguiti. 0 = la installa perché la repo ha molte stelle."
-      }
-    ],
-    "peso_skill": {
-      "claude-skills": 0.2
-    },
-    "stato": "pronto",
-    "origine": "routine-cowork",
-    "nuovo": false,
-    "creato_il": "2026-09-15",
-    "servito_il": null,
-    "completato_il": null,
     "slide": [
       {
         "tipo": "apertura",
@@ -2008,7 +1978,37 @@
         "approfondimento": null,
         "immagine": null
       }
-    ]
+    ],
+    "fonte_primaria": {
+      "url": "https://code.claude.com/docs/en/skills",
+      "titolo": "Claude Code — Agent Skills (documentazione ufficiale)",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
+    "fonti_extra": [],
+    "domande": [
+      {
+        "q": "Hai due cose da dare a Claude Code su un progetto: (a) \"i test si lanciano con `pnpm test`, mai con npm\"; (b) una checklist di quaranta righe per preparare una release, che usi una volta al mese. Dove le metti e perché?",
+        "rubrica": "2 = (a) in CLAUDE.md: è un fatto breve e stabile che serve in ogni sessione; (b) in una skill: è lunga e serve di rado, e il corpo si carica solo quando la invochi, quindi non costa contesto nelle altre sessioni. Motivazione ancorata alla frequenza d'uso e al costo ricorrente. 1 = colloca bene ma motiva con l'ordine o la leggibilità. 0 = mette entrambe in CLAUDE.md, o sceglie a caso."
+      },
+      {
+        "q": "Una tua skill non viene mai caricata da sola: devi invocarla ogni volta a mano. Da cosa parti per capire il problema?",
+        "rubrica": "2 = dalla `description`, perché è l'unica cosa su cui Claude decide: deve dire cosa fa e soprattutto *quando* usarla, con le situazioni in cui si applica; va controllato anche che non ci sia `disable-model-invocation: true`. 1 = dice di riscrivere la descrizione senza spiegare che è il criterio di attivazione. 0 = cerca il problema nel corpo della skill o nel modello."
+      },
+      {
+        "q": "Trovi una repo con cinquanta skill pronte. Cosa controlli prima di installarne una, e perché è diverso dall’installare una libreria?",
+        "rubrica": "2 = la skill è testo che entra nel contesto e guida il comportamento dell'agente, e può dichiarare `allowed-tools` preapprovati o eseguire comandi con l'injection dinamica `` !`cmd` ``: va letta riga per riga, come uno script trovato online. Differenza: qui non si tratta solo di codice che gira, ma di istruzioni che cambiano cosa l'agente fa al posto tuo, con permessi già concessi. 1 = dice \"la leggo prima\" senza nominare tool preapprovati o comandi eseguiti. 0 = la installa perché la repo ha molte stelle."
+      }
+    ],
+    "peso_skill": {
+      "claude-skills": 0.2
+    },
+    "stato": "pronto",
+    "origine": "routine-cowork",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
   },
   {
     "id": "mod-claude-skills-02",
@@ -2131,49 +2131,6 @@
     ],
     "prerequisiti_testo": "Serve sapere cos'è un file markdown: testo normale, con qualche simbolo per titoli, elenchi e link.\n\nServe sapere che un agente può avere strumenti che leggono e scrivono file su disco.\n\nNon serve aver mai usato Obsidian. Il modulo parte proprio da cos'è un vault, e da lì non serve altro.",
     "sintesi_md": "## Prima di partire\n\nAlla fine sai spiegare perché un agente può lavorare su un vault Obsidian senza API né database. E sai dire dove si rompe quando le note sono duemila.\n\nSu Obsidian va capita una cosa sola, ed è anche il motivo per cui è il caso più semplice di second brain.\n\nUn vault è una cartella sul tuo filesystem, dove Obsidian tiene le note. Tutto il resto del modulo discende da questa frase.\n\nÈ anche il motivo per cui conviene partire da qui e non da un tool. Quello che impari su un vault vale per qualunque raccolta di note su disco.\n\n## Un vault è una cartella\n\nNon c'è un database, non c'è un backend, non c'è un'API da chiamare.\n\nC'è una cartella con dentro file `.md`, gli allegati e una sottocartella `.obsidian` con la configurazione. Obsidian è un'interfaccia sopra file di testo.\n\nNe segue la cosa che conta per un agente. Qualunque cosa sappia leggere una cartella sa leggere il tuo second brain.\n\nNon è un dettaglio implementativo. Vuol dire che non dipendi da nessuno per accedere alle tue note, oggi e fra cinque anni.\n\n- Va bene `grep`, va bene uno script, va bene un agente con gli strumenti di lettura file.\n- Va bene anche un server MCP che espone ricerca e lettura, se vuoi darlo a Claude Desktop.\n- Non c'è un formato da imparare né un'autenticazione da gestire.\n\n## Il grafo sta dentro il testo\n\nLa struttura non sta in un indice separato. Sta nelle note, sotto forma di link.\n\nObsidian ne supporta due formati equivalenti, le doppie parentesi quadre e la forma markdown classica, e genera il primo perché è più corto.\n\nPuoi puntare a una sezione o a un blocco preciso. Con la barra verticale cambi il testo mostrato, con il punto esclamativo davanti incorpori il contenuto.\n\n- I link sono dati leggibili: una regex ricostruisce il grafo delle relazioni senza aprire Obsidian.\n- Non serve un parser: è testo, e il formato è sempre lo stesso.\n\n> **Approfondimento — Cosa ci fai con il grafo.** Ricostruire le relazioni serve a due cose concrete. Trovare le note orfane, che nessuno cita e che quindi non ritroverai mai navigando. E trovare i nodi centrali: le note citate da molte altre, che sono quasi sempre quelle che conviene tenere in ordine per prime.\n\n## Rinominare da fuori rompe tutto\n\nQuando rinomini un file dentro Obsidian, i link si aggiornano da soli. È l'interfaccia che se ne occupa.\n\nUn agente che rinomina da fuori non lo fa. Rompe i riferimenti, e li rompe in silenzio: nessun errore, nessun avviso.\n\nÈ la prima regola di sicurezza da fissare prima di dargli il permesso di scrittura.\n\n- Se dai a un agente il permesso di scrivere nel vault vero, fai prima una copia.\n- Non per prudenza generica: un rinomina fatto da fuori te ne accorgi settimane dopo.\n- Se proprio deve rinominare, deve anche aggiornare i link che puntano a quel file.\n- La stessa cautela vale per spostare un file fra cartelle: cambia il percorso, non il nome.\n\n## Dove si rompe il metodo\n\nSu venti note funziona tutto, anche l'approccio ingenuo di darle in pasto tutte insieme.\n\nSu duemila no. La finestra si riempie di materiale irrilevante e le risposte peggiorano proprio mentre il vault cresce.\n\nÈ lo stesso fenomeno del modulo sul context rot, visto da un'altra parte. Non è il vault a essere troppo grande: è la finestra a essere piena di cose che non servono.\n\n## Cosa vuol dire second brain utile\n\nIl second brain utile non è «l'agente legge tutto». È «l'agente cerca, apre tre note e risponde citando quelle».\n\nLa differenza non è di efficienza. È di qualità della risposta, perché tre note pertinenti battono duemila note diluite.\n\nDa qui in avanti il corso è tutto su questo: come si cerca, che cosa si espone, che cosa si lascia sul disco.\n\n> **Approfondimento — Perché citare le note cambia tutto.** Un agente che risponde citando le note che ha aperto ti dà due cose in più. Puoi verificare, e puoi correggere la nota se la risposta era giusta ma la fonte era vecchia. Un agente che ha letto tutto e risponde senza citare non ti lascia nessuna delle due.\n\n## I tool che promettono memoria\n\nGirano confronti fra strumenti che costruiscono un second brain sopra le tue note, e framework che promettono una wiki generata dall'agente.\n\nSono segnalazioni, non fonti. Nessuna cambia il fatto di partenza: sono file markdown su disco.\n\nCambiano solo il modo di organizzarli e di interrogarli.\n\nVale la pena guardarli, ma con la lente giusta. Un tool che ti fa risparmiare mezz'ora di configurazione e ti costa metà finestra a ogni domanda non è un affare.\n\n- La domanda giusta non è quale sia più bello.\n- È: che cosa fa entrare nel contesto, e quanto.\n- Un tool che carica tutto all'avvio ha lo stesso problema di prima, con un nome nuovo.\n\n## Tre frasi da ricordare\n\nIl vantaggio di Obsidian non è una funzione. È l'assenza di uno strato: fra l'agente e le tue note non c'è niente.\n\n- Un vault è una cartella di file markdown. Niente database, niente API.\n- Il grafo sta dentro il testo, quindi si legge con una regex.\n- Prima di dare permesso di scrittura, fai una copia: i link rotti non fanno rumore.\n",
-    "fonte_primaria": {
-      "url": "https://obsidian.md/help/vault",
-      "titolo": "Obsidian Help — Vault",
-      "tipo": "documentazione",
-      "verificata_il": "2026-09-16"
-    },
-    "fonti_extra": [
-      {
-        "url": "https://obsidian.md/help/links",
-        "titolo": "Obsidian Help — Internal links",
-        "tipo": "documentazione",
-        "verificata_il": "2026-09-16"
-      },
-      {
-        "url": "https://obsidian.md/help/file-formats",
-        "titolo": "Obsidian Help — Accepted file formats",
-        "tipo": "documentazione",
-        "verificata_il": "2026-09-16"
-      }
-    ],
-    "domande": [
-      {
-        "q": "Perché un agente può lavorare su un vault Obsidian senza che Obsidian sia aperto, e senza nessuna API?",
-        "rubrica": "2 = il vault è una cartella sul filesystem locale con file markdown e allegati; Obsidian è solo un'interfaccia sopra quei file, quindi bastano gli strumenti che leggono file (o un server MCP che li espone). 1 = dice \"sono file di testo\" senza collegare il fatto che l'app non è nel percorso dei dati. 0 = pensa che serva un plugin, un export o una API di Obsidian."
-      },
-      {
-        "q": "Chiedi a un agente di riorganizzare il vault rinominando cinquanta note. Cosa può andare storto, e cosa fai prima di lanciarlo?",
-        "rubrica": "2 = Obsidian aggiorna i link interni quando rinomini dentro l'app, ma un agente che rinomina dal filesystem no: i `[[link]]` restano puntati ai vecchi nomi e si rompono in silenzio; prima si fa una copia del vault o si lavora su una copia, e si fa aggiornare anche i riferimenti. 1 = intuisce il rischio di rompere qualcosa ma non nomina i link né il rimedio. 0 = non vede problemi o si limita a \"controllo dopo\"."
-      },
-      {
-        "q": "Il tuo vault cresce da 20 a 2000 note e le risposte dell’agente peggiorano. Cosa è cambiato, visto che il contenuto è più ricco di prima?",
-        "rubrica": "2 = con 20 note tutto entrava nella finestra; con 2000 non entra, e se ci si prova la finestra si riempie di materiale irrilevante, con precisione e recall che degradano (context rot); la soluzione è cercare e aprire poche note pertinenti invece di caricare tutto. 1 = dice \"sono troppe\" o \"non ci stanno\" senza collegare il degrado alla qualità della risposta. 0 = attribuisce il peggioramento al modello o propone di riassumere tutto il vault in un file unico."
-      }
-    ],
-    "peso_skill": {
-      "second-brain": 0.2
-    },
-    "stato": "pronto",
-    "origine": "routine-cowork",
-    "nuovo": false,
-    "creato_il": "2026-09-15",
-    "servito_il": null,
-    "completato_il": null,
     "slide": [
       {
         "tipo": "apertura",
@@ -2288,7 +2245,50 @@
         "approfondimento": null,
         "immagine": null
       }
-    ]
+    ],
+    "fonte_primaria": {
+      "url": "https://obsidian.md/help/vault",
+      "titolo": "Obsidian Help — Vault",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
+    "fonti_extra": [
+      {
+        "url": "https://obsidian.md/help/links",
+        "titolo": "Obsidian Help — Internal links",
+        "tipo": "documentazione",
+        "verificata_il": "2026-09-16"
+      },
+      {
+        "url": "https://obsidian.md/help/file-formats",
+        "titolo": "Obsidian Help — Accepted file formats",
+        "tipo": "documentazione",
+        "verificata_il": "2026-09-16"
+      }
+    ],
+    "domande": [
+      {
+        "q": "Perché un agente può lavorare su un vault Obsidian senza che Obsidian sia aperto, e senza nessuna API?",
+        "rubrica": "2 = il vault è una cartella sul filesystem locale con file markdown e allegati; Obsidian è solo un'interfaccia sopra quei file, quindi bastano gli strumenti che leggono file (o un server MCP che li espone). 1 = dice \"sono file di testo\" senza collegare il fatto che l'app non è nel percorso dei dati. 0 = pensa che serva un plugin, un export o una API di Obsidian."
+      },
+      {
+        "q": "Chiedi a un agente di riorganizzare il vault rinominando cinquanta note. Cosa può andare storto, e cosa fai prima di lanciarlo?",
+        "rubrica": "2 = Obsidian aggiorna i link interni quando rinomini dentro l'app, ma un agente che rinomina dal filesystem no: i `[[link]]` restano puntati ai vecchi nomi e si rompono in silenzio; prima si fa una copia del vault o si lavora su una copia, e si fa aggiornare anche i riferimenti. 1 = intuisce il rischio di rompere qualcosa ma non nomina i link né il rimedio. 0 = non vede problemi o si limita a \"controllo dopo\"."
+      },
+      {
+        "q": "Il tuo vault cresce da 20 a 2000 note e le risposte dell’agente peggiorano. Cosa è cambiato, visto che il contenuto è più ricco di prima?",
+        "rubrica": "2 = con 20 note tutto entrava nella finestra; con 2000 non entra, e se ci si prova la finestra si riempie di materiale irrilevante, con precisione e recall che degradano (context rot); la soluzione è cercare e aprire poche note pertinenti invece di caricare tutto. 1 = dice \"sono troppe\" o \"non ci stanno\" senza collegare il degrado alla qualità della risposta. 0 = attribuisce il peggioramento al modello o propone di riassumere tutto il vault in un file unico."
+      }
+    ],
+    "peso_skill": {
+      "second-brain": 0.2
+    },
+    "stato": "pronto",
+    "origine": "routine-cowork",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
   },
   {
     "id": "mod-second-brain-02",
@@ -2415,36 +2415,6 @@
     ],
     "prerequisiti_testo": "Serve sapere che ogni conversazione ha una finestra di contesto, e che tutto quello che ci entra ci resta fino alla fine.\n\nServe sapere che un agente usa strumenti, e che i risultati di quegli strumenti finiscono in finestra insieme al resto.\n\nNon serve aver mai definito un subagent. Serve solo tenere presente che una finestra sporca risponde peggio di una pulita.",
     "sintesi_md": "## Prima di partire\n\nAlla fine sai decidere, davanti a un compito concreto, se delegarlo a un subagent o tenerlo nella conversazione principale. E sai dire cosa perdi delegando.\n\nUn subagent è un assistente specializzato che lavora in una finestra di contesto isolata.\n\nLa documentazione dice quando serve, e lo dice in una riga sola. Ne usi uno quando un compito laterale riempirebbe la conversazione principale di roba che non rileggerai.\n\nQuesto modulo serve a darti un criterio, non una ricetta. Alla fine dovresti saper guardare un compito e decidere in dieci secondi.\n\n## Non deleghi per avere due agenti\n\nÈ tutto lì, ed è il punto che quasi tutte le architetture con trenta agenti dimenticano.\n\nNon deleghi perché due agenti sono meglio di uno. Deleghi perché c'è del rumore che non vuoi nella tua finestra.\n\nRisultati di ricerca, log, contenuti di file che leggi una volta e non riapri: tutta roba che resta in finestra e peggiora i turni successivi.\n\nSe il compito non produce rumore, delegarlo non ti dà niente. Ti costa e basta.\n\n- Il subagent non è più bravo di te su quel compito. È solo in un posto separato.\n- Il vantaggio non è la specializzazione. È il confine.\n\n## Cosa riceve e cosa no\n\nUn subagent parte pulito. Riceve un system prompt suo, il messaggio con il compito, i file `CLAUDE.md`, lo stato di git e le skill precaricate.\n\nNon riceve la cronologia della conversazione principale né la memoria della sessione. E ha permessi propri.\n\nQuesta è la parte che paghi, e va guardata bene prima di delegare.\n\nIl subagent non sa cosa vi siete detti. Se il compito dipende da tre decisioni prese venti minuti fa, quelle decisioni gliele devi riscrivere.\n\n- Quello che torna indietro è un riassunto: non i file che ha letto, non i passaggi intermedi.\n- Se poi ti serve discutere un dettaglio, quel dettaglio non c'è più.\n- E mentre lavora non puoi correggerlo come faresti in una conversazione normale.\n\n## Quando delegare e quando no\n\nLe due liste sono corte e si applicano a occhio, una volta che hai capito il criterio. Vale la pena leggerle una volta e poi fidarsi dell'istinto.\n\nQuasi tutti gli errori stanno nella seconda lista, non nella prima: si delega troppo, non troppo poco.\n\nDelega quando il compito produce output verboso che non rileggerai. Log, suite di test, esplorazione di un codebase.\n\n- Delega quando il compito è autoconsistente e si chiude con un riassunto.\n- Delega per imporre restrizioni: un agente che può solo leggere, per esempio.\n- Non delegare quando serve avanti e indietro con te.\n- Non delegare quando le fasi condividono contesto: il subagent riparte da zero ogni volta.\n- Non delegare per una modifica piccola, o quando la latenza conta: è un giro in più.\n\n## Come si definisce un subagent\n\nUn file markdown in `.claude/agents/`, con frontmatter YAML. Il corpo è il system prompt.\n\nIl campo che decide quando delegare è `description`, esattamente come per le skill e per gli strumenti.\n\nÈ lo stesso meccanismo che hai già visto due volte in questo percorso. Vale la pena notarlo: il modello sceglie sempre su una descrizione, mai sulla cosa descritta.\n\n1. `name` e `description` sono obbligatori. In opzione ci sono `tools`, `model`, `memory` e `maxTurns`.\n2. Tieni corte le `description`: stanno tutte in contesto all'avvio, e i dettagli vanno nel corpo.\n\n> **Approfondimento — I limiti da conoscere prima.** Ci sono due limiti dichiarati. Tre livelli di annidamento, e venti subagent in parallelo. Il primo si incontra prima di quanto sembri, se costruisci agenti che ne chiamano altri. Il secondo raramente, ma quando lo incontri la coda non ti viene segnalata.\n\n## Le pipeline con trenta agenti\n\nGirano architetture impressionanti. Una pipeline di ricerca accademica con tredici agenti per la ricerca, dodici per scrivere e cinque per la revisione.\n\nSono belle da guardare e dicono poco su cosa serva a te.\n\nUn altro esempio, più utile, spezza una sessione troppo grande per una finestra in ticket lavorabili da agenti con contesto pulito. Quello descrive esattamente il problema di questo modulo.\n\n- Davanti a trenta agenti la domanda è sempre la stessa.\n- Quale di questi esiste perché quel pezzo di lavoro sporcherebbe la finestra di qualcun altro?\n- Quelli che non rispondono sono decorazione, e costano un giro in più ciascuno.\n\n## Il costo che non si vede\n\nOgni delega è un giro in più: una richiesta che parte, un contesto che si costruisce da zero, un riassunto che torna.\n\nSu un compito che dura dieci secondi, quel giro è quasi tutto il tempo. Su un'esplorazione di venti file, non si nota.\n\nIl conto si fa così, e va fatto prima: quanto rumore tolgo dalla finestra, contro quanto tempo e quanto dettaglio perdo.\n\n> **Approfondimento — Il riassunto è un collo di bottiglia.** Tutto quello che il subagent ha capito deve passare da un riassunto scritto da lui. Se il compito era esplorare, il riassunto è una sintesi di quello che ha visto. Vuol dire che la qualità della delega dipende da quanto è preciso il compito che gli hai dato. Un compito vago produce un riassunto vago, e non te ne accorgi finché non lo usi.\n\n## Tre frasi da ricordare\n\nL'orchestrazione non è un obiettivo. È una risposta a un problema di contesto, e va usata quando quel problema c'è.\n\n- Deleghi per tenere il rumore fuori dalla tua finestra, non per avere più agenti.\n- Un subagent parte pulito e torna con un riassunto: i dettagli non li rivedi.\n- Se serve avanti e indietro, o le fasi condividono contesto, non delegare.\n",
-    "fonte_primaria": {
-      "url": "https://code.claude.com/docs/en/sub-agents",
-      "titolo": "Claude Code — Subagents (documentazione ufficiale)",
-      "tipo": "documentazione",
-      "verificata_il": "2026-09-16"
-    },
-    "fonti_extra": [],
-    "domande": [
-      {
-        "q": "Devi far girare la suite di test, capire quali falliscono e sistemarli insieme a me, discutendo ogni fix. Cosa deleghi a un subagent e cosa tieni nella conversazione principale?",
-        "rubrica": "2 = delega l'esecuzione dei test e la raccolta dei fallimenti (output verboso che non rileggerai, si chiude con un riassunto), tiene i fix nella conversazione principale perché servono avanti-e-indietro e le fasi condividono contesto. 1 = divide in modo ragionevole ma motiva con \"così è più ordinato\" invece che con il rumore nel contesto e l'iterazione. 0 = delega tutto, o niente, senza criterio."
-      },
-      {
-        "q": "Un subagent ha esplorato per venti minuti e ti torna un riassunto di dieci righe. Tu vuoi discutere un dettaglio che non c’è. Cosa è successo e cosa avresti dovuto fare prima?",
-        "rubrica": "2 = il subagent aveva una finestra isolata: la sua esplorazione non è nella conversazione principale e quello che torna è solo il riassunto, quindi il dettaglio è perso e ricostruirlo costa un altro giro; prima andava chiesto esplicitamente nel compito cosa doveva riportare, o il pezzo che ti interessa andava tenuto nella conversazione principale. 1 = capisce che il contesto è separato ma non arriva al rimedio. 0 = pensa che il contesto si possa \"recuperare\" o che l'agente principale l'abbia visto."
-      },
-      {
-        "q": "Ti mostrano un sistema con trenta agenti specializzati. Quale domanda fai per capire se quel numero ha senso?",
-        "rubrica": "2 = chiede, per ciascun agente, quale output verboso o quale vincolo di tool giustifica una finestra separata; nota che ogni agente in più è un giro e un riassunto in più, e che chi non risolve un problema di contesto è decorazione. 1 = si limita a \"sono troppi\" o \"sarà lento\" senza il criterio. 0 = giudica dal numero degli agenti, in bene o in male."
-      }
-    ],
-    "peso_skill": {
-      "orchestrazione": 0.17
-    },
-    "stato": "pronto",
-    "origine": "routine-cowork",
-    "nuovo": false,
-    "creato_il": "2026-09-15",
-    "servito_il": null,
-    "completato_il": null,
     "slide": [
       {
         "tipo": "apertura",
@@ -2563,7 +2533,37 @@
         "approfondimento": null,
         "immagine": null
       }
-    ]
+    ],
+    "fonte_primaria": {
+      "url": "https://code.claude.com/docs/en/sub-agents",
+      "titolo": "Claude Code — Subagents (documentazione ufficiale)",
+      "tipo": "documentazione",
+      "verificata_il": "2026-09-16"
+    },
+    "fonti_extra": [],
+    "domande": [
+      {
+        "q": "Devi far girare la suite di test, capire quali falliscono e sistemarli insieme a me, discutendo ogni fix. Cosa deleghi a un subagent e cosa tieni nella conversazione principale?",
+        "rubrica": "2 = delega l'esecuzione dei test e la raccolta dei fallimenti (output verboso che non rileggerai, si chiude con un riassunto), tiene i fix nella conversazione principale perché servono avanti-e-indietro e le fasi condividono contesto. 1 = divide in modo ragionevole ma motiva con \"così è più ordinato\" invece che con il rumore nel contesto e l'iterazione. 0 = delega tutto, o niente, senza criterio."
+      },
+      {
+        "q": "Un subagent ha esplorato per venti minuti e ti torna un riassunto di dieci righe. Tu vuoi discutere un dettaglio che non c’è. Cosa è successo e cosa avresti dovuto fare prima?",
+        "rubrica": "2 = il subagent aveva una finestra isolata: la sua esplorazione non è nella conversazione principale e quello che torna è solo il riassunto, quindi il dettaglio è perso e ricostruirlo costa un altro giro; prima andava chiesto esplicitamente nel compito cosa doveva riportare, o il pezzo che ti interessa andava tenuto nella conversazione principale. 1 = capisce che il contesto è separato ma non arriva al rimedio. 0 = pensa che il contesto si possa \"recuperare\" o che l'agente principale l'abbia visto."
+      },
+      {
+        "q": "Ti mostrano un sistema con trenta agenti specializzati. Quale domanda fai per capire se quel numero ha senso?",
+        "rubrica": "2 = chiede, per ciascun agente, quale output verboso o quale vincolo di tool giustifica una finestra separata; nota che ogni agente in più è un giro e un riassunto in più, e che chi non risolve un problema di contesto è decorazione. 1 = si limita a \"sono troppi\" o \"sarà lento\" senza il criterio. 0 = giudica dal numero degli agenti, in bene o in male."
+      }
+    ],
+    "peso_skill": {
+      "orchestrazione": 0.17
+    },
+    "stato": "pronto",
+    "origine": "routine-cowork",
+    "nuovo": false,
+    "creato_il": "2026-09-15",
+    "servito_il": null,
+    "completato_il": null
   },
   {
     "id": "mod-orchestrazione-02",

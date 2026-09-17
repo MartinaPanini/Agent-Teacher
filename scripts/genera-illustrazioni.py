@@ -804,10 +804,26 @@ b = vscode("code-improver.md", [
 IMG["agent-md-vscode"] = svg(600, 30 + max(180, 88 + 9 * 16) + 12,
     "Un subagent definito in un file markdown: il frontmatter con name, "
     "description, tools e model, e nel corpo il system prompt", b)
+# --- illustrazioni aggiunte dalla routine ------------------------------------
+# Un file per modulo in scripts/illustrazioni/. Ogni file vede gli helper di
+# questo modulo (svg, box, badge, cap, stack, strip_h, vscode, K, S, P, ind,
+# i colori) e aggiunge le sue voci a IMG. La routine crea file nuovi qui dentro
+# e non tocca mai questo file: cosi' un errore in una lezione nuova non puo'
+# rompere le illustrazioni gia' fatte.
+EXTRA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "illustrazioni")
+if os.path.isdir(EXTRA):
+    for _f in sorted(os.listdir(EXTRA)):
+        if _f.endswith(".py") and not _f.startswith("_"):
+            with open(os.path.join(EXTRA, _f), encoding="utf-8") as _fh:
+                exec(compile(_fh.read(), _f, "exec"), globals())
+
 os.makedirs(OUT, exist_ok=True)
 for name, content in IMG.items():
     with open(os.path.join(OUT, name + ".svg"), "w", encoding="utf-8") as f:
         f.write(content)
-print(f"{len(IMG)} illustrazioni scritte in {OUT}")
+import xml.etree.ElementTree as _ET
+for _n in IMG:
+    _ET.parse(os.path.join(OUT, _n + ".svg"))
+print(f"{len(IMG)} illustrazioni scritte e validate in {OUT}")
 for n in IMG:
     print(" -", n + ".svg")

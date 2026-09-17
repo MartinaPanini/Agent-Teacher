@@ -326,5 +326,21 @@
     "stato": "chiusa",
     "aperta_il": "2026-09-17T07:53:25.397Z",
     "chiusa_il": "2026-09-17T09:47:04.288Z"
+  },
+  {
+    "id": "ses-0020",
+    "numero": 20,
+    "data": "2026-09-17",
+    "durata_stimata_min": 10,
+    "items": [
+      {
+        "module_id": "mod-claude-code-06",
+        "ruolo": "principale"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "chiusa",
+    "aperta_il": "2026-09-17T12:16:14.644Z",
+    "chiusa_il": "2026-09-17T12:16:34.667Z"
   }
 ]
