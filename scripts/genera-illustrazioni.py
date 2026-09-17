@@ -349,14 +349,14 @@ IMG["finestra-cosa-contiene"] = svg(320, y + 26,
     "system prompt, turni precedenti interi, risultati degli strumenti e l'output "
     "di questo turno", b)
 
-b = cap(300, 24, "la domanda e la stessa; l'input no", "middle", 12.5, INK)
-for k, (t, storico) in enumerate([("turno 1", 0), ("turno 5", 150), ("turno 10", 340)]):
+b = cap(300, 24, "la domanda è la stessa; l'input no", "middle", 12.5, INK)
+for k, (t, storico) in enumerate([("turno 1", 0), ("turno 5", 120), ("turno 10", 270)]):
     yy = 52 + k * 62
     b += cap(16, yy + 22, t, size=12, fill=INK)
-    b += strip_h(84, yy, 130 + storico, 32,
-                 ([("fisso", 130, "sys")] if not storico else
-                  [("fisso", 130, "sys"), ("storico accumulato", storico, "acc")]))
-    b += cap(96 + 130 + storico + 12, yy + 21, "=" + str(130 + storico) + " u", size=11)
+    b += strip_h(84, yy, 110 + storico, 32,
+                 ([("fisso", 110, "sys")] if not storico else
+                  [("fisso", 110, "sys"), ("storico accumulato", storico, "acc")]))
+    b += cap(84 + 110 + storico + 14, yy + 21, "=" + str(110 + storico) + " unita", size=11)
 b += (cap(16, 240, "Il blocco «fisso» sono definizioni degli strumenti e system prompt:",
           size=11.5, fill=INK) +
       cap(16, 256, "non cresce, ma lo rispedisci ogni volta. Il resto si accumula.",
@@ -383,6 +383,126 @@ IMG["richiesta-anatomia"] = svg(600, 30 + max(180, 88 + 11 * 16) + 12,
     "Il corpo di una richiesta in Visual Studio Code: il campo tools con venti "
     "definizioni, il system prompt e l'array messages con tutti i turni precedenti "
     "riportati per intero", b)
+
+# --- mod-llm-03: context rot ------------------------------------------------
+import math
+
+def rete(cx, cy, r, n, col):
+    o, pts = "", []
+    for k in range(n):
+        a = -math.pi / 2 + 2 * math.pi * k / n
+        pts.append((cx + r * math.cos(a), cy + r * math.sin(a)))
+    for i in range(n):
+        for j in range(i + 1, n):
+            o += (f'<line x1="{pts[i][0]:.1f}" y1="{pts[i][1]:.1f}" '
+                  f'x2="{pts[j][0]:.1f}" y2="{pts[j][1]:.1f}" stroke="{col}" '
+                  f'stroke-width="1" opacity="0.5"/>')
+    for x, y in pts:
+        o += f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4" fill="{INK}"/>'
+    return o
+
+
+b = (cap(80, 22, "4 token", "middle", 12.5, INK) + rete(80, 96, 52, 4, INK) +
+     cap(80, 172, "6 coppie", "middle", 11.5) +
+     cap(232, 22, "8 token", "middle", 12.5, INK) + rete(232, 96, 52, 8, ACC) +
+     cap(232, 172, "28 coppie", "middle", 11.5) +
+     cap(160, 210, "Raddoppiare i token non raddoppia le coppie", "middle", 12, INK) +
+     cap(160, 228, "da mettere in relazione: da 6 si passa a 28.", "middle", 12, INK) +
+     cap(160, 254, "E quell'attenzione resta la stessa, spalmata", "middle", 11.5, ACC) +
+     cap(160, 270, "su molto più materiale.", "middle", 11.5, ACC))
+IMG["attenzione-quadratica"] = svg(320, 288,
+    "Quattro token formano sei coppie, otto token ne formano ventotto: il "
+    "lavoro di attenzione cresce con il quadrato dei token, non in proporzione", b)
+
+b = cap(300, 24, "due liste che non si somigliano", "middle", 12.5, INK)
+for k, t in enumerate(["compattare e ripartire", "appunti in un file esterno",
+                       "aprire i dati quando servono", "sottoagenti con contesto proprio"]):
+    b += box(14, 48 + k * 52, 268, 42, "", None, "sys") + cap(30, 74 + k * 52, t, fill=SYS)
+for k, t in enumerate(["una finestra più grande", "chiedere di fare più attenzione"]):
+    b += (box(318, 48 + k * 52, 268, 42, "", None, "ink", True) +
+          cap(346, 74 + k * 52, t, fill=MUTE) +
+          f'<line x1="330" y1="60" x2="342" y2="78" stroke="{MUTE}" stroke-width="2"/>'
+          f'<line x1="342" y1="60" x2="330" y2="78" stroke="{MUTE}" stroke-width="2"/>'
+          .replace("60", str(58 + k * 52)).replace("78", str(76 + k * 52)))
+b += (cap(148, 42, "attaccano la causa", "middle", 11.5, SYS) +
+      cap(452, 42, "spostano il limite e basta", "middle", 11.5, MUTE) +
+      cap(300, 268, "La finestra più grande non toglie il degrado: è esattamente",
+          "middle", 11.5, INK) +
+      cap(300, 284, "quello che il fenomeno descrive.", "middle", 11.5, INK))
+IMG["rimedi-context-rot"] = svg(600, 300,
+    "A sinistra i rimedi che attaccano la causa del context rot: compattare, "
+    "appunti esterni, recupero al momento giusto, sottoagenti. A destra i due "
+    "che spostano il limite senza toglierlo", b)
+
+b = (cap(160, 24, "una sessione lunga, dall'alto in basso", "middle", 12, INK) +
+     f'<line x1="40" y1="44" x2="40" y2="238" stroke="{RULE}" stroke-width="3"/>')
+for k, (t, sub) in enumerate([
+        ("dimentica un vincolo", "che avevi dato all'inizio"),
+        ("rifà una cosa già fatta", "senza accorgersene"),
+        ("perde il filo", "e tu non hai cambiato niente")]):
+    y = 70 + k * 62
+    b += (f'<circle cx="40" cy="{y}" r="7" fill="{ACC}"/>' +
+          cap(60, y - 2, t, size=12.5, fill=INK) + cap(60, y + 14, sub, size=11))
+b += (cap(16, 262, "Non hai cambiato modello né chiesto qualcosa di più",
+          size=11.5, fill=INK) +
+      cap(16, 278, "difficile. Si è riempita la finestra.", size=11.5, fill=ACC))
+IMG["sintomo-sessione-lunga"] = svg(320, 292,
+    "I tre sintomi di una sessione lunga che degrada: dimentica un vincolo dato "
+    "all'inizio, rifà una cosa già fatta, perde il filo", b)
+
+# --- mod-llm-04: prompt caching ---------------------------------------------
+b = (cap(300, 24, "la cache legge il prompt in ordine, dall'inizio", "middle", 12.5, INK) +
+     strip_h(14, 48, 572, 44, [("tools", 30, "sys"), ("system", 26, "ink"),
+                               ("messages, turno 1", 22, "acc"),
+                               ("turno 2", 12, "acc"), ("turno 3", 10, "mute")]))
+b += (f'<line x1="326" y1="40" x2="326" y2="104" stroke="{ACC}" stroke-width="2.5" '
+      f'stroke-dasharray="5 4"/>' +
+      cap(334, 44, "cache_control", "start", 11, ACC, MONO) +
+      f'<path d="M14 112 L14 120 L326 120 L326 112" fill="none" stroke="{INK}" '
+      f'stroke-width="1.5"/>' +
+      cap(170, 138, "questo è il prefisso: quello che viene riusato", "middle", 12, INK) +
+      cap(456, 138, "questo si rielabora sempre", "middle", 12, MUTE) +
+      cap(300, 180, "Non è una cache a pezzi. È una cache dell'inizio della richiesta:",
+          "middle", 12, INK) +
+      cap(300, 198, "cambiare un blocco prima del punto marcato cambia l'hash, e la",
+          "middle", 12, INK) +
+      cap(300, 216, "corrispondenza non si trova più.", "middle", 12, INK))
+IMG["cache-prefisso"] = svg(600, 236,
+    "La cache legge il prompt in ordine, da tools a system ai messaggi, fino al "
+    "blocco marcato con cache_control: quel tratto iniziale è il prefisso riusato", b)
+
+b = cap(160, 22, "lo stesso prompt, due punti diversi", "middle", 12, INK)
+for k, (marc, esito, col) in enumerate([(6, "scrittura nuova ogni volta", ACC),
+                                        (5, "lettura dalla cache", SYS)]):
+    y = 44 + k * 116
+    segs = [(str(i), 1, ("acc" if i == 6 else "ink")) for i in range(1, 7)]
+    b += strip_h(14, y, 292, 34, segs)
+    xm = 14 + (292 - 3 * 5) * marc / 6 + 5 * (marc - 1) - 3
+    b += (f'<line x1="{xm:.1f}" y1="{y-8}" x2="{xm:.1f}" y2="{y+42}" stroke="{col}" '
+          f'stroke-width="2.5" stroke-dasharray="5 4"/>' +
+          cap(160, y + 62, esito, "middle", 12, col))
+    if k == 0:
+        b += cap(160, y + 78, "il blocco 6 è un timestamp: cambia sempre", "middle", 11)
+    else:
+        b += cap(160, y + 78, "il blocco 5 è l'ultimo stabile", "middle", 11)
+b += cap(160, 282, "Il punto di cache va sull'ultimo blocco stabile.", "middle", 12, INK)
+IMG["punto-di-cache-sbagliato"] = svg(320, 296,
+    "Lo stesso prompt con il punto di cache in due posizioni: sul blocco 6, che "
+    "contiene un timestamp variabile, non c'è mai corrispondenza; sul blocco 5, "
+    "l'ultimo stabile, la cache si rilegge", b)
+
+b = vscode("usage.json", [
+    [K('"usage"'), P(": {")],
+    [ind(2), K('"input_tokens"'), P(": "), ("214", VSC["pun"]), P(",")],
+    [ind(2), K('"cache_creation_input_tokens"'), P(": "), ("0", VSC["pun"]), P(",")],
+    [ind(2), K('"cache_read_input_tokens"'), P(": "), ("18432", VSC["pun"]), P(",")],
+    [ind(2), K('"output_tokens"'), P(": "), ("341", VSC["pun"])],
+    [P("}")],
+], badges=((1, 1), (2, 3)))
+IMG["usage-json"] = svg(600, 30 + max(180, 88 + 6 * 16) + 12,
+    "Il blocco usage di una risposta: input_tokens vale 214, ma "
+    "cache_read_input_tokens ne conta 18.432, e i token di input veri sono la "
+    "somma dei tre campi", b)
 os.makedirs(OUT, exist_ok=True)
 for name, content in IMG.items():
     with open(os.path.join(OUT, name + ".svg"), "w", encoding="utf-8") as f:

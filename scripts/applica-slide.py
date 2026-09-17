@@ -45,6 +45,13 @@ def main():
             errori.append(f"{mid}: completato, non si converte (R3/RF70)"); continue
         if len(slide) != 8:
             errori.append(f"{mid}: {len(slide)} slide invece di 8 (RF55)")
+        corpo = sum(len(s["corpo"].split()) + sum(len(p.split()) for p in s["punti"])
+                    for s in slide)
+        if not 700 <= corpo <= 1100:
+            errori.append(f"{mid}: {corpo} parole di corpo, fuori da 700-1100 (RF61)")
+        napp = sum(1 for s in slide if s["approfondimento"])
+        if napp < 2:
+            errori.append(f"{mid}: {napp} approfondimenti, ne servono almeno 2 (RF62)")
         for i, s in enumerate(slide, 1):
             im = s["immagine"]
             if im:
@@ -73,9 +80,12 @@ def main():
         m["slide"] = slide
         m["sintesi_md"] = sintesi_da_slide(slide)
         m["durata_min"] = 10
-        p = len(m["sintesi_md"].split())
-        print(f"{mid}: 8 slide, {p} parole nella vista a pagina unica, "
-              f"{sum(1 for s in slide if s['immagine'])} immagini, durata 10 min")
+        corpo = sum(len(s["corpo"].split()) + sum(len(p.split()) for p in s["punti"])
+                    for s in slide)
+        appr = sum(len(s["approfondimento"]["testo"].split())
+                   for s in slide if s["approfondimento"])
+        print(f"{mid}: 8 slide, {corpo} parole (+{appr} approfondimenti), "
+              f"{sum(1 for s in slide if s['immagine'])} immagini, 10 min")
 
     json.dump(mods, open(MODULES, "w", encoding="utf-8"),
               ensure_ascii=False, indent=2)
