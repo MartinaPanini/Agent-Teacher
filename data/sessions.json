@@ -342,5 +342,54 @@
     "stato": "chiusa",
     "aperta_il": "2026-09-17T12:16:14.644Z",
     "chiusa_il": "2026-09-17T12:16:34.667Z"
+  },
+  {
+    "id": "ses-0021",
+    "numero": 21,
+    "data": "2026-09-17",
+    "durata_stimata_min": 10,
+    "items": [
+      {
+        "module_id": "mod-claude-code-06",
+        "ruolo": "principale"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "chiusa",
+    "aperta_il": "2026-09-17T12:30:35.799Z",
+    "chiusa_il": "2026-09-17T12:30:41.657Z"
+  },
+  {
+    "id": "ses-0022",
+    "numero": 22,
+    "data": "2026-09-17",
+    "durata_stimata_min": 10,
+    "items": [
+      {
+        "module_id": "mod-claude-code-06",
+        "ruolo": "principale",
+        "slide_corrente": 7
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "chiusa",
+    "aperta_il": "2026-09-17T12:59:55.652Z",
+    "chiusa_il": "2026-09-17T13:07:51.207Z"
+  },
+  {
+    "id": "ses-0023",
+    "numero": 23,
+    "data": "2026-09-17",
+    "durata_stimata_min": 10,
+    "items": [
+      {
+        "module_id": "mod-llm-02",
+        "ruolo": "principale"
+      }
+    ],
+    "qualifica_inbox": [],
+    "stato": "aperta",
+    "aperta_il": "2026-09-17T13:07:58.696Z",
+    "chiusa_il": null
   }
 ]

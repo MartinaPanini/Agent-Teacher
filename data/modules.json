@@ -79,8 +79,8 @@
         "immagine": {
           "id": "finestra-cosa-contiene",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "Cosa occupa la finestra di contesto, dall'alto: definizioni degli strumenti, system prompt, turni precedenti interi, risultati degli strumenti e l'output di questo turno"
+          "alt": "Cosa occupa la finestra di contesto, dall'alto: definizioni degli strumenti, system prompt, turni precedenti interi, risultati degli strumenti e l'output di questo turno",
+          "larghezza": "spot"
         }
       },
       {
@@ -97,8 +97,8 @@
         "immagine": {
           "id": "richiesta-anatomia",
           "stile": "A",
-          "larghezza": "wide",
-          "alt": "Il corpo di una richiesta in Visual Studio Code: il campo tools con venti definizioni, il system prompt e l'array messages con tutti i turni precedenti riportati per intero"
+          "alt": "Il corpo di una richiesta in Visual Studio Code: il campo tools con venti definizioni, il system prompt e l'array messages con tutti i turni precedenti riportati per intero",
+          "larghezza": "wide"
         }
       },
       {
@@ -118,8 +118,8 @@
         "immagine": {
           "id": "finestra-cresce-per-turno",
           "stile": "B",
-          "larghezza": "wide",
-          "alt": "Tre barre, al primo, al quinto e al decimo turno: la parte fissa resta uguale mentre lo storico accumulato allunga la richiesta"
+          "alt": "Tre barre, al primo, al quinto e al decimo turno: la parte fissa resta uguale mentre lo storico accumulato allunga la richiesta",
+          "larghezza": "wide"
         }
       },
       {
@@ -195,11 +195,11 @@
     "peso_skill": {
       "fondamenta-llm": 0.17
     },
-    "stato": "pronto",
+    "stato": "servito",
     "origine": "seed",
     "nuovo": false,
     "creato_il": "2026-09-15",
-    "servito_il": null,
+    "servito_il": "2026-09-17",
     "completato_il": null
   },
   {
@@ -236,8 +236,8 @@
         "immagine": {
           "id": "finestra-cresce-per-turno",
           "stile": "B",
-          "larghezza": "wide",
-          "alt": "Tre barre, al primo, al quinto e al decimo turno: la parte fissa resta uguale mentre lo storico accumulato allunga la richiesta"
+          "alt": "Tre barre, al primo, al quinto e al decimo turno: la parte fissa resta uguale mentre lo storico accumulato allunga la richiesta",
+          "larghezza": "wide"
         }
       },
       {
@@ -256,8 +256,8 @@
         "immagine": {
           "id": "attenzione-quadratica",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "Quattro token formano sei coppie, otto token ne formano ventotto: il lavoro di attenzione cresce con il quadrato dei token, non in proporzione"
+          "alt": "Quattro token formano sei coppie, otto token ne formano ventotto: il lavoro di attenzione cresce con il quadrato dei token, non in proporzione",
+          "larghezza": "spot"
         }
       },
       {
@@ -275,8 +275,8 @@
         "immagine": {
           "id": "rimedi-context-rot",
           "stile": "B",
-          "larghezza": "wide",
-          "alt": "A sinistra i rimedi che attaccano la causa del context rot: compattare, appunti esterni, recupero al momento giusto, sottoagenti. A destra i due che spostano il limite senza toglierlo"
+          "alt": "A sinistra i rimedi che attaccano la causa del context rot: compattare, appunti esterni, recupero al momento giusto, sottoagenti. A destra i due che spostano il limite senza toglierlo",
+          "larghezza": "wide"
         }
       },
       {
@@ -308,8 +308,8 @@
         "immagine": {
           "id": "sintomo-sessione-lunga",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "I tre sintomi di una sessione lunga che degrada: dimentica un vincolo dato all'inizio, rifà una cosa già fatta, perde il filo"
+          "alt": "I tre sintomi di una sessione lunga che degrada: dimentica un vincolo dato all'inizio, rifà una cosa già fatta, perde il filo",
+          "larghezza": "spot"
         }
       },
       {
@@ -413,8 +413,8 @@
         "immagine": {
           "id": "cache-prefisso",
           "stile": "B",
-          "larghezza": "wide",
-          "alt": "La cache legge il prompt in ordine, da tools a system ai messaggi, fino al blocco marcato con cache_control: quel tratto iniziale è il prefisso riusato"
+          "alt": "La cache legge il prompt in ordine, da tools a system ai messaggi, fino al blocco marcato con cache_control: quel tratto iniziale è il prefisso riusato",
+          "larghezza": "wide"
         }
       },
       {
@@ -447,8 +447,8 @@
         "immagine": {
           "id": "punto-di-cache-sbagliato",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "Lo stesso prompt con il punto di cache in due posizioni: sul blocco 6, che contiene un timestamp variabile, non c'è mai corrispondenza; sul blocco 5, l'ultimo stabile, la cache si rilegge"
+          "alt": "Lo stesso prompt con il punto di cache in due posizioni: sul blocco 6, che contiene un timestamp variabile, non c'è mai corrispondenza; sul blocco 5, l'ultimo stabile, la cache si rilegge",
+          "larghezza": "spot"
         }
       },
       {
@@ -480,8 +480,8 @@
         "immagine": {
           "id": "usage-json",
           "stile": "A",
-          "larghezza": "wide",
-          "alt": "Il blocco usage di una risposta: input_tokens vale 214, ma cache_read_input_tokens ne conta 18.432, e i token di input veri sono la somma dei tre campi"
+          "alt": "Il blocco usage di una risposta: input_tokens vale 214, ma cache_read_input_tokens ne conta 18.432, e i token di input veri sono la somma dei tre campi",
+          "larghezza": "wide"
         }
       },
       {
@@ -838,8 +838,8 @@
         "immagine": {
           "id": "contesto-vs-hook",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "CLAUDE.md è contesto: il modello lo legge e prova a seguirlo. Un hook è configurazione: il programma lo esegue da sé, senza consultare il modello"
+          "alt": "CLAUDE.md è contesto: il modello lo legge e prova a seguirlo. Un hook è configurazione: il programma lo esegue da sé, senza consultare il modello",
+          "larghezza": "spot"
         }
       },
       {
@@ -860,8 +860,8 @@
         "immagine": {
           "id": "hook-eventi-ciclo",
           "stile": "B",
-          "larghezza": "wide",
-          "alt": "Gli eventi degli hook lungo una sessione: SessionStart, UserPromptSubmit, PreToolUse, PostToolUse, Stop e SessionEnd. Tre di questi possono bloccare l'azione con il codice di uscita 2"
+          "alt": "Gli eventi degli hook lungo una sessione: SessionStart, UserPromptSubmit, PreToolUse, PostToolUse, Stop e SessionEnd. Tre di questi possono bloccare l'azione con il codice di uscita 2",
+          "larghezza": "wide"
         }
       },
       {
@@ -878,8 +878,8 @@
         "immagine": {
           "id": "hook-settings-json",
           "stile": "A",
-          "larghezza": "wide",
-          "alt": "La configurazione di un hook in settings.json: l'evento PreToolUse, un matcher che seleziona lo strumento Bash, e il comando da eseguire"
+          "alt": "La configurazione di un hook in settings.json: l'evento PreToolUse, un matcher che seleziona lo strumento Bash, e il comando da eseguire",
+          "larghezza": "wide"
         }
       },
       {
@@ -921,8 +921,8 @@
         "immagine": {
           "id": "smistamento-hook",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "Dove va scritta una regola: una convenzione in CLAUDE.md, una procedura lunga in una skill, una cosa che deve accadere sempre in un hook"
+          "alt": "Dove va scritta una regola: una convenzione in CLAUDE.md, una procedura lunga in una skill, una cosa che deve accadere sempre in un hook",
+          "larghezza": "spot"
         }
       },
       {
@@ -963,12 +963,12 @@
     "peso_skill": {
       "claude-code": 0.14
     },
-    "stato": "pronto",
+    "stato": "completato",
     "origine": "routine-cowork",
     "nuovo": false,
     "creato_il": "2026-09-17",
-    "servito_il": null,
-    "completato_il": null
+    "servito_il": "2026-09-17",
+    "completato_il": "2026-09-17"
   },
   {
     "id": "mod-claude-code-07",
@@ -1034,8 +1034,8 @@
         "immagine": {
           "id": "tool-use-chi-esegue",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "Il modello produce un blocco tool_use, il tuo programma esegue l'operazione e il risultato torna al modello come messaggio user"
+          "alt": "Il modello produce un blocco tool_use, il tuo programma esegue l'operazione e il risultato torna al modello come messaggio user",
+          "larghezza": "spot"
         }
       },
       {
@@ -1055,8 +1055,8 @@
         "immagine": {
           "id": "tool-definizione-tre-campi",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "I tre campi di una definizione di strumento: name, description e input_schema; il codice che esegue lo strumento resta fuori e il modello non lo vede mai"
+          "alt": "I tre campi di una definizione di strumento: name, description e input_schema; il codice che esegue lo strumento resta fuori e il modello non lo vede mai",
+          "larghezza": "spot"
         }
       },
       {
@@ -1076,8 +1076,8 @@
         "immagine": {
           "id": "tool-json-vscode",
           "stile": "A",
-          "larghezza": "wide",
-          "alt": "La definizione JSON dello strumento get_weather aperta in Visual Studio Code: name, una description di quattro frasi e input_schema"
+          "alt": "La definizione JSON dello strumento get_weather aperta in Visual Studio Code: name, una description di quattro frasi e input_schema",
+          "larghezza": "wide"
         }
       },
       {
@@ -1120,8 +1120,8 @@
         "immagine": {
           "id": "client-vs-server-tool",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "I client tool girano nel tuo codice e li esegui tu; i server tool girano sull'infrastruttura di Anthropic e il risultato arriva già prodotto"
+          "alt": "I client tool girano nel tuo codice e li esegui tu; i server tool girano sull'infrastruttura di Anthropic e il risultato arriva già prodotto",
+          "larghezza": "spot"
         }
       },
       {
@@ -1214,8 +1214,8 @@
         "immagine": {
           "id": "due-richieste-timeline",
           "stile": "B",
-          "larghezza": "wide",
-          "alt": "Due richieste all'API per una sola chiamata a uno strumento: la prima torna con stop_reason tool_use, in mezzo il tuo codice esegue, la seconda torna con il testo finale"
+          "alt": "Due richieste all'API per una sola chiamata a uno strumento: la prima torna con stop_reason tool_use, in mezzo il tuo codice esegue, la seconda torna con il testo finale",
+          "larghezza": "wide"
         }
       },
       {
@@ -1247,8 +1247,8 @@
         "immagine": {
           "id": "seconda-richiesta-json",
           "stile": "A",
-          "larghezza": "wide",
-          "alt": "L'array messages della seconda richiesta: il messaggio utente, il messaggio assistant con il blocco tool_use, e un secondo messaggio con ruolo user che contiene il tool_result"
+          "alt": "L'array messages della seconda richiesta: il messaggio utente, il messaggio assistant con il blocco tool_use, e un secondo messaggio con ruolo user che contiene il tool_result",
+          "larghezza": "wide"
         }
       },
       {
@@ -1265,8 +1265,8 @@
         "immagine": {
           "id": "tool-use-e-tool-result",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "Il blocco tool_use porta un id e il blocco tool_result riporta lo stesso valore in tool_use_id: è questo che accoppia la richiesta al suo risultato"
+          "alt": "Il blocco tool_use porta un id e il blocco tool_result riporta lo stesso valore in tool_use_id: è questo che accoppia la richiesta al suo risultato",
+          "larghezza": "spot"
         }
       },
       {
@@ -1299,8 +1299,8 @@
         "immagine": {
           "id": "costo-che-cresce",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "Il carico della seconda richiesta è più grande della prima: le definizioni degli strumenti vengono rispedite ogni volta, insieme al blocco tool_use e al risultato dello strumento"
+          "alt": "Il carico della seconda richiesta è più grande della prima: le definizioni degli strumenti vengono rispedite ogni volta, insieme al blocco tool_use e al risultato dello strumento",
+          "larghezza": "spot"
         }
       },
       {
@@ -1627,8 +1627,8 @@
         "immagine": {
           "id": "claude-md-concatenazione",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "I file CLAUDE.md della cartella di lavoro e di tutte quelle sopra si caricano all'avvio, concatenati dalla radice verso il basso; quelli nelle sottocartelle entrano solo quando Claude apre un file lì"
+          "alt": "I file CLAUDE.md della cartella di lavoro e di tutte quelle sopra si caricano all'avvio, concatenati dalla radice verso il basso; quelli nelle sottocartelle entrano solo quando Claude apre un file lì",
+          "larghezza": "spot"
         }
       },
       {
@@ -1645,8 +1645,8 @@
         "immagine": {
           "id": "auto-memory-cosa-si-carica",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "Nella cartella dell'auto memory solo MEMORY.md, l'indice, viene caricato all'avvio, e solo per le prime 200 righe o 25 KB; i file per argomento vengono aperti solo quando servono"
+          "alt": "Nella cartella dell'auto memory solo MEMORY.md, l'indice, viene caricato all'avvio, e solo per le prime 200 righe o 25 KB; i file per argomento vengono aperti solo quando servono",
+          "larghezza": "spot"
         }
       },
       {
@@ -1688,8 +1688,8 @@
         "immagine": {
           "id": "cosa-entra-all-avvio",
           "stile": "B",
-          "larghezza": "wide",
-          "alt": "A sinistra quello che entra in finestra a ogni avvio: CLAUDE.md, regole senza paths, indice dell'auto memory. A destra quello che si carica solo quando serve: regole con paths, skill, file per argomento, CLAUDE.md delle sottocartelle"
+          "alt": "A sinistra quello che entra in finestra a ogni avvio: CLAUDE.md, regole senza paths, indice dell'auto memory. A destra quello che si carica solo quando serve: regole con paths, skill, file per argomento, CLAUDE.md delle sottocartelle",
+          "larghezza": "wide"
         }
       },
       {
@@ -1881,8 +1881,8 @@
         "immagine": {
           "id": "skill-progressive-disclosure",
           "stile": "B",
-          "larghezza": "wide",
-          "alt": "Tre livelli: le description di tutte le skill stanno sempre in contesto, il corpo entra quando la skill viene invocata, i file di riferimento si aprono solo se servono"
+          "alt": "Tre livelli: le description di tutte le skill stanno sempre in contesto, il corpo entra quando la skill viene invocata, i file di riferimento si aprono solo se servono",
+          "larghezza": "wide"
         }
       },
       {
@@ -1900,8 +1900,8 @@
         "immagine": {
           "id": "claude-md-o-skill",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "Un fatto stabile che vale per ogni sessione sta in CLAUDE.md; una procedura lunga che serve ogni tanto sta in una skill"
+          "alt": "Un fatto stabile che vale per ogni sessione sta in CLAUDE.md; una procedura lunga che serve ogni tanto sta in una skill",
+          "larghezza": "spot"
         }
       },
       {
@@ -1917,8 +1917,8 @@
         "immagine": {
           "id": "skill-md-vscode",
           "stile": "A",
-          "larghezza": "wide",
-          "alt": "Un file SKILL.md in Visual Studio Code: il frontmatter con name e description, e nel corpo l'injection che esegue git diff e ne mette l'output al suo posto"
+          "alt": "Un file SKILL.md in Visual Studio Code: il frontmatter con name e description, e nel corpo l'injection che esegue git diff e ne mette l'output al suo posto",
+          "larghezza": "wide"
         }
       },
       {
@@ -2155,8 +2155,8 @@
         "immagine": {
           "id": "vault-e-una-cartella",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "Un vault Obsidian è una cartella sul filesystem: file markdown, una sottocartella di allegati e una sottocartella .obsidian con la configurazione. Nessun database e nessuna API"
+          "alt": "Un vault Obsidian è una cartella sul filesystem: file markdown, una sottocartella di allegati e una sottocartella .obsidian con la configurazione. Nessun database e nessuna API",
+          "larghezza": "spot"
         }
       },
       {
@@ -2175,8 +2175,8 @@
         "immagine": {
           "id": "link-come-dati",
           "stile": "B",
-          "larghezza": "wide",
-          "alt": "I collegamenti fra note sono scritti dentro il testo con le doppie parentesi quadre: una regex ricostruisce il grafo senza aprire Obsidian, ma un agente che rinomina un file da fuori rompe i riferimenti"
+          "alt": "I collegamenti fra note sono scritti dentro il testo con le doppie parentesi quadre: una regex ricostruisce il grafo senza aprire Obsidian, ma un agente che rinomina un file da fuori rompe i riferimenti",
+          "larghezza": "wide"
         }
       },
       {
@@ -2203,8 +2203,8 @@
         "immagine": {
           "id": "dove-si-rompe",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "Su venti note dare tutto all'agente funziona; su duemila la finestra si riempie di materiale irrilevante e le risposte peggiorano mentre il vault cresce"
+          "alt": "Su venti note dare tutto all'agente funziona; su duemila la finestra si riempie di materiale irrilevante e le risposte peggiorano mentre il vault cresce",
+          "larghezza": "spot"
         }
       },
       {
@@ -2451,8 +2451,8 @@
         "immagine": {
           "id": "subagent-cosa-riceve",
           "stile": "B",
-          "larghezza": "wide",
-          "alt": "Verso il subagent passano il compito, i file CLAUDE.md, lo stato di git e le skill; non passano la cronologia né la memoria di sessione. Indietro torna solo un riassunto"
+          "alt": "Verso il subagent passano il compito, i file CLAUDE.md, lo stato di git e le skill; non passano la cronologia né la memoria di sessione. Indietro torna solo un riassunto",
+          "larghezza": "wide"
         }
       },
       {
@@ -2471,8 +2471,8 @@
         "immagine": {
           "id": "delegare-o-no",
           "stile": "B",
-          "larghezza": "spot",
-          "alt": "Delega quando il compito produce output verboso, si chiude con un riassunto o corre in parallelo; non delegare quando serve avanti e indietro, quando le fasi condividono contesto o quando conta la latenza"
+          "alt": "Delega quando il compito produce output verboso, si chiude con un riassunto o corre in parallelo; non delegare quando serve avanti e indietro, quando le fasi condividono contesto o quando conta la latenza",
+          "larghezza": "spot"
         }
       },
       {
@@ -2491,8 +2491,8 @@
         "immagine": {
           "id": "agent-md-vscode",
           "stile": "A",
-          "larghezza": "wide",
-          "alt": "Un subagent definito in un file markdown: il frontmatter con name, description, tools e model, e nel corpo il system prompt"
+          "alt": "Un subagent definito in un file markdown: il frontmatter con name, description, tools e model, e nel corpo il system prompt",
+          "larghezza": "wide"
         }
       },
       {

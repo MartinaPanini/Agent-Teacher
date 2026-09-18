@@ -287,5 +287,28 @@
       },
       "valutata_il": "2026-09-17"
     }
+  },
+  {
+    "id": "rev-0009",
+    "module_id": "mod-claude-code-06",
+    "session_id": "ses-0022",
+    "data": "2026-09-17",
+    "risposte": [
+      {
+        "q": "Scrivi in CLAUDE.md «non toccare mai i file in `migrations/`». Un collega ti dice che è sufficiente. Dove ha ragione, dove ha torto, e cosa scrivi al posto suo?",
+        "risposta": "Se è un requisito che deve accadere sempre, deve diventare un hook. Scrivendolo in CLAUDE.md diventa solo una direttiva che il modello può bypassare"
+      },
+      {
+        "q": "Un hook su `PreToolUse` stampa un JSON con `permissionDecision: \"allow\"` e poi esce con codice 2. Cosa succede?",
+        "risposta": "non so"
+      },
+      {
+        "q": "Devi garantire che il linter giri dopo ogni modifica a un file `.ts`, e vuoi anche che Claude sappia che il progetto usa due spazi di indentazione. Quante cose stai configurando, e dove le metti?",
+        "risposta": "Sto configurando due cose. Il primo un hook, il secondo è una frase in CLAUDE.md"
+      }
+    ],
+    "nota_libera": "",
+    "stato": "in_attesa",
+    "valutazione": null
   }
 ]
